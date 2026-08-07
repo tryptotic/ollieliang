@@ -5,15 +5,19 @@ saturated purple accent, and minimal neon-orange shard streaks drifting behind t
 for contrast. Cards stay glassy and rounded with a purple glow on hover. Same multi-page
 structure as before — every project keeps its own page.
 
-## What changed from the first nebula pass
-- **Deeper background** — `--bg-black` is now `#05030b`, closer to true night mode.
-- **More vibrant, deeper purple** — `--accent` moved to a more saturated `#8b5cf6`, with a
-  new `--accent-deep` (`#4c1d95`) used in the second background blob so the glow reads
-  moodier instead of pastel.
-- **Neon orange shard streaks** — three thin diagonal lines (`.shard-1/2/3`) drift slowly
-  behind the content, glowing faintly orange. Kept intentionally minimal — low opacity, low
-  count, blurred — so they read as atmosphere, not decoration competing with your content.
-- **Dimmer secondary text** — `--text-dim` is a touch darker for a more night-mode feel.
+## What changed in this pass
+- **Much darker background** — `--bg-black` is now `#020103`, close to true black.
+- **Purple-to-darker-purple gradient blobs** — the two background blobs are no longer a
+  single hue fading to transparent; each is a gradient from `--accent`/`--accent-2` down to
+  a darker `--accent-deep` (`#2e1065`) before fading out, so they read as more vibrant and
+  dimensional rather than flat glows.
+- **Icy blue-white shards** — the shard streaks swapped from orange to `--ice-blue`
+  (`#d6ecff`), still kept minimal — low opacity, blurred, three thin lines.
+- **Real drifting motion** — both the blobs and the shards now animate through multi-point
+  paths (several keyframe stops, not just a single back-and-forth), so they visibly wander
+  around the background over their 38–58s cycles instead of pulsing in place.
+- Header and lightbox overlays were updated to match the new darker base so nothing looks
+  lighter than the page behind it.
 
 ## Structure
 ```
@@ -34,14 +38,13 @@ All 8 project pages are included this time, already updated with the Space Grote
 link and the shard markup — just upload the whole zip contents to your repo root
 (overwriting existing files) and everything matches.
 
-## About the orange shards — easy to swap
-You mentioned you might swap the orange for a different purple. Everything about the shards
-lives in two places in `styles.css`:
-1. `--neon-orange: #ff6a1f;` in `:root` — change this one line to re-color all three shards
-   at once (try a light violet like `#c4b5fd` or a magenta-purple like `#c026d3` for an
-   all-purple look).
-2. The `.shard`, `.shard-1/2/3` rules just below `.grid-backdrop` — control position, angle,
-   width, and opacity of each streak if you want them more or less visible.
+## About the shards — easy to re-color or adjust
+Everything about the shards lives in two places in `styles.css`:
+1. `--ice-blue: #d6ecff;` in `:root` — change this one line to re-color all three shards at
+   once.
+2. The `.shard`, `.shard-1/2/3` rules just below `.grid-backdrop`, plus the
+   `shard-drift-1/2/3` keyframes right after — control position, angle, width, opacity, and
+   how far each streak travels if you want them more or less visible/active.
 
 ## Re-theming further
 All colors are CSS variables at the top of `styles.css` under `:root` — `--accent`,
