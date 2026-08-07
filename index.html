@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Jordan Reyes — Engineering Portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<!-- Blueprint grid backdrop -->
+<div class="grid-backdrop" aria-hidden="true"></div>
+
+<!-- ===== NAV ===== -->
+<header class="site-header">
+  <div class="header-inner">
+    <span class="logo">J.R.<span class="logo-dot">/</span>01</span>
+    <nav class="main-nav">
+      <a href="#projects">Projects</a>
+      <a href="#specs">Specs</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </div>
+</header>
+
+<!-- ===== HERO ===== -->
+<section class="hero" id="top">
+  <div class="hero-inner">
+    <p class="drawing-label reveal">FIG. 01 — SUBJECT</p>
+    <h1 class="hero-name reveal">
+      Jordan Reyes
+    </h1>
+    <p class="hero-role reveal">Mechanical &amp; Software Engineer</p>
+    <p class="hero-tagline reveal">
+      I design things that move, then write the code that tells them how.
+      Currently building robotics tooling and the firmware underneath it.
+    </p>
+    <div class="hero-actions reveal">
+      <a href="#projects" class="btn btn-primary">View Projects</a>
+      <a href="#contact" class="btn btn-ghost">Get In Touch</a>
+    </div>
+  </div>
+
+  <!-- Dimension line decoration -->
+  <div class="dim-line dim-line-h" aria-hidden="true">
+    <span class="dim-tick"></span><span class="dim-label">1920 × 1080</span><span class="dim-tick"></span>
+  </div>
+</section>
+
+<!-- ===== PROJECTS ===== -->
+<section class="projects" id="projects">
+  <p class="drawing-label reveal">FIG. 02 — ASSEMBLIES</p>
+  <h2 class="section-title reveal">Selected Projects</h2>
+
+  <div class="project-grid">
+
+    <article class="project-card reveal" data-index="A">
+      <div class="card-corner tl"></div><div class="card-corner tr"></div>
+      <div class="card-corner bl"></div><div class="card-corner br"></div>
+      <div class="card-media">
+        <span class="card-index">A</span>
+      </div>
+      <div class="card-body">
+        <h3>Autonomous Line-Following Rover</h3>
+        <p class="card-summary">4-wheel rover with PID-tuned steering, built on an STM32 and a custom PCB.</p>
+        <button class="card-toggle" aria-expanded="false">
+          <span class="toggle-text">Expand Specs</span>
+          <span class="toggle-icon">+</span>
+        </button>
+        <div class="card-details">
+          <ul class="spec-list">
+            <li><span>Stack</span><span>STM32, C++, KiCad, SolidWorks</span></li>
+            <li><span>Role</span><span>Mechanical design + firmware</span></li>
+            <li><span>Result</span><span>±3mm tracking accuracy at 0.6 m/s</span></li>
+          </ul>
+          <div class="card-links">
+            <a href="#">Repo →</a>
+            <a href="#">Writeup →</a>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <article class="project-card reveal" data-index="B">
+      <div class="card-corner tl"></div><div class="card-corner tr"></div>
+      <div class="card-corner bl"></div><div class="card-corner br"></div>
+      <div class="card-media">
+        <span class="card-index">B</span>
+      </div>
+      <div class="card-body">
+        <h3>Cantilever Bracket Optimizer</h3>
+        <p class="card-summary">Python tool that runs topology optimization on load-bearing brackets before CNC.</p>
+        <button class="card-toggle" aria-expanded="false">
+          <span class="toggle-text">Expand Specs</span>
+          <span class="toggle-icon">+</span>
+        </button>
+        <div class="card-details">
+          <ul class="spec-list">
+            <li><span>Stack</span><span>Python, NumPy, FEniCS</span></li>
+            <li><span>Role</span><span>Solo build</span></li>
+            <li><span>Result</span><span>34% material reduction, same yield strength</span></li>
+          </ul>
+          <div class="card-links">
+            <a href="#">Repo →</a>
+            <a href="#">Writeup →</a>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <article class="project-card reveal" data-index="C">
+      <div class="card-corner tl"></div><div class="card-corner tr"></div>
+      <div class="card-corner bl"></div><div class="card-corner br"></div>
+      <div class="card-media">
+        <span class="card-index">C</span>
+      </div>
+      <div class="card-body">
+        <h3>Shop-Floor Telemetry Dashboard</h3>
+        <p class="card-summary">Real-time dashboard pulling sensor data off five machining centers via MQTT.</p>
+        <button class="card-toggle" aria-expanded="false">
+          <span class="toggle-text">Expand Specs</span>
+          <span class="toggle-icon">+</span>
+        </button>
+        <div class="card-details">
+          <ul class="spec-list">
+            <li><span>Stack</span><span>React, MQTT, InfluxDB, Grafana</span></li>
+            <li><span>Role</span><span>Full-stack + sensor integration</span></li>
+            <li><span>Result</span><span>Cut unplanned downtime reporting lag from hours to seconds</span></li>
+          </ul>
+          <div class="card-links">
+            <a href="#">Repo →</a>
+            <a href="#">Writeup →</a>
+          </div>
+        </div>
+      </div>
+    </article>
+
+  </div>
+</section>
+
+<!-- ===== SPECS / SKILLS ===== -->
+<section class="specs" id="specs">
+  <p class="drawing-label reveal">FIG. 03 — MATERIAL SPECIFICATION</p>
+  <h2 class="section-title reveal">Skills</h2>
+
+  <div class="spec-sheet reveal">
+    <div class="spec-row spec-header">
+      <span>Category</span><span>Tools &amp; Languages</span><span>Proficiency</span>
+    </div>
+    <div class="spec-row">
+      <span>Design</span><span>SolidWorks, Fusion 360, KiCad</span><span class="bar"><i style="--w:90%"></i></span>
+    </div>
+    <div class="spec-row">
+      <span>Firmware</span><span>C, C++, embedded Rust</span><span class="bar"><i style="--w:80%"></i></span>
+    </div>
+    <div class="spec-row">
+      <span>Software</span><span>Python, TypeScript, React</span><span class="bar"><i style="--w:85%"></i></span>
+    </div>
+    <div class="spec-row">
+      <span>Fabrication</span><span>CNC, 3D printing, sheet metal</span><span class="bar"><i style="--w:75%"></i></span>
+    </div>
+  </div>
+</section>
+
+<!-- ===== CONTACT / TITLE BLOCK ===== -->
+<footer class="titleblock" id="contact">
+  <div class="titleblock-grid reveal">
+    <div class="tb-cell tb-name">
+      <span class="tb-label">Drawn by</span>
+      <span class="tb-value">Jordan Reyes</span>
+    </div>
+    <div class="tb-cell">
+      <span class="tb-label">Email</span>
+      <a class="tb-value tb-link" href="mailto:hello@example.com">hello@example.com</a>
+    </div>
+    <div class="tb-cell">
+      <span class="tb-label">GitHub</span>
+      <a class="tb-value tb-link" href="#">github.com/yourusername</a>
+    </div>
+    <div class="tb-cell">
+      <span class="tb-label">LinkedIn</span>
+      <a class="tb-value tb-link" href="#">linkedin.com/in/yourusername</a>
+    </div>
+    <div class="tb-cell">
+      <span class="tb-label">Rev.</span>
+      <span class="tb-value">2026.08</span>
+    </div>
+    <div class="tb-cell">
+      <span class="tb-label">Scale</span>
+      <span class="tb-value">NTS</span>
+    </div>
+  </div>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>
