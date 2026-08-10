@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Comet Background Debug</title>
+<style>
+  html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    background: #fff;
+    overflow: hidden;
+  }
+
+  #comet-bg {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    display: block;
+    z-index: -1;
+  }
+
+  .content {
+    position: relative;
+    color: #333;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    padding: 4rem 2rem;
+    text-align: center;
+  }
+</style>
+</head>
+<body>
+
+<canvas id="comet-bg"></canvas>
+
+<div class="content">
+  <h1>Debug mode: white background, black 10x10 squares</h1>
+  <p>If you still see nothing here, it's an environment/rendering issue, not the animation logic.</p>
+</div>
+
+<script>
+const canvas = document.getElementById('comet-bg');
+const ctx = canvas.getContext('2d');
+
+let width, height;
+function resize() {
+  width = canvas.width = window.innerWidth;
+  height = canvas.height = window.innerHeight;
+}
+resize();
+
+const AREA_PER_COMET = 9000;
+const TRAIL_FADE = 0.06;      // white fade-over instead of black
+const MIN_SPEED = 0.3;
+const MAX_SPEED = 0.9;
+const SIZE = 10;              // fixed 10x10 for visibility testing
+
+function rand(min, max) {
+  return Math.random() * (max - min) + min;
+}
+
+class Comet {
+  constructor() {
+    this.speed = rand(MIN_SPEED, MAX_SPEED);
+    this.spawn(true);
+  }
+
+  spawn(initial = false) {
+    const margin = 20;
+    const edge = Math.floor(rand(0, 4));
+    let angle;
+
+    if (initial) {
+      this.x = rand(0, width);
+      this.y = rand(0, height);
+      angle = rand(0, Math.PI * 2);
+      this.vx = Math.cos(angle) * this.speed;
+      this.vy = Math.sin(angle) * this.speed;
+      return;
+    }
+
+    switch (edge) {
+      case 0:
+        this.x = rand(0, width);
+        this.y = -margin;
+        angle = rand(Math.PI * 0.25, Math.PI * 0.75);
+        break;
+      case 1:
+        this.x = rand(0, width);
+        this.y = height + margin;
+        angle = rand(Math.PI * 1.25, Math.PI * 1.75);
+        break;
+      case 2:
+        this.x = -margin;
+        this.y = rand(0, height);
+        angle = rand(-Math.PI * 0.25, Math.PI * 0.25);
+        break;
+      case 3:
+      default:
+        this.x = width + margin;
+        this.y = rand(0, height);
+        angle = rand(Math.PI * 0.75, Math.PI * 1.25);
+        break;
+    }
+
+    this.vx = Math.cos(angle) * this.speed;
+    this.vy = Math.sin(angle) * this.speed;
+  }
+
+  update() {
+    this.x += this.vx;
+    this.y += this.vy;
+
+    const margin = 20;
+    if (this.x < -margin || this.x > width + margin || this.y < -margin || this.y > height + margin) {
+      this.spawn();
+    }
+  }
+
+  draw() {
+    ctx.fillStyle = '#000';
+    ctx.fillRect(this.x, this.y, SIZE, SIZE);
+  }
+}
+
+let comets = [];
+function initComets() {
+  const count = Math.floor((width * height) / AREA_PER_COMET);
+  comets = Array.from({ length: count }, () => new Comet());
+}
+initComets();
+window.addEventListener('resize', () => {
+  resize();
+  initComets();
+});
+
+function animate() {
+  // Paint a translucent WHITE rectangle each frame (since background is white now)
+  // so old black squares fade back toward white, leaving a trailing streak.
+  ctx.fillStyle = `rgba(255, 255, 255, ${TRAIL_FADE})`;
+  ctx.fillRect(0, 0, width, height);
+
+  for (const comet of comets) {
+    comet.update();
+    comet.draw();
+  }
+
+  requestAnimationFrame(animate);
+}
+
+animate();
+</script>
+
+</body>
+</html>
