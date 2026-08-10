@@ -488,3 +488,17 @@ section, footer { position: relative; z-index: 1; }
 }
 
 a:focus-visible, button:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 4px; }
+
+html, body {
+  background: #000;
+}
+
+#comet-bg {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  display: block;
+  z-index: -1;
+}
