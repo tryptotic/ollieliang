@@ -82,34 +82,26 @@ const cadViewer = document.getElementById('heroCAD');
 if (cadViewer) {
   let idleTimer = null;
   const IDLE_TIMEOUT = 5000; // 5 seconds delay after user stops interacting
-  const defaultOrbit = "45deg 75deg 100%"; // Matches HTML camera-orbit
+  const defaultOrbit = "45deg 75deg 100%"; // Exact 100% framing distance
 
   function resetCADPosition() {
-    // Temporarily pause auto-rotate while snapping back
-    cadViewer.autoRotate = false;
-
-    // Reset rotation, zoom distance, field of view, and pan target to exact defaults
+    // Resets rotation angle, zoom distance, FOV, and pan position without touching auto-rotate
     cadViewer.cameraOrbit = defaultOrbit;
     cadViewer.fieldOfView = "auto";
     cadViewer.cameraTarget = "auto auto auto";
-
-    // Resume spinning right after camera snaps back
-    setTimeout(() => {
-      cadViewer.autoRotate = true;
-    }, 500);
   }
 
   function userInteracted() {
-    // Clear any pending reset countdown
+    // Clear any existing reset countdown while dragging/zooming
     clearTimeout(idleTimer);
 
-    // Start a fresh 5-second timer ONLY after user releases/stops interacting
+    // Start 5-second countdown after user stops interacting
     idleTimer = setTimeout(() => {
       resetCADPosition();
     }, IDLE_TIMEOUT);
   }
 
-  // Listen for user camera manipulations
+  // Listen for user camera manipulation
   cadViewer.addEventListener('camera-change', (event) => {
     if (event.detail.source === 'user-interaction') {
       userInteracted();
