@@ -163,22 +163,94 @@ img { max-width: 100%; display: block; }
 
 
 
-
-
-/* CAD Showcase Card Styling */
-.cad-card {
+/* ===== Hero ===== */
+.hero {
+  min-height: 88vh;
   display: flex;
-  flex-direction: column;
-  height: 420px; /* Adjust height as needed to fit your hero section */
+  align-items: center;
+  padding: 0 32px;
   position: relative;
 }
 
+/* ===== Hero 2-Column Spacing ===== */
+.hero-inner {
+  max-width: 1200px; /* Increased from 1100px for wider layout */
+  width: 100%;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1.1fr 1fr; /* Pushes left slightly wider */
+  gap: 64px; /* Increased gap to spread columns further left & right */
+  align-items: center;
+}
+
+/* Styled About Card on the right */
+.about-card {
+  background: rgba(15, 9, 26, 0.6);
+  border: 1px solid var(--line-dim);
+  border-radius: var(--radius-sm, 8px);
+  backdrop-filter: blur(12px);
+  overflow: hidden;
+}
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 16px;
+  background: rgba(255, 255, 255, 0.03);
+  border-bottom: 1px solid var(--line-dim);
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.05em;
+}
+
+.card-title {
+  color: var(--text-dim);
+}
+
+.card-status {
+  color: #10b981; /* Green active status indicator */
+  font-size: 0.7rem;
+}
+
+.card-body {
+  padding: 20px;
+  font-size: 0.92rem;
+  line-height: 1.6;
+  color: var(--text-dim);
+}
+
+.card-body p + p {
+  margin-top: 12px;
+}
+
+/* CAD Card Wrapper (Keeps your border styling) */
+.cad-card {
+  display: flex;
+  flex-direction: column;
+  height: 440px; /* Height of the card container */
+  background: rgba(15, 9, 26, 0.4);
+  border: 1px solid var(--line-dim);
+  border-radius: var(--radius-sm, 12px);
+  backdrop-filter: blur(12px);
+  overflow: hidden;
+}
+
+/* Fully Transparent Viewport Area */
 .cad-viewport {
   flex: 1;
   width: 100%;
-  background: var(--bg-black);
+  background: transparent; /* Allows page background/blobs to show through */
   position: relative;
-  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Remove default model-viewer outlines */
+model-viewer {
+  --poster-color: transparent;
+  outline: none;
 }
 
 .cad-viewport iframe {
@@ -336,67 +408,6 @@ section, footer { position: relative; z-index: 1; }
   font-weight: 700;
   letter-spacing: -0.01em;
   margin-bottom: 40px;
-}
-
-/* ===== Hero ===== */
-.hero {
-  min-height: 88vh;
-  display: flex;
-  align-items: center;
-  padding: 0 32px;
-  position: relative;
-}
-/* .hero-inner { max-width: 780px; margin: 0 auto; width: 100%; } */
-
-/* Enable 2-column layout for hero */
-.hero-inner {
-  max-width: 1100px;
-  margin: 0 auto;
-  display: grid;
-  grid-template-columns: 1.2fr 1fr; /* Left column slightly wider */
-  gap: 48px;
-  align-items: center;
-}
-
-/* Styled About Card on the right */
-.about-card {
-  background: rgba(15, 9, 26, 0.6);
-  border: 1px solid var(--line-dim);
-  border-radius: var(--radius-sm, 8px);
-  backdrop-filter: blur(12px);
-  overflow: hidden;
-}
-
-.card-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 12px 16px;
-  background: rgba(255, 255, 255, 0.03);
-  border-bottom: 1px solid var(--line-dim);
-  font-family: var(--font-mono);
-  font-size: 0.75rem;
-  letter-spacing: 0.05em;
-}
-
-.card-title {
-  color: var(--text-dim);
-}
-
-.card-status {
-  color: #10b981; /* Green active status indicator */
-  font-size: 0.7rem;
-}
-
-.card-body {
-  padding: 20px;
-  font-size: 0.92rem;
-  line-height: 1.6;
-  color: var(--text-dim);
-}
-
-.card-body p + p {
-  margin-top: 12px;
 }
 
 /* Mobile responsive layout */
