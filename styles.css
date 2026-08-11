@@ -132,57 +132,6 @@ img { max-width: 100%; display: block; }
   100% { transform: translate(2vw, -2vw) rotate(-5deg); }
 }
 
-/* Small floating "lava lamp" blobs — a few soft, slow-drifting orbs of
-   accent color rising and sinking gently through the backdrop */
-.lava-blob {
-  position: absolute;
-  border-radius: 50%;
-  filter: blur(30px);
-  opacity: 0.35;
-  will-change: transform;
-}
-.lava-blob-1 {
-  top: 30%;
-  left: 20%;
-  width: 9vw;
-  height: 9vw;
-  background: radial-gradient(circle at 40% 35%, var(--accent-2) 0%, var(--accent) 55%, transparent 75%);
-  animation: lava-float-1 24s ease-in-out infinite;
-}
-.lava-blob-2 {
-  top: 60%;
-  left: 68%;
-  width: 6vw;
-  height: 6vw;
-  background: radial-gradient(circle at 40% 35%, var(--accent-2) 0%, var(--accent) 55%, transparent 75%);
-  opacity: 0.28;
-  animation: lava-float-2 30s ease-in-out infinite;
-}
-.lava-blob-3 {
-  top: 80%;
-  left: 38%;
-  width: 4.5vw;
-  height: 4.5vw;
-  background: radial-gradient(circle at 40% 35%, var(--accent-2) 0%, var(--accent) 55%, transparent 75%);
-  opacity: 0.22;
-  animation: lava-float-3 27s ease-in-out infinite;
-}
-@keyframes lava-float-1 {
-  0%, 100% { transform: translate(0, 0) scale(1); }
-  33%      { transform: translate(2vw, -6vh) scale(1.1); }
-  66%      { transform: translate(-3vw, -12vh) scale(0.95); }
-}
-@keyframes lava-float-2 {
-  0%, 100% { transform: translate(0, 0) scale(1); }
-  40%      { transform: translate(-3vw, -9vh) scale(1.12); }
-  75%      { transform: translate(2vw, -16vh) scale(0.9); }
-}
-@keyframes lava-float-3 {
-  0%, 100% { transform: translate(0, 0) scale(1); }
-  30%      { transform: translate(3vw, -7vh) scale(1.08); }
-  70%      { transform: translate(-2vw, -14vh) scale(0.92); }
-}
-
 /* Soft gradient divider — replaces the old hazard strip */
 .hazard-strip {
   height: 2px;
