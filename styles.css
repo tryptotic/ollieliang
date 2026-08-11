@@ -344,7 +344,7 @@ model-viewer {
   padding: 26px;
   box-sizing: border-box;
   transition: border-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
-  opacity: 0.5; /* 85% opacity */
+  /* opacity: 0.5; 85% opacity */
 
   /* FIX: Isolate the backdrop-filter so it doesn't clip external box-shadows */
   isolation: isolate;
