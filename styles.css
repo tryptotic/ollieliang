@@ -292,6 +292,113 @@ model-viewer {
 
 
 
+/* ===== Carousel Layout ===== */
+.carousel-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.carousel-track-container {
+  width: 100%;
+  overflow: hidden; /* Clips cards sliding outside the 3-card frame */
+  padding: 12px 0; /* Space for hover box-shadows */
+}
+
+/* 3-Card Grid Frame */
+.project-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /* Exactly 3 cards per row */
+  gap: 24px;
+  width: 100%;
+  will-change: transform;
+}
+
+/* Floating Navigation Arrows */
+.carousel-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 10;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: rgba(15, 9, 26, 0.85);
+  border: 1px solid var(--line-dim);
+  color: var(--text);
+  font-family: var(--font-mono);
+  font-size: 1.1rem;
+  cursor: pointer;
+  backdrop-filter: blur(12px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+/* Positions arrows near card edges with comfortable spacing */
+.carousel-arrow.prev { left: -22px; }
+.carousel-arrow.next { right: -22px; }
+
+.carousel-arrow:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+  box-shadow: 0 0 20px var(--glow);
+  transform: translateY(-50%) scale(1.1);
+}
+
+.carousel-arrow:disabled {
+  opacity: 0.2;
+  cursor: not-allowed;
+  border-color: var(--line-dim);
+  box-shadow: none;
+  transform: translateY(-50%) scale(1);
+}
+
+/* ===== Jump-Wobble-Slide (Spring/Overshoot) Animations ===== */
+@keyframes slideNextWobble {
+  0% { transform: translateX(0); }
+  65% { transform: translateX(-108%); } /* Overshoots to the left */
+  85% { transform: translateX(-97%); }  /* Wobbles back right */
+  100% { transform: translateX(-100%); } /* Settles precisely into frame */
+}
+
+@keyframes slidePrevWobble {
+  0% { transform: translateX(-100%); }
+  65% { transform: translateX(8%); }    /* Overshoots to the right */
+  85% { transform: translateX(-3%); }   /* Wobbles back left */
+  100% { transform: translateX(0%); }   /* Settles precisely into frame */
+}
+
+.anim-slide-next {
+  animation: slideNextWobble 0.55s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+}
+
+.anim-slide-prev {
+  animation: slidePrevWobble 0.55s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+}
+
+/* Responsive adjustments */
+@media (max-width: 900px) {
+  .project-grid { grid-template-columns: repeat(2, 1fr); } /* 2 cards on tablets */
+  .carousel-arrow.prev { left: -14px; }
+  .carousel-arrow.next { right: -14px; }
+}
+
+@media (max-width: 600px) {
+  .project-grid { grid-template-columns: 1fr; } /* 1 card on mobile */
+}
+
+
+
+
+
+
+
+
+
+
 /* ===== Header / nav ===== */
 .site-header {
   position: sticky;

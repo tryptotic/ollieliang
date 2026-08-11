@@ -19,7 +19,16 @@
   <div class="shard shard-3"></div>
 </div>
 
-<!-- ===== NAV ===== -->
+
+
+
+
+
+
+
+
+
+<!-- ===== NAV BAR ===== -->
 <header class="site-header">
   <div class="header-inner">
     <a href="index.html" class="logo">O.L.<span class="logo-dot">-</span>ENGR</a>
@@ -43,6 +52,15 @@
     </ul>
   </div>
 </header>
+
+
+
+
+
+
+
+
+
 
 <!-- ===== HERO ===== -->
 <section class="hero" id="top">
@@ -101,11 +119,21 @@
 
 <div class="hazard-strip" aria-hidden="true"></div>
 
+
+
+
+
+
+
+
+
+
 <!-- ===== PROJECTS ===== -->
 <section class="projects" id="projects">
   <p class="drawing-label reveal">FIG. 02 — ASSEMBLIES</p>
   <h2 class="section-title reveal">Projects</h2>
 
+  <!-- Filter Pills -->
   <div class="filter-bar reveal">
     <button class="filter-pill active" data-filter="all">All</button>
     <button class="filter-pill" data-filter="robotics">Robotics</button>
@@ -114,106 +142,28 @@
     <button class="filter-pill" data-filter="hackathon">Hackathon</button>
   </div>
 
-  <div class="project-grid">
+  <!-- Carousel Outer Wrapper with Arrow Controls -->
+  <div class="carousel-wrapper reveal">
+    <button class="carousel-arrow prev" id="prevBtn" aria-label="Previous projects">←</button>
 
-    <a href="projects/vex-robotics.html" class="project-card reveal" data-category="robotics">
-      <div class="card-corner tl"></div><div class="card-corner tr"></div>
-      <div class="card-corner bl"></div><div class="card-corner br"></div>
-      <span class="card-index">A</span>
-      <div class="card-body">
-        <h3>VEX Robotics</h3>
-        <p class="card-summary">Competition robot build — design notebook, photos, and match footage.</p>
-        <div class="card-tags"><span>Robotics</span><span>CAD</span></div>
+    <div class="carousel-track-container">
+      <div class="project-grid" id="projectGrid">
+        <!-- Project cards will automatically render here from JS -->
       </div>
-      <span class="card-arrow">→</span>
-    </a>
+    </div>
 
-    <a href="projects/railside-robotics.html" class="project-card reveal" data-category="robotics">
-      <div class="card-corner tl"></div><div class="card-corner tr"></div>
-      <div class="card-corner bl"></div><div class="card-corner br"></div>
-      <span class="card-index">B</span>
-      <div class="card-body">
-        <h3>Railside Robotics</h3>
-        <p class="card-summary">Team build and mentoring work outside of school competition.</p>
-        <div class="card-tags"><span>Robotics</span></div>
-      </div>
-      <span class="card-arrow">→</span>
-    </a>
-
-    <a href="projects/esap-bb8.html" class="project-card reveal" data-category="robotics">
-      <div class="card-corner tl"></div><div class="card-corner tr"></div>
-      <div class="card-corner bl"></div><div class="card-corner br"></div>
-      <span class="card-index">C</span>
-      <div class="card-body">
-        <h3>ES&amp;P — BB8</h3>
-        <p class="card-summary">Ball-drive spherical robot build — mechanical and control design.</p>
-        <div class="card-tags"><span>Robotics</span><span>Mechanisms</span></div>
-      </div>
-      <span class="card-arrow">→</span>
-    </a>
-
-    <a href="projects/nvhs-edd.html" class="project-card reveal" data-category="coursework">
-      <div class="card-corner tl"></div><div class="card-corner tr"></div>
-      <div class="card-corner bl"></div><div class="card-corner br"></div>
-      <span class="card-index">D</span>
-      <div class="card-body">
-        <h3>NVHS EDD</h3>
-        <p class="card-summary">Engineering Design &amp; Development coursework — reports and process docs.</p>
-        <div class="card-tags"><span>Research</span><span>Design</span></div>
-      </div>
-      <span class="card-arrow">→</span>
-    </a>
-
-    <a href="projects/engr133.html" class="project-card reveal" data-category="code">
-      <div class="card-corner tl"></div><div class="card-corner tr"></div>
-      <div class="card-corner bl"></div><div class="card-corner br"></div>
-      <span class="card-index">E</span>
-      <div class="card-body">
-        <h3>ENGR 133 Coding Project</h3>
-        <p class="card-summary">Intro engineering coding coursework project.</p>
-        <div class="card-tags"><span>Code</span></div>
-      </div>
-      <span class="card-arrow">→</span>
-    </a>
-
-    <a href="projects/ece-555timer.html" class="project-card reveal" data-category="coursework">
-      <div class="card-corner tl"></div><div class="card-corner tr"></div>
-      <div class="card-corner bl"></div><div class="card-corner br"></div>
-      <span class="card-index">F</span>
-      <div class="card-body">
-        <h3>ECE 2K7 — 555 Timer</h3>
-        <p class="card-summary">555 timer circuit and final project — schematics and results.</p>
-        <div class="card-tags"><span>Electronics</span></div>
-      </div>
-      <span class="card-arrow">→</span>
-    </a>
-
-    <a href="projects/me164-cad.html" class="project-card reveal" data-category="coursework">
-      <div class="card-corner tl"></div><div class="card-corner tr"></div>
-      <div class="card-corner bl"></div><div class="card-corner br"></div>
-      <span class="card-index">G</span>
-      <div class="card-body">
-        <h3>ME 164 — NX CAD</h3>
-        <p class="card-summary">Siemens NX CAD coursework — drag-to-rotate 3D model viewer.</p>
-        <div class="card-tags"><span>CAD</span><span>3D</span></div>
-      </div>
-      <span class="card-arrow">→</span>
-    </a>
-
-    <a href="projects/starkhacks.html" class="project-card reveal" data-category="hackathon">
-      <div class="card-corner tl"></div><div class="card-corner tr"></div>
-      <div class="card-corner bl"></div><div class="card-corner br"></div>
-      <span class="card-index">H</span>
-      <div class="card-body">
-        <h3>StarkHacks — Passenger Princess</h3>
-        <p class="card-summary">Hackathon build — demo video and tech stack.</p>
-        <div class="card-tags"><span>Hackathon</span><span>Code</span></div>
-      </div>
-      <span class="card-arrow">→</span>
-    </a>
-
+    <button class="carousel-arrow next" id="nextBtn" aria-label="Next projects">→</button>
   </div>
 </section>
+
+
+
+
+
+
+
+
+
 
 <!-- ===== SPECS / SKILLS ===== -->
 <section class="specs" id="specs">
@@ -227,6 +177,15 @@
     <div class="spec-row"><span>Fabrication</span><span>CNC, 3D printing, robotics build</span><span class="bar"><i style="--w:90%"></i></span></div>
   </div>
 </section>
+
+
+
+
+
+
+
+
+
 
 <!-- ===== CONTACT / TITLE BLOCK ===== -->
 <footer class="titleblock" id="contact">
