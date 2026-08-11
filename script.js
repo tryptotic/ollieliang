@@ -81,30 +81,54 @@ window.addEventListener('scroll', () => {
 const cadViewer = document.getElementById('heroCAD');
 if (cadViewer) {
   let idleTimer = null;
-  const IDLE_TIMEOUT = 5000; // 5 seconds delay after user stops interacting
-  const defaultOrbit = "45deg 75deg 200%"; // Exact 100% framing distance
+  let isPointerDown = false; // Tracks if mouse button or touch is held down
+  const IDLE_TIMEOUT = 5000; // 5-second delay after interaction ends
+  const defaultOrbit = "45deg 75deg 100%"; // 100% framing distance
 
   function resetCADPosition() {
-    // Resets rotation angle, zoom distance, FOV, and pan position without touching auto-rotate
-    cadViewer.cameraOrbit = defaultOrbit;
-    cadViewer.fieldOfView = "auto";
-    cadViewer.cameraTarget = "auto auto auto";
+    // Only reset if the user isn't currently holding click/touch down
+    if (!isPointerDown) {
+      cadViewer.cameraOrbit = defaultOrbit;
+      cadViewer.fieldOfView = "auto";
+      cadViewer.cameraTarget = "auto auto auto";
+    }
   }
 
-  function userInteracted() {
-    // Clear any existing reset countdown while dragging/zooming
+  function userInteracting() {
+    // Stop any pending reset countdown while actively dragging or holding
+    clearTimeout(idleTimer);
+  }
+
+  function userInteractionEnded() {
     clearTimeout(idleTimer);
 
-    // Start 5-second countdown after user stops interacting
+    // Switch the auto-rotate delay to 5 seconds for all subsequent idle cycles
+    cadViewer.autoRotateDelay = IDLE_TIMEOUT;
+
+    // Start 5-second countdown after release
     idleTimer = setTimeout(() => {
       resetCADPosition();
     }, IDLE_TIMEOUT);
   }
 
-  // Listen for user camera manipulation
+  // 1. Listen for active camera movement
   cadViewer.addEventListener('camera-change', (event) => {
     if (event.detail.source === 'user-interaction') {
-      userInteracted();
+      userInteracting();
+    }
+  });
+
+  // 2. Track pointer down / holding states
+  cadViewer.addEventListener('pointerdown', () => {
+    isPointerDown = true;
+    userInteracting();
+  });
+
+  // 3. Track pointer release / interaction end
+  window.addEventListener('pointerup', () => {
+    if (isPointerDown) {
+      isPointerDown = false;
+      userInteractionEnded();
     }
   });
 }
