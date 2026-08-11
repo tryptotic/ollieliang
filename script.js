@@ -82,7 +82,7 @@ const cadViewer = document.getElementById('heroCAD');
 if (cadViewer) {
   let idleTimer = null;
   const IDLE_TIMEOUT = 5000; // 5 seconds delay after user stops interacting
-  const defaultOrbit = "45deg 75deg 100%"; // Exact 100% framing distance
+  const defaultOrbit = "45deg 75deg 200%"; // Exact 100% framing distance
 
   function resetCADPosition() {
     // Resets rotation angle, zoom distance, FOV, and pan position without touching auto-rotate
