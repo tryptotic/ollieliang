@@ -98,38 +98,56 @@ img { max-width: 100%; display: block; }
   100% { transform: translate(4vw, 5vw) scale(1); }
 }
 
-/* Thin icy blue-white shard streaks — decorative, very sparing use */
+/* Slow-drifting comet trails — soft tapered light with a faint core,
+   crossing the viewport on long, lazy diagonal paths. Sparing, ambient use. */
 .shard {
   position: absolute;
   height: 1px;
-  background: linear-gradient(90deg, transparent, var(--ice-blue) 45%, var(--ice-blue) 55%, transparent);
-  opacity: 0.3;
-  filter: blur(0.5px);
-  box-shadow: 0 0 12px var(--glow-ice);
-  will-change: transform;
+  width: 26vw;
+  background: linear-gradient(90deg, transparent, var(--ice-blue) 82%, #ffffff 100%);
+  opacity: 0;
+  filter: blur(0.4px);
+  box-shadow: 0 0 10px 1px var(--glow-ice);
+  border-radius: 999px;
+  will-change: transform, opacity;
 }
-.shard-1 { top: 18%; left: -10%; width: 55vw; transform: rotate(-12deg); animation: shard-drift-1 42s ease-in-out infinite alternate; }
-.shard-2 { top: 62%; right: -12%; width: 40vw; transform: rotate(9deg); opacity: 0.2; animation: shard-drift-2 50s ease-in-out infinite alternate; }
-.shard-3 { top: 85%; left: 8%; width: 28vw; transform: rotate(-6deg); opacity: 0.15; animation: shard-drift-3 58s ease-in-out infinite alternate; }
-/* Each shard travels a wider, multi-point path across the viewport rather
-   than a short back-and-forth nudge */
-@keyframes shard-drift-1 {
-  0%   { transform: translate(0, 0) rotate(-12deg); }
-  30%  { transform: translate(6vw, 3vw) rotate(-9deg); }
-  60%  { transform: translate(10vw, -2vw) rotate(-14deg); }
-  100% { transform: translate(3vw, 4vw) rotate(-10deg); }
+.shard::after {
+  content: "";
+  position: absolute;
+  right: -1px;
+  top: 50%;
+  width: 5px;
+  height: 5px;
+  transform: translateY(-50%);
+  background: #ffffff;
+  border-radius: 50%;
+  box-shadow: 0 0 8px 2px var(--glow-ice), 0 0 16px 4px var(--glow-ice);
 }
-@keyframes shard-drift-2 {
-  0%   { transform: translate(0, 0) rotate(9deg); }
-  30%  { transform: translate(-6vw, -4vw) rotate(12deg); }
-  60%  { transform: translate(-10vw, 2vw) rotate(7deg); }
-  100% { transform: translate(-4vw, -5vw) rotate(11deg); }
+.shard-1 { top: 12%; left: -30vw; transform: rotate(18deg); animation: comet-1 46s linear infinite; }
+.shard-2 { top: 68%; left: -30vw; width: 20vw; transform: rotate(-14deg); animation: comet-2 61s linear infinite; animation-delay: -20s; }
+.shard-3 { top: 40%; left: -30vw; width: 15vw; transform: rotate(9deg); animation: comet-3 53s linear infinite; animation-delay: -38s; }
+/* Each comet travels one long diagonal pass across the screen, fading in,
+   holding, then fading out before it loops — rather than a bounded jitter */
+@keyframes comet-1 {
+  0%   { transform: translate(0, 0) rotate(18deg); opacity: 0; }
+  8%   { opacity: 0.32; }
+  50%  { transform: translate(70vw, 22vw) rotate(18deg); opacity: 0.32; }
+  92%  { opacity: 0; }
+  100% { transform: translate(146vw, 46vw) rotate(18deg); opacity: 0; }
 }
-@keyframes shard-drift-3 {
-  0%   { transform: translate(0, 0) rotate(-6deg); }
-  30%  { transform: translate(5vw, -3vw) rotate(-3deg); }
-  60%  { transform: translate(8vw, 4vw) rotate(-8deg); }
-  100% { transform: translate(2vw, -2vw) rotate(-5deg); }
+@keyframes comet-2 {
+  0%   { transform: translate(0, 0) rotate(-14deg); opacity: 0; }
+  8%   { opacity: 0.22; }
+  50%  { transform: translate(72vw, -18vw) rotate(-14deg); opacity: 0.22; }
+  92%  { opacity: 0; }
+  100% { transform: translate(146vw, -36vw) rotate(-14deg); opacity: 0; }
+}
+@keyframes comet-3 {
+  0%   { transform: translate(0, 0) rotate(9deg); opacity: 0; }
+  8%   { opacity: 0.16; }
+  50%  { transform: translate(71vw, 11vw) rotate(9deg); opacity: 0.16; }
+  92%  { opacity: 0; }
+  100% { transform: translate(146vw, 23vw) rotate(9deg); opacity: 0; }
 }
 
 /* Soft gradient divider — replaces the old hazard strip */
