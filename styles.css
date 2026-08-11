@@ -179,8 +179,9 @@ img { max-width: 100%; display: block; }
   margin: 0 auto;
   display: grid;
   grid-template-columns: 1.1fr 1fr; /* Pushes left slightly wider */
-  gap: 64px; /* Increased gap to spread columns further left & right */
+  gap: 56px; /* Increased gap to spread columns further left & right */
   align-items: center;
+  padding-left: 48px; /* Pushes the entire left column inward away from the left screen edge */
 }
 
 /* Styled About Card on the right */
