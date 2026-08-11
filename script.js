@@ -87,9 +87,14 @@ if (cadViewer) {
   const defaultOrbit = "45deg 75deg 100%";
 
   function resetCADPosition() {
-    // Smoothly resets camera orbit and zoom distance back to original 45deg view
-    cadViewer.cameraOrbit = defaultOrbit;
-    cadViewer.cameraTarget = "auto auto auto"; // Resets pan position back to original center
+    // 1. Reset Orbit Angles & Distance Zoom
+    cadViewer.cameraOrbit = "45deg 75deg 100%";
+    
+    // 2. Reset Field of View (Camera Lens Zoom)
+    cadViewer.fieldOfView = "auto";
+    
+    // 3. Reset Pan Position (Center Target)
+    cadViewer.cameraTarget = "auto auto auto";
   }
 
   function userInteracted() {
