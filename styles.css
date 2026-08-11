@@ -1,18 +1,18 @@
-/* ===== Design tokens — Purple & Orange theme ===== */
+/* ===== Design tokens — Nebula (night mode) theme ===== */
 :root {
-  --bg-black:    #030105;   /* Base background — ultra-dark plum/black */
-  --bg-panel:    rgba(249, 115, 22, 0.05);   /* Glass card surface (soft orange tint) */
-  --bg-panel-2:  rgba(249, 115, 22, 0.10);   /* Raised glass surface */
-  --line-dim:    rgba(249, 115, 22, 0.20);   /* Hairlines / borders */
-  --text:        #fcf7f2;   /* Primary text (warm white) */
-  --text-dim:    #b3a2ba;   /* Secondary text (muted dusty lavender) */
-  --accent:      #f97316;   /* Bright Vibrant Orange — Primary accent */
-  --accent-2:    #a855f7;   /* Electric Purple — Secondary accent for gradients */
-  --accent-deep: #3b0764;   /* Deep Dark Purple — Gradient base for ambient blobs */
-  --ice-blue:    #ffedd5;   /* Warm cream/orange highlight — Shard accents */
-  --glow:        rgba(249, 115, 22, 0.50);  /* Orange primary glow */
-  --glow-soft:   rgba(168, 85, 247, 0.25);  /* Purple secondary glow */
-  --glow-ice:    rgba(255, 237, 213, 0.35);
+  --bg-black:    #020103;   /* base background — much darker, almost true black */
+  --bg-panel:    rgba(139, 92, 246, 0.05);   /* glass card surface */
+  --bg-panel-2:  rgba(139, 92, 246, 0.09);   /* raised glass surface */
+  --line-dim:    rgba(139, 92, 246, 0.16);   /* hairlines / borders */
+  --text:        #ede9f7;   /* primary text */
+  --text-dim:    #948aae;   /* secondary text — dimmer, more night mode */
+  --accent:      #9333ea;   /* vibrant purple — primary accent, gradient light end */
+  --accent-2:    #b57bf5;   /* secondary purple, slightly lighter, for gradients */
+  --accent-deep: #2e1065;   /* darker purple — gradient dark end for blobs */
+  --ice-blue:    #d6ecff;   /* icy blue-white — sparing background accent, shards only */
+  --glow:        rgba(147, 51, 234, 0.45);
+  --glow-soft:   rgba(181, 123, 245, 0.22);
+  --glow-ice:    rgba(214, 236, 255, 0.3);
 
   --radius:      20px;
   --radius-sm:   12px;
@@ -58,7 +58,7 @@ img { max-width: 100%; display: block; }
 
 
 
-/* ===== Ambient backdrop — orange & purple gradient blobs + shard streaks ===== */
+/* ===== Nebula backdrop — purple-to-dark gradient blobs + icy shard streaks ===== */
 .grid-backdrop {
   position: fixed;
   inset: 0;
@@ -75,7 +75,7 @@ img { max-width: 100%; display: block; }
   height: 62vw;
   border-radius: 50%;
   filter: blur(110px);
-  opacity: 0.45;
+  opacity: 0.5;
   will-change: transform;
 }
 .grid-backdrop::before {
@@ -90,7 +90,8 @@ img { max-width: 100%; display: block; }
   background: radial-gradient(circle at 60% 60%, var(--accent-2) 0%, var(--accent-deep) 55%, transparent 75%);
   animation: drift-b 44s ease-in-out infinite alternate;
 }
-
+/* Multi-point paths (not just back-and-forth) so the blobs read as actually
+   wandering rather than pulsing in place */
 @keyframes drift-a {
   0%   { transform: translate(0, 0) scale(1); }
   25%  { transform: translate(8vw, 5vw) scale(1.08); }
@@ -106,7 +107,7 @@ img { max-width: 100%; display: block; }
   100% { transform: translate(4vw, 5vw) scale(1); }
 }
 
-/* Thin shard streaks */
+/* Thin icy blue-white shard streaks — decorative, very sparing use */
 .shard {
   position: absolute;
   height: 1px;
@@ -119,7 +120,8 @@ img { max-width: 100%; display: block; }
 .shard-1 { top: 18%; left: -10%; width: 55vw; transform: rotate(-12deg); animation: shard-drift-1 42s ease-in-out infinite alternate; }
 .shard-2 { top: 62%; right: -12%; width: 40vw; transform: rotate(9deg); opacity: 0.2; animation: shard-drift-2 50s ease-in-out infinite alternate; }
 .shard-3 { top: 85%; left: 8%; width: 28vw; transform: rotate(-6deg); opacity: 0.15; animation: shard-drift-3 58s ease-in-out infinite alternate; }
-
+/* Each shard travels a wider, multi-point path across the viewport rather
+   than a short back-and-forth nudge */
 @keyframes shard-drift-1 {
   0%   { transform: translate(0, 0) rotate(-12deg); }
   30%  { transform: translate(6vw, 3vw) rotate(-9deg); }
@@ -139,11 +141,11 @@ img { max-width: 100%; display: block; }
   100% { transform: translate(2vw, -2vw) rotate(-5deg); }
 }
 
-/* Soft gradient divider */
+/* Soft gradient divider — replaces the old hazard strip */
 .hazard-strip {
   height: 2px;
   background: linear-gradient(90deg, transparent, var(--accent) 20%, var(--accent-2) 50%, var(--accent) 80%, transparent);
-  opacity: 0.6;
+  opacity: 0.5;
 }
 
 /* ===== Reveal-on-scroll ===== */
@@ -170,20 +172,21 @@ img { max-width: 100%; display: block; }
   position: relative;
 }
 
+/* ===== Hero 2-Column Spacing ===== */
 .hero-inner {
-  max-width: 1200px;
+  max-width: 1200px; /* Increased from 1100px for wider layout */
   width: 100%;
   margin: 0 auto;
   display: grid;
-  grid-template-columns: 1.1fr 1fr;
-  gap: 56px;
+  grid-template-columns: 1.1fr 1fr; /* Pushes left slightly wider */
+  gap: 56px; /* Increased gap to spread columns further left & right */
   align-items: center;
-  padding-left: 48px;
+  padding-left: 48px; /* Pushes the entire left column inward away from the left screen edge */
 }
 
 /* Styled About Card on the right */
 .about-card {
-  background: rgba(22, 10, 31, 0.6);
+  background: rgba(15, 9, 26, 0.6);
   border: 1px solid var(--line-dim);
   border-radius: var(--radius-sm, 8px);
   backdrop-filter: blur(12px);
@@ -207,7 +210,7 @@ img { max-width: 100%; display: block; }
 }
 
 .card-status {
-  color: #10b981;
+  color: #10b981; /* Green active status indicator */
   font-size: 0.7rem;
 }
 
@@ -222,12 +225,12 @@ img { max-width: 100%; display: block; }
   margin-top: 12px;
 }
 
-/* CAD Card Wrapper */
+/* CAD Card Wrapper (Keeps your border styling) */
 .cad-card {
   display: flex;
   flex-direction: column;
-  height: 440px;
-  background: rgba(22, 10, 31, 0.4);
+  height: 440px; /* Height of the card container */
+  background: rgba(15, 9, 26, 0.4);
   border: 1px solid var(--line-dim);
   border-radius: var(--radius-sm, 12px);
   backdrop-filter: blur(12px);
@@ -238,13 +241,14 @@ img { max-width: 100%; display: block; }
 .cad-viewport {
   flex: 1;
   width: 100%;
-  background: transparent;
+  background: transparent; /* Allows page background/blobs to show through */
   position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
+/* Remove default model-viewer outlines */
 model-viewer {
   --poster-color: transparent;
   outline: none;
@@ -293,6 +297,8 @@ model-viewer {
   position: relative;
   display: flex;
   align-items: center;
+  
+  /* Pushes arrows out into the page margins */
   width: calc(100% + 140px);
   margin-left: -70px;
   padding: 0 70px; 
@@ -301,18 +307,24 @@ model-viewer {
 .carousel-track-container {
   width: 100%;
   overflow: visible; 
+  /* FIX 1: Expanded to 40px on left/right. The glow will NEVER be cut off now. */
   clip-path: inset(-40px -40px -40px -40px);
   min-height: 280px; 
 }
 
+/* Track holding the Pages */
 .project-track {
   display: flex;
+  /* FIX 2: 80px distance between each SET of 3 cards, so the next set won't peek in! */
   gap: 80px; 
   width: 100%;
   will-change: transform;
+  
+  /* FIX 3: Smooth 0.5s PID-like transition (Fast start, smooth slow down) */
   transition: transform 0.5s cubic-bezier(0.1, 0.9, 0.2, 1);
 }
 
+/* New Wrapper for each set of 3 cards */
 .project-page {
   display: flex;
   gap: 24px;
@@ -332,9 +344,13 @@ model-viewer {
   padding: 26px;
   box-sizing: border-box;
   transition: border-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
+  /* opacity: 0.5; 85% opacity */
+
+  /* FIX: Isolate the backdrop-filter so it doesn't clip external box-shadows */
   isolation: isolate;
 }
 
+/* Pseudo-element to handle backdrop-blur safely */
 .project-card::before {
   content: "";
   position: absolute;
@@ -346,16 +362,16 @@ model-viewer {
   pointer-events: none;
 }
 
-/* Vibrant Orange & Purple Card Hover Glow */
+/* Symmetric Glow */
 .project-card:hover {
-  border-color: rgba(249, 115, 22, 0.8);
+  border-color: rgba(146, 51, 234, 0.771);
   background: var(--bg-panel-2);
   transform: translateY(-6px);
   opacity: 1;
 
   box-shadow: 
-    0 0 30px rgba(249, 115, 22, 0.3),
-    0 0 50px rgba(168, 85, 247, 0.2);
+    0 0 30px rgba(147, 51, 234, 0.25),
+    0 0 50px rgba(181, 123, 245, 0.15);
 }
 
 /* Custom Soft Floating Arrows */
@@ -388,6 +404,7 @@ model-viewer {
   transform: translateY(-50%) scale(1.15);
 }
 
+/* Responsive Slot Sizing */
 @media (max-width: 900px) {
   .project-card {
     flex: 0 0 calc((100% - 24px) / 2);
@@ -416,15 +433,20 @@ model-viewer {
   position: sticky;
   top: 0;
   z-index: 30;
+
+  /* Start completely transparent at the top */
   background: transparent;
   backdrop-filter: none;
   -webkit-backdrop-filter: none;
   border-bottom: 1px solid transparent; 
+
+  /* Smooth transition when scrolling */
   transition: background 0.3s ease, backdrop-filter 0.3s ease, border-color 0.3s ease;
 }
 
+/* Applies when scrolled past 10px */
 .site-header.scrolled {
-  background: rgba(3, 1, 5, 0.8); 
+  background: rgba(2, 1, 3, 0.7); 
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
   border-bottom-color: var(--line-dim);
@@ -470,12 +492,12 @@ model-viewer {
   top: 100%;
   left: -16px;
   min-width: 250px;
-  background: rgba(22, 10, 31, 0.94);
+  background: rgba(15, 9, 26, 0.92);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
   border: 1px solid var(--line-dim);
   border-radius: var(--radius-sm);
-  box-shadow: 0 20px 50px rgba(0,0,0,0.6);
+  box-shadow: 0 20px 50px rgba(0,0,0,0.5);
   padding: 8px;
   margin-top: 10px;
   opacity: 0;
@@ -525,9 +547,10 @@ section, footer { position: relative; z-index: 1; }
   margin-bottom: 40px;
 }
 
+/* Mobile responsive layout */
 @media (max-width: 768px) {
   .hero-inner {
-    grid-template-columns: 1fr;
+    grid-template-columns: 1fr; /* Stacks vertically on smaller screens */
     gap: 32px;
   }
 }
@@ -539,7 +562,7 @@ section, footer { position: relative; z-index: 1; }
   line-height: 1.02;
   letter-spacing: -0.02em;
   margin-bottom: 10px;
-  background: linear-gradient(120deg, var(--text) 5%, var(--accent) 50%, var(--accent-2) 95%);
+  background: linear-gradient(120deg, var(--text) 5%, var(--accent-2) 50%, var(--accent) 95%);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
@@ -679,6 +702,7 @@ section, footer { position: relative; z-index: 1; }
   gap: 16px;
 }
 
+/* Single-line centered frame */
 .socials-frame {
   display: inline-flex;
   align-items: center;
@@ -694,10 +718,11 @@ section, footer { position: relative; z-index: 1; }
 }
 
 .socials-frame:hover {
-  border-color: rgba(249, 115, 22, 0.4);
-  box-shadow: 0 0 25px rgba(249, 115, 22, 0.2);
+  border-color: rgba(139, 92, 246, 0.4);
+  box-shadow: 0 0 25px rgba(147, 51, 234, 0.15);
 }
 
+/* Individual links with icons */
 .social-link {
   display: inline-flex;
   align-items: center;
@@ -722,6 +747,7 @@ section, footer { position: relative; z-index: 1; }
   stroke: var(--accent);
 }
 
+/* Sub-footer metadata */
 .footer-meta {
   font-family: var(--font-mono);
   font-size: 0.72rem;
@@ -731,6 +757,7 @@ section, footer { position: relative; z-index: 1; }
   text-transform: uppercase;
 }
 
+/* Mobile Adjustments */
 @media (max-width: 600px) {
   .socials-frame {
     gap: 20px;
@@ -764,7 +791,7 @@ section, footer { position: relative; z-index: 1; }
 .project-hero h1 {
   font-family: var(--font-display); font-size: clamp(2.2rem, 5vw, 3.4rem);
   letter-spacing: -0.02em; margin-bottom: 14px;
-  background: linear-gradient(120deg, var(--text) 5%, var(--accent) 55%, var(--accent-2) 95%);
+  background: linear-gradient(120deg, var(--text) 5%, var(--accent-2) 55%, var(--accent) 95%);
   -webkit-background-clip: text; background-clip: text; color: transparent;
 }
 .project-meta { display: flex; gap: 24px; flex-wrap: wrap; margin-bottom: 20px; }
@@ -789,7 +816,7 @@ section, footer { position: relative; z-index: 1; }
 .gallery img:hover { border-color: var(--accent); transform: scale(1.02); box-shadow: 0 0 24px var(--glow); }
 
 .lightbox {
-  position: fixed; inset: 0; background: rgba(3, 1, 5, 0.95); backdrop-filter: blur(6px); z-index: 50;
+  position: fixed; inset: 0; background: rgba(2, 1, 3, 0.95); backdrop-filter: blur(6px); z-index: 50;
   display: none; align-items: center; justify-content: center; padding: 40px;
 }
 .lightbox.open { display: flex; }
@@ -818,6 +845,7 @@ section, footer { position: relative; z-index: 1; }
 /* Document / PDF embed */
 .doc-embed { width: 100%; height: 600px; border: 1px solid var(--line-dim); border-radius: var(--radius); }
 
+/* ===== Responsive ===== */
 @media (max-width: 720px) {
   .main-nav { gap: 18px; }
   .dim-line-h { display: none; }
