@@ -76,3 +76,36 @@ window.addEventListener('scroll', () => {
     header.classList.remove('scrolled');
   }
 });
+
+// ===== Reset CAD Pos and View =====
+const cadViewer = document.getElementById('heroCAD');
+if (cadViewer) {
+  let idleTimer = null;
+  const IDLE_TIMEOUT = 5000; // 5000ms = 5 seconds
+
+  // The original target position and zoom you set in HTML
+  const defaultOrbit = "45deg 75deg 100%";
+
+  function resetCADPosition() {
+    // Smoothly resets camera orbit and zoom distance back to original 45deg view
+    cadViewer.cameraOrbit = defaultOrbit;
+  }
+
+  function userInteracted() {
+    // Clear any existing timer while user is dragging/zooming
+    clearTimeout(idleTimer);
+
+    // Start a fresh 5-second countdown after they release/stop interacting
+    idleTimer = setTimeout(() => {
+      resetCADPosition();
+    }, IDLE_TIMEOUT);
+  }
+
+  // Listen for user touch, mouse drag, wheel scroll, or click gestures on the 3D model
+  cadViewer.addEventListener('camera-change', (event) => {
+    // Trigger reset countdown only when the change comes from user input
+    if (event.detail.source === 'user-interaction') {
+      userInteracted();
+    }
+  });
+}
