@@ -81,35 +81,36 @@ window.addEventListener('scroll', () => {
 const cadViewer = document.getElementById('heroCAD');
 if (cadViewer) {
   let idleTimer = null;
-  const IDLE_TIMEOUT = 5000; // 5000ms = 5 seconds
-
-  // The original target position and zoom you set in HTML
-  const defaultOrbit = "45deg 75deg 70%";
+  const IDLE_TIMEOUT = 5000; // 5 seconds delay after user stops interacting
+  const defaultOrbit = "45deg 75deg 100%"; // Matches HTML camera-orbit
 
   function resetCADPosition() {
-    // 1. Reset Orbit Angles & Distance Zoom
-    cadViewer.cameraOrbit = "45deg 75deg 70%";
-    
-    // 2. Reset Field of View (Camera Lens Zoom)
+    // Temporarily pause auto-rotate while snapping back
+    cadViewer.autoRotate = false;
+
+    // Reset rotation, zoom distance, field of view, and pan target to exact defaults
+    cadViewer.cameraOrbit = defaultOrbit;
     cadViewer.fieldOfView = "auto";
-    
-    // 3. Reset Pan Position (Center Target)
     cadViewer.cameraTarget = "auto auto auto";
+
+    // Resume spinning right after camera snaps back
+    setTimeout(() => {
+      cadViewer.autoRotate = true;
+    }, 500);
   }
 
   function userInteracted() {
-    // Clear any existing timer while user is dragging/zooming
+    // Clear any pending reset countdown
     clearTimeout(idleTimer);
 
-    // Start a fresh 5-second countdown after they release/stop interacting
+    // Start a fresh 5-second timer ONLY after user releases/stops interacting
     idleTimer = setTimeout(() => {
       resetCADPosition();
     }, IDLE_TIMEOUT);
   }
 
-  // Listen for user touch, mouse drag, wheel scroll, or click gestures on the 3D model
+  // Listen for user camera manipulations
   cadViewer.addEventListener('camera-change', (event) => {
-    // Trigger reset countdown only when the change comes from user input
     if (event.detail.source === 'user-interaction') {
       userInteracted();
     }
