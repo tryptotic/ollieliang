@@ -298,20 +298,20 @@ model-viewer {
   display: flex;
   align-items: center;
   
-  /* FIX 1: Restores original square card width */
-  /* Pulls the wrapper outward into the page margins so the arrows don't squeeze the cards */
-  width: calc(100% + 80px);
-  margin-left: -40px;
-  padding: 0 40px; 
+  /* Pushes the wrapper and arrows far outside the 3-card frame into the page margins */
+  /* The padding counteracts the margin so your cards stay the exact same square size */
+  width: calc(100% + 140px);
+  margin-left: -70px;
+  padding: 0 70px; 
 }
 
 .carousel-track-container {
   width: 100%;
   
-  /* FIX 2: Stops the harsh glow clipping */
+  /* Allows glow to bleed out, but strictly crops exactly 16px left/right. 
+     Since the gap between cards is 24px, the next card stays perfectly hidden! */
   overflow: visible; 
-  /* Creates an invisible 40px bleed area on all 4 sides for the glow, but still hides sliding cards */
-  clip-path: inset(-40px -40px -40px -40px);
+  clip-path: inset(-40px -16px -40px -16px);
   
   min-height: 280px; 
 }
@@ -325,7 +325,7 @@ model-viewer {
   transition: transform 0.39s cubic-bezier(0.25, 1, 0.5, 1);
 }
 
-/* Base Card Styling (Width is restored!) */
+/* Base Card Styling */
 .project-card {
   flex: 0 0 calc((100% - 48px) / 3);
   min-width: calc((100% - 48px) / 3);
@@ -341,14 +341,17 @@ model-viewer {
   transition: border-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
 }
 
-/* Symmetric hover glow */
+/* PERFECTLY SYMMETRIC GLOW */
 .project-card:hover {
   border-color: rgba(139, 92, 246, 0.65);
   background: var(--bg-panel-2);
   transform: translateY(-6px);
+  
+  /* Offsets changed to 0 0 so it's perfectly even on all 4 sides. 
+     Opacity and blur slightly reduced so it doesn't bleed heavily onto other cards. */
   box-shadow: 
-    0 8px 24px rgba(147, 51, 234, 0.28),
-    0 0 32px rgba(181, 123, 245, 0.18);
+    0 0 20px rgba(147, 51, 234, 0.22),
+    0 0 30px rgba(181, 123, 245, 0.12);
 }
 
 /* Custom Soft Floating Arrows */
@@ -372,16 +375,9 @@ model-viewer {
   display: block;
 }
 
-/* ========================================================= */
-/* ADJUST ARROW DISTANCE HERE (Symmetric Left/Right Padding)  */
-/* ========================================================= */
-.carousel-arrow.prev { 
-  left: -5px; /* <-- CHANGE THIS to move left arrow closer/further */
-}
-
-.carousel-arrow.next { 
-  right: -5px; /* <-- CHANGE THIS to move right arrow closer/further */
-}
+/* Positioned far outside the cards */
+.carousel-arrow.prev { left: 0px; }
+.carousel-arrow.next { right: 0px; }
 
 .carousel-arrow:hover {
   color: var(--accent);
