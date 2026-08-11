@@ -357,7 +357,8 @@ model-viewer {
   inset: 0;
   border-radius: inherit;
 
-  background: rgba(139, 92, 246, 0.10);
+  /* background: rgba(139, 92, 246, 0.10); */
+  
   backdrop-filter: blur(18px);
   -webkit-backdrop-filter: blur(18px);
   z-index: -1;
@@ -366,7 +367,7 @@ model-viewer {
 
 /* Symmetric Glow */
 .project-card:hover {
-  border-color: rgba(139, 92, 246, 0.10);
+  border-color: rgba(146, 51, 234, 0.771);
   background: var(--bg-panel-2);
   transform: translateY(-6px);
   opacity: 1;
