@@ -297,20 +297,23 @@ model-viewer {
   position: relative;
   display: flex;
   align-items: center;
-  width: 100%;
-  /* Creates clean horizontal buffer inside the section so arrows and glows never get cut off */
-  padding: 0 48px; 
+  
+  /* FIX 1: Restores original square card width */
+  /* Pulls the wrapper outward into the page margins so the arrows don't squeeze the cards */
+  width: calc(100% + 80px);
+  margin-left: -40px;
+  padding: 0 40px; 
 }
 
 .carousel-track-container {
   width: 100%;
-  overflow: hidden; /* Clips cards neatly as they slide in/out */
   
-  /* INCORPORATED: Expanded vertical padding (36px) & matching negative margin (-36px)
-     This gives the card glow top and bottom breathing room so it doesn't get cut off */
-  padding: 36px 12px; 
-  margin: -36px 0;
-  min-height: 280px; /* Prevents vertical layout shift */
+  /* FIX 2: Stops the harsh glow clipping */
+  overflow: visible; 
+  /* Creates an invisible 40px bleed area on all 4 sides for the glow, but still hides sliding cards */
+  clip-path: inset(-40px -40px -40px -40px);
+  
+  min-height: 280px; 
 }
 
 /* Track holding the 3 cards */
@@ -322,7 +325,7 @@ model-viewer {
   transition: transform 0.39s cubic-bezier(0.25, 1, 0.5, 1);
 }
 
-/* Base Card Styling & Sizing */
+/* Base Card Styling (Width is restored!) */
 .project-card {
   flex: 0 0 calc((100% - 48px) / 3);
   min-width: calc((100% - 48px) / 3);
@@ -338,8 +341,7 @@ model-viewer {
   transition: border-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
 }
 
-/* INCORPORATED: Refined, symmetric hover glow spread
-   Emanates equally on all 4 sides without clipping or heavy overlap */
+/* Symmetric hover glow */
 .project-card:hover {
   border-color: rgba(139, 92, 246, 0.65);
   background: var(--bg-panel-2);
@@ -374,11 +376,11 @@ model-viewer {
 /* ADJUST ARROW DISTANCE HERE (Symmetric Left/Right Padding)  */
 /* ========================================================= */
 .carousel-arrow.prev { 
-  left: 3px; /* <-- CHANGE THIS to move left arrow closer/further */
+  left: -5px; /* <-- CHANGE THIS to move left arrow closer/further */
 }
 
 .carousel-arrow.next { 
-  right: 3px; /* <-- CHANGE THIS to move right arrow closer/further */
+  right: -5px; /* <-- CHANGE THIS to move right arrow closer/further */
 }
 
 .carousel-arrow:hover {
