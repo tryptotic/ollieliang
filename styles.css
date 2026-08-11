@@ -353,9 +353,14 @@ model-viewer {
   border-color: rgba(139, 92, 246, 0.65);
   background: var(--bg-panel-2);
   transform: translateY(-6px);
+  
   box-shadow: 
-    0 0 20px rgba(147, 51, 234, 0.22),
-    0 0 30px rgba(181, 123, 245, 0.12);
+    0 0 18px rgba(255, 0, 0, 1.0),   /* Line 1: Solid bright RED, very tight */
+    0 0 24px rgba(0, 0, 255, 0.5);   /* Line 2: Wide, blurry BLUE spreading out */ 
+
+  
+  /* 0 0 18px rgba(147, 51, 234, 0.20),
+    0 0 24px rgba(181, 123, 245, 0.08); */
 }
 
 /* Custom Soft Floating Arrows */
@@ -669,23 +674,104 @@ section, footer { position: relative; z-index: 1; }
 }
 .reveal.in-view .bar i { transform: scaleX(1); }
 
-/* ===== Title block footer ===== */
-.titleblock { border-top: 1px solid var(--line-dim); }
-.titleblock-grid {
-  max-width: 1100px; margin: 40px auto; display: grid; grid-template-columns: repeat(3, 1fr);
+
+
+
+
+
+
+
+
+
+/* ===== Footer & Socials ===== */
+.site-footer {
+  padding: 80px 32px 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.socials-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+
+/* Single-line centered frame */
+.socials-frame {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 32px;
+  padding: 12px 32px;
   background: var(--bg-panel);
   backdrop-filter: blur(18px);
   -webkit-backdrop-filter: blur(18px);
   border: 1px solid var(--line-dim);
-  border-radius: var(--radius);
-  overflow: hidden;
+  border-radius: var(--radius-pill);
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
-.tb-cell { padding: 24px 28px; border-right: 1px solid var(--line-dim); border-bottom: 1px solid var(--line-dim); display: flex; flex-direction: column; gap: 6px; }
-.tb-cell:nth-child(3n) { border-right: none; }
-.tb-label { font-family: var(--font-mono); font-size: 0.68rem; letter-spacing: 0.1em; color: var(--text-dim); text-transform: uppercase; }
-.tb-value { font-family: var(--font-mono); font-size: 0.95rem; }
-.tb-link:hover { color: var(--accent); }
-.tb-name .tb-value { font-family: var(--font-display); font-size: 1.2rem; }
+
+.socials-frame:hover {
+  border-color: rgba(139, 92, 246, 0.4);
+  box-shadow: 0 0 25px rgba(147, 51, 234, 0.15);
+}
+
+/* Individual links with icons */
+.social-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  color: var(--text-dim);
+  transition: color 0.25s ease, transform 0.25s ease;
+}
+
+.social-icon {
+  stroke: var(--text-dim);
+  transition: stroke 0.25s ease, transform 0.25s ease;
+}
+
+.social-link:hover {
+  color: var(--text);
+  transform: translateY(-1px);
+}
+
+.social-link:hover .social-icon {
+  stroke: var(--accent);
+}
+
+/* Sub-footer metadata */
+.footer-meta {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  color: var(--text-dim);
+  opacity: 0.6;
+  text-transform: uppercase;
+}
+
+/* Mobile Adjustments */
+@media (max-width: 600px) {
+  .socials-frame {
+    gap: 20px;
+    padding: 10px 20px;
+  }
+  
+  .social-link span {
+    font-size: 0.78rem;
+  }
+}
+
+
+
+
+
+
+
+
 
 /* ===================================================== */
 /* ===== Project detail page ===== */
