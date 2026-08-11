@@ -49,28 +49,14 @@ a { color: inherit; text-decoration: none; }
 ul { list-style: none; }
 img { max-width: 100%; display: block; }
 
-/* ===== Nebula backdrop — purple-to-dark gradient blobs + comet field =====
-   Absolute (not fixed) and spans the full document height, so the comet
-   field isn't limited to a single viewport — new comets keep appearing
-   as you scroll through every section. */
+/* ===== Nebula backdrop — purple-to-dark gradient blobs + icy shard streaks ===== */
 .grid-backdrop {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  min-height: 100vh;
+  position: fixed;
+  inset: 0;
   z-index: 0;
   pointer-events: none;
   overflow: hidden;
   background: var(--bg-black);
-}
-#comet-bg {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  display: block;
 }
 .grid-backdrop::before,
 .grid-backdrop::after {
@@ -110,6 +96,40 @@ img { max-width: 100%; display: block; }
   50%  { transform: translate(-3vw, -10vw) scale(0.95); }
   75%  { transform: translate(6vw, -3vw) scale(1.05); }
   100% { transform: translate(4vw, 5vw) scale(1); }
+}
+
+/* Thin icy blue-white shard streaks — decorative, very sparing use */
+.shard {
+  position: absolute;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--ice-blue) 45%, var(--ice-blue) 55%, transparent);
+  opacity: 0.3;
+  filter: blur(0.5px);
+  box-shadow: 0 0 12px var(--glow-ice);
+  will-change: transform;
+}
+.shard-1 { top: 18%; left: -10%; width: 55vw; transform: rotate(-12deg); animation: shard-drift-1 42s ease-in-out infinite alternate; }
+.shard-2 { top: 62%; right: -12%; width: 40vw; transform: rotate(9deg); opacity: 0.2; animation: shard-drift-2 50s ease-in-out infinite alternate; }
+.shard-3 { top: 85%; left: 8%; width: 28vw; transform: rotate(-6deg); opacity: 0.15; animation: shard-drift-3 58s ease-in-out infinite alternate; }
+/* Each shard travels a wider, multi-point path across the viewport rather
+   than a short back-and-forth nudge */
+@keyframes shard-drift-1 {
+  0%   { transform: translate(0, 0) rotate(-12deg); }
+  30%  { transform: translate(6vw, 3vw) rotate(-9deg); }
+  60%  { transform: translate(10vw, -2vw) rotate(-14deg); }
+  100% { transform: translate(3vw, 4vw) rotate(-10deg); }
+}
+@keyframes shard-drift-2 {
+  0%   { transform: translate(0, 0) rotate(9deg); }
+  30%  { transform: translate(-6vw, -4vw) rotate(12deg); }
+  60%  { transform: translate(-10vw, 2vw) rotate(7deg); }
+  100% { transform: translate(-4vw, -5vw) rotate(11deg); }
+}
+@keyframes shard-drift-3 {
+  0%   { transform: translate(0, 0) rotate(-6deg); }
+  30%  { transform: translate(5vw, -3vw) rotate(-3deg); }
+  60%  { transform: translate(8vw, 4vw) rotate(-8deg); }
+  100% { transform: translate(2vw, -2vw) rotate(-5deg); }
 }
 
 /* Soft gradient divider — replaces the old hazard strip */
