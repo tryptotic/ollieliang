@@ -339,13 +339,26 @@ model-viewer {
   position: relative;
   display: block;
   background: var(--bg-panel);
-  backdrop-filter: blur(18px);
-  -webkit-backdrop-filter: blur(18px);
   border: 1px solid var(--line-dim);
   border-radius: var(--radius);
   padding: 26px;
   box-sizing: border-box;
   transition: border-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
+  
+  /* FIX: Isolate the backdrop-filter so it doesn't clip external box-shadows */
+  isolation: isolate;
+}
+
+/* Pseudo-element to handle backdrop-blur safely */
+.project-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  z-index: -1;
+  pointer-events: none;
 }
 
 /* Symmetric Glow */
@@ -353,10 +366,9 @@ model-viewer {
   border-color: rgba(139, 92, 246, 0.65);
   background: var(--bg-panel-2);
   transform: translateY(-6px);
-  
-  box-shadow:  
-    0 0 10px rgba(147, 51, 234, 0.20),
-    0 0 20px rgba(181, 123, 245, 0.08);
+  box-shadow: 
+    0 0 20px rgba(147, 51, 234, 0.25),
+    0 0 40px rgba(181, 123, 245, 0.15);
 }
 
 /* Custom Soft Floating Arrows */
@@ -593,23 +605,6 @@ section, footer { position: relative; z-index: 1; }
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: 24px;
 }
-.project-card {
-  position: relative;
-  display: block;
-  background: var(--bg-panel);
-  backdrop-filter: blur(18px);
-  -webkit-backdrop-filter: blur(18px);
-  border: 1px solid var(--line-dim);
-  border-radius: var(--radius);
-  padding: 26px;
-  transition: border-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
-}
-.project-card:hover {
-  border-color: rgba(139, 92, 246, 0.55);
-  background: var(--bg-panel-2);
-  transform: translateY(-6px);
-  box-shadow: 0 0 40px var(--glow), 0 0 90px var(--glow-soft);
-}
 .card-corner { display: none; }
 
 .card-index { font-family: var(--font-mono); font-size: 0.75rem; color: var(--accent); letter-spacing: 0.1em; }
@@ -644,6 +639,15 @@ section, footer { position: relative; z-index: 1; }
   font-weight: 600;
 }
 .project-card.hidden { display: none; }
+
+
+
+
+
+
+
+
+
 
 /* ===== Specs / skills ===== */
 .specs { max-width: 1100px; margin: 0 auto; padding: 0 32px 100px; }
