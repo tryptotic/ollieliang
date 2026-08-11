@@ -69,7 +69,7 @@ if (lightbox) {
 const header = document.querySelector('.site-header');
 window.addEventListener('scroll', () => {
   // If scrolled down more than 10px, add the 'scrolled' class
-  if (window.scrollY > 10) {
+  if (window.scrollY > 100) {
     header.classList.add('scrolled');
   } else {
     // When back at the very top, remove it
