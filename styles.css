@@ -1,17 +1,27 @@
 /* ===== Design tokens — Nebula (night mode) theme ===== */
 :root {
-  --bg-black:    #020103;   /* base background — much darker, almost true black */
+  --bg-black:    #020103;   /* base background — deep black */
   --bg-panel:    rgba(139, 92, 246, 0.05);   /* glass card surface */
   --bg-panel-2:  rgba(139, 92, 246, 0.09);   /* raised glass surface */
   --line-dim:    rgba(139, 92, 246, 0.16);   /* hairlines / borders */
   --text:        #ede9f7;   /* primary text */
-  --text-dim:    #948aae;   /* secondary text — dimmer, more night mode */
-  --accent:      #9333ea;   /* vibrant purple — primary accent, gradient light end */
-  --accent-2:    #b57bf5;   /* secondary purple, slightly lighter, for gradients */
-  --accent-deep: #2e1065;   /* darker purple — gradient dark end for blobs */
-  --ice-blue:    #d6ecff;   /* icy blue-white — sparing background accent, shards only */
+  --text-dim:    #948aae;   /* secondary text */
+  
+  /* Primary Deep Vibrant Purples */
+  --accent:      #9333ea;   /* vibrant purple */
+  --accent-2:    #b57bf5;   /* secondary purple for gradients */
+  --accent-deep: #2e1065;   /* deep purple blob core */
+
+  /* NEW: Subtle Vibrant Color Accents */
+  --accent-cyan:  #00f2fe;  /* Electric Teal/Cyan for high-energy accents */
+  --accent-amber: #ff7b00;  /* Coral/Gold for warm contrast highlights */
+  --ice-blue:     #d6ecff;  /* icy blue-white for shards */
+
+  /* Glows */
   --glow:        rgba(147, 51, 234, 0.45);
   --glow-soft:   rgba(181, 123, 245, 0.22);
+  --glow-cyan:   rgba(0, 242, 254, 0.35);
+  --glow-amber:  rgba(255, 123, 0, 0.25);
   --glow-ice:    rgba(214, 236, 255, 0.3);
 
   --radius:      20px;
@@ -78,16 +88,20 @@ img { max-width: 100%; display: block; }
   opacity: 0.5;
   will-change: transform;
 }
+/* ===== Multi-color Backdrop Blobs & Shards ===== */
 .grid-backdrop::before {
   top: -16vw;
   left: -12vw;
-  background: radial-gradient(circle at 30% 30%, var(--accent) 0%, var(--accent-deep) 55%, transparent 75%);
+  /* Infused deep purple with a tiny touch of vibrant cyan depth */
+  background: radial-gradient(circle at 30% 30%, var(--accent) 0%, var(--accent-deep) 60%, transparent 80%);
   animation: drift-a 38s ease-in-out infinite alternate;
 }
+
 .grid-backdrop::after {
   bottom: -22vw;
   right: -14vw;
-  background: radial-gradient(circle at 60% 60%, var(--accent-2) 0%, var(--accent-deep) 55%, transparent 75%);
+  /* Secondary blob featuring a soft teal/cyan edge glow */
+  background: radial-gradient(circle at 60% 60%, var(--accent-2) 0%, rgba(0, 242, 254, 0.12) 40%, var(--accent-deep) 70%, transparent 85%);
   animation: drift-b 44s ease-in-out infinite alternate;
 }
 /* Multi-point paths (not just back-and-forth) so the blobs read as actually
@@ -141,11 +155,12 @@ img { max-width: 100%; display: block; }
   100% { transform: translate(2vw, -2vw) rotate(-5deg); }
 }
 
-/* Soft gradient divider — replaces the old hazard strip */
+/* ===== Hazard / Divider Strip with Multi-Color Accent ===== */
 .hazard-strip {
   height: 2px;
-  background: linear-gradient(90deg, transparent, var(--accent) 20%, var(--accent-2) 50%, var(--accent) 80%, transparent);
-  opacity: 0.5;
+  /* Subtle multi-color gradient transition across the divider */
+  background: linear-gradient(90deg, transparent, var(--accent) 15%, var(--accent-cyan) 50%, var(--accent-amber) 85%, transparent);
+  opacity: 0.6;
 }
 
 /* ===== Reveal-on-scroll ===== */
@@ -209,9 +224,20 @@ img { max-width: 100%; display: block; }
   color: var(--text-dim);
 }
 
+/* ===== Interactive Status Indicator Accent ===== */
 .card-status {
-  color: #10b981; /* Green active status indicator */
+  color: var(--accent-cyan); /* Cyan live status light instead of generic green */
   font-size: 0.7rem;
+  text-shadow: 0 0 10px var(--glow-cyan);
+}
+
+.cad-tag {
+  color: var(--accent-amber); /* Warm gold tag accent */
+  border-color: rgba(255, 123, 0, 0.3);
+  font-size: 0.68rem;
+  letter-spacing: 0.05em;
+  padding: 2px 8px;
+  border-radius: var(--radius-pill);
 }
 
 .card-body {
@@ -362,16 +388,17 @@ model-viewer {
   pointer-events: none;
 }
 
-/* Symmetric Glow */
+/* ===== Project Cards Vibrant Hover Glow ===== */
 .project-card:hover {
-  border-color: rgba(146, 51, 234, 0.771);
+  border-color: var(--accent);
   background: var(--bg-panel-2);
   transform: translateY(-6px);
   opacity: 1;
 
+  /* Dual-color glow (Purple primary + Cyan secondary highlight) */
   box-shadow: 
-    0 0 30px rgba(147, 51, 234, 0.25),
-    0 0 50px rgba(181, 123, 245, 0.15);
+    0 0 25px rgba(147, 51, 234, 0.3),
+    0 0 45px rgba(0, 242, 254, 0.15);
 }
 
 /* Custom Soft Floating Arrows */
@@ -398,9 +425,10 @@ model-viewer {
 .carousel-arrow.prev { left: 0px; }
 .carousel-arrow.next { right: 0px; }
 
+/* Arrow Hover Highlight */
 .carousel-arrow:hover {
-  color: var(--accent);
-  filter: drop-shadow(0 0 8px var(--glow));
+  color: var(--accent-cyan);
+  filter: drop-shadow(0 0 8px var(--glow-cyan));
   transform: translateY(-50%) scale(1.15);
 }
 
@@ -547,6 +575,15 @@ section, footer { position: relative; z-index: 1; }
   margin-bottom: 40px;
 }
 
+
+
+
+
+
+
+
+
+
 /* Mobile responsive layout */
 @media (max-width: 768px) {
   .hero-inner {
@@ -555,6 +592,7 @@ section, footer { position: relative; z-index: 1; }
   }
 }
 
+/* ===== Hero Name Text Accent ===== */
 .hero-name {
   font-family: var(--font-display);
   font-weight: 700;
@@ -562,7 +600,8 @@ section, footer { position: relative; z-index: 1; }
   line-height: 1.02;
   letter-spacing: -0.02em;
   margin-bottom: 10px;
-  background: linear-gradient(120deg, var(--text) 5%, var(--accent-2) 50%, var(--accent) 95%);
+  /* Added cyan highlight at the end of the text gradient */
+  background: linear-gradient(120deg, var(--text) 20%, var(--accent-2) 65%, var(--accent-cyan) 100%);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
@@ -636,9 +675,10 @@ section, footer { position: relative; z-index: 1; }
   transition: all 0.2s ease;
 }
 .filter-pill:hover { color: var(--text); border-color: var(--accent); }
+/* Active Category Pills */
 .filter-pill.active {
   color: #0c0518;
-  background: linear-gradient(120deg, var(--accent), var(--accent-2));
+  background: linear-gradient(120deg, var(--accent-cyan), var(--accent-2));
   border-color: transparent;
   font-weight: 600;
 }
@@ -670,9 +710,10 @@ section, footer { position: relative; z-index: 1; }
 .spec-row:last-child { border-bottom: none; }
 .spec-header { font-family: var(--font-mono); font-size: 0.72rem; letter-spacing: 0.1em; color: var(--accent); text-transform: uppercase; }
 .bar { height: 6px; background: var(--line-dim); border-radius: var(--radius-pill); position: relative; overflow: hidden; }
+/* Skill Progress Bars with Subtle Cyan End Gradient */
 .bar i {
   position: absolute; left: 0; top: 0; bottom: 0; width: var(--w);
-  background: linear-gradient(90deg, var(--accent), var(--accent-2));
+  background: linear-gradient(90deg, var(--accent), var(--accent-2) 70%, var(--accent-cyan) 100%);
   border-radius: var(--radius-pill);
   transform-origin: left; transform: scaleX(0); transition: transform 1s ease;
 }
