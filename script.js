@@ -191,20 +191,19 @@ const PROJECTS_DATA = [
 ];
 
 // =========================================================
-// CAROUSEL & FILTER SYSTEM
+// CAROUSEL & INFINITE LOOP SYSTEM
 // =========================================================
 document.addEventListener('DOMContentLoaded', () => {
-  const grid = document.getElementById('projectGrid');
+  const track = document.getElementById('projectTrack');
   const prevBtn = document.getElementById('prevBtn');
   const nextBtn = document.getElementById('nextBtn');
   const filterPills = document.querySelectorAll('.filter-pill');
 
-  if (!grid) return;
+  if (!track) return;
 
   let activeCategory = 'all';
   let currentPage = 0;
   let isAnimating = false;
-  let itemsPerPage = getItemsPerPage();
 
   function getItemsPerPage() {
     if (window.innerWidth <= 600) return 1;
@@ -212,13 +211,11 @@ document.addEventListener('DOMContentLoaded', () => {
     return 3; // 3 slots on desktop
   }
 
-  // Filter project array based on selected category
   function getFilteredProjects() {
     if (activeCategory === 'all') return PROJECTS_DATA;
     return PROJECTS_DATA.filter(p => p.category === activeCategory);
   }
 
-  // Create single project card HTML
   function createCardHTML(project) {
     const tagsHTML = project.tags.map(t => `<span>${t}</span>`).join('');
     return `
@@ -236,69 +233,68 @@ document.addEventListener('DOMContentLoaded', () => {
     `;
   }
 
-  // Render current frame of 3 cards into grid
-  function renderPage(page, animateDir = null) {
+  // Preloads all matching cards into the horizontal track DOM
+  function renderTrack() {
     const filtered = getFilteredProjects();
-    const totalPages = Math.ceil(filtered.length / itemsPerPage) || 1;
+    track.innerHTML = filtered.map(createCardHTML).join('');
     
-    // Clamp page index
-    currentPage = Math.max(0, Math.min(page, totalPages - 1));
-
-    const startIndex = currentPage * itemsPerPage;
-    const pageItems = filtered.slice(startIndex, startIndex + itemsPerPage);
-
-    // Build cards for current view
-    grid.innerHTML = pageItems.map(createCardHTML).join('');
-
-    // Update navigation arrow state
-    prevBtn.disabled = currentPage === 0;
-    nextBtn.disabled = currentPage >= totalPages - 1;
-
-    // Trigger elastic wobble animation on slide
-    if (animateDir) {
-      isAnimating = true;
-      const animClass = animateDir === 'next' ? 'anim-slide-next' : 'anim-slide-prev';
-      grid.classList.add(animClass);
-
-      setTimeout(() => {
-        grid.classList.remove(animClass);
-        isAnimating = false;
-      }, 550); // Matches CSS keyframe duration
-    }
+    // Reset to first frame position without animation
+    currentPage = 0;
+    track.style.transform = `translateX(0px)`;
   }
 
-  // Arrow Click Handlers
-  nextBtn.addEventListener('click', () => {
-    if (isAnimating || nextBtn.disabled) return;
-    renderPage(currentPage + 1, 'next');
-  });
+  function slideToPage(targetPage, direction) {
+    if (isAnimating) return;
 
-  prevBtn.addEventListener('click', () => {
-    if (isAnimating || prevBtn.disabled) return;
-    renderPage(currentPage - 1, 'prev');
-  });
+    const filtered = getFilteredProjects();
+    const itemsPerPage = getItemsPerPage();
+    const totalPages = Math.ceil(filtered.length / itemsPerPage) || 1;
 
-  // Filter Buttons Handler
+    // Infinite loop pagination math
+    let newPage = targetPage;
+    if (newPage >= totalPages) newPage = 0;
+    if (newPage < 0) newPage = totalPages - 1;
+
+    // Calculate pixel translate distance based on viewport width
+    const containerWidth = track.parentElement.getBoundingClientRect().width;
+    const currentX = -(currentPage * (containerWidth + 24));
+    const targetX = -(newPage * (containerWidth + 24));
+
+    isAnimating = true;
+
+    // Pass dynamic CSS variables into Keyframes for spring overshoot
+    track.style.setProperty('--current-x', `${currentX}px`);
+    track.style.setProperty('--target-x', `${targetX}px`);
+
+    const animClass = direction === 'next' ? 'anim-wobble-next' : 'anim-wobble-prev';
+    track.classList.add(animClass);
+
+    setTimeout(() => {
+      track.classList.remove(animClass);
+      track.style.transform = `translateX(${targetX}px)`;
+      currentPage = newPage;
+      isAnimating = false;
+    }, 350); // Matches faster 0.35s CSS animation
+  }
+
+  // Infinite Arrow Listeners
+  nextBtn.addEventListener('click', () => slideToPage(currentPage + 1, 'next'));
+  prevBtn.addEventListener('click', () => slideToPage(currentPage - 1, 'prev'));
+
+  // Category Filter Handler
   filterPills.forEach(pill => {
     pill.addEventListener('click', () => {
       filterPills.forEach(p => p.classList.remove('active'));
       pill.classList.add('active');
 
       activeCategory = pill.getAttribute('data-filter');
-      currentPage = 0; // Reset to first page of newly filtered items
-      renderPage(0);
+      renderTrack();
     });
   });
 
-  // Handle window resize (e.g. tablet orientation change)
-  window.addEventListener('resize', () => {
-    const newItems = getItemsPerPage();
-    if (newItems !== itemsPerPage) {
-      itemsPerPage = newItems;
-      renderPage(0);
-    }
-  });
+  // Handle Window Resize
+  window.addEventListener('resize', renderTrack);
 
   // Initial Load
-  renderPage(0);
+  renderTrack();
 });
