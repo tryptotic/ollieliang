@@ -233,16 +233,32 @@ document.addEventListener('DOMContentLoaded', () => {
     `;
   }
 
-  // Preloads all matching cards into the horizontal track DOM
+  // Groups cards into pages and renders them
   function renderTrack() {
     const filtered = getFilteredProjects();
-    track.innerHTML = filtered.map(createCardHTML).join('');
+    const itemsPerPage = getItemsPerPage();
+    const pages = [];
     
-    // Reset to first frame position without animation
+    // Group cards into page wrappers
+    for (let i = 0; i < filtered.length; i += itemsPerPage) {
+      const pageItems = filtered.slice(i, i + itemsPerPage);
+      const pageHTML = `<div class="project-page">${pageItems.map(createCardHTML).join('')}</div>`;
+      pages.push(pageHTML);
+    }
+    
+    track.innerHTML = pages.join('');
+    
+    // Reset to first frame position instantly on filter
     currentPage = 0;
+    track.style.transition = 'none'; // Temporarily disable slide animation
     track.style.transform = `translateX(0px)`;
+    
+    // Force a browser repaint so the transition applies to future slides
+    track.offsetHeight; 
+    track.style.transition = 'transform 0.5s cubic-bezier(0.1, 0.9, 0.2, 1)';
   }
 
+  // Smooth sliding logic (No wobble classes needed)
   function slideToPage(targetPage, direction) {
     if (isAnimating) return;
 
@@ -250,31 +266,24 @@ document.addEventListener('DOMContentLoaded', () => {
     const itemsPerPage = getItemsPerPage();
     const totalPages = Math.ceil(filtered.length / itemsPerPage) || 1;
 
-    // Infinite loop pagination math
+    // Infinite loop math
     let newPage = targetPage;
     if (newPage >= totalPages) newPage = 0;
     if (newPage < 0) newPage = totalPages - 1;
 
-    // Calculate pixel translate distance based on viewport width
     const containerWidth = track.parentElement.getBoundingClientRect().width;
-    const currentX = -(currentPage * (containerWidth + 24));
-    const targetX = -(newPage * (containerWidth + 24));
+    
+    // Calculate pixel translate using the new 80px gap between pages
+    const targetX = -(newPage * (containerWidth + 80));
 
     isAnimating = true;
+    track.style.transform = `translateX(${targetX}px)`;
 
-    // Pass dynamic CSS variables into Keyframes for spring overshoot
-    track.style.setProperty('--current-x', `${currentX}px`);
-    track.style.setProperty('--target-x', `${targetX}px`);
-
-    const animClass = direction === 'next' ? 'anim-wobble-next' : 'anim-wobble-prev';
-    track.classList.add(animClass);
-
+    // Unlock interactions after 0.5s (matches CSS transition time)
     setTimeout(() => {
-      track.classList.remove(animClass);
-      track.style.transform = `translateX(${targetX}px)`;
       currentPage = newPage;
       isAnimating = false;
-    }, 415); // Matches faster 0.35s CSS animation
+    }, 500); 
   }
 
   // Infinite Arrow Listeners
