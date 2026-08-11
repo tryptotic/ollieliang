@@ -344,7 +344,9 @@ model-viewer {
   padding: 26px;
   box-sizing: border-box;
   transition: border-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
-  
+  opacity: 0.85; /* 85% opacity */
+  transition: opacity 0.3s ease; /* Keeps hover transitions smooth */
+
   /* FIX: Isolate the backdrop-filter so it doesn't clip external box-shadows */
   isolation: isolate;
 }
@@ -366,9 +368,10 @@ model-viewer {
   border-color: rgba(139, 92, 246, 0.65);
   background: var(--bg-panel-2);
   transform: translateY(-6px);
+  opacity: 1; /* Fully opaque on hover */
   box-shadow: 
-    0 0 20px rgba(147, 51, 234, 0.25),
-    0 0 40px rgba(181, 123, 245, 0.15);
+    0 0 40px rgba(147, 51, 234, 0.25),
+    0 0 80px rgba(181, 123, 245, 0.15);
 }
 
 /* Custom Soft Floating Arrows */
@@ -605,6 +608,7 @@ section, footer { position: relative; z-index: 1; }
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: 24px;
 }
+
 .card-corner { display: none; }
 
 .card-index { font-family: var(--font-mono); font-size: 0.75rem; color: var(--accent); letter-spacing: 0.1em; }
