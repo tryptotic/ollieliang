@@ -35,15 +35,24 @@
   }
 
   // --- Config ---
-  const AREA_PER_COMET = 26000;   // lower = more comets
-  const TRAIL_FADE = 0.06;        // lower = longer-lingering trails
+  // Trails are drawn explicitly from each comet's own short position
+  // history (below) rather than by leaving old canvas pixels to decay —
+  // that's what previously left permanent gray streaks: thin, low-alpha
+  // strokes redrawn every frame decay far too slowly for the eye to ever
+  // see them fully clear. This approach guarantees every trail segment
+  // fully disappears after TRAIL_LENGTH frames, no matter the speed.
+  const AREA_PER_COMET = 105000;  // ~4x fewer comets than before (75% cut)
+  const TRAIL_LENGTH = 22;        // how many past positions each comet keeps
   const MIN_SPEED = 0.2;
-  const MAX_SPEED = 0.45;
-  const MIN_RADIUS = 2;
-  const MAX_RADIUS = 4;
-  const RING_WIDTH = 1.1;
-  const MIN_ALPHA = 0.45;
-  const MAX_ALPHA = 0.9;
+  const MAX_SPEED = 0.4;
+  const MIN_RADIUS = 2.5;
+  const MAX_RADIUS = 4.5;
+  const RING_WIDTH = 1;
+  const MIN_ALPHA = 0.28;
+  const MAX_ALPHA = 0.5;
+  const BLUR = 3.5;               // soft-focus amount, in px
+  const GLOW_BLUR = 10;           // very small ambient glow radius, in px
+  const GLOW_ALPHA = 0.16;        // how faint the glow halo is
 
   // Purple palette pulled from the site's own CSS variables, with a
   // graceful fallback in case the stylesheet hasn't loaded yet.
@@ -73,6 +82,7 @@
       this.radius = rand(MIN_RADIUS, MAX_RADIUS);
       this.alpha = rand(MIN_ALPHA, MAX_ALPHA);
       this.color = COLORS[Math.floor(Math.random() * COLORS.length)];
+      this.trail = [];
       this.spawn(true);
     }
 
@@ -81,45 +91,46 @@
       let angle;
 
       if (initial) {
-        // Scatter across the whole document on first load, so comets are
-        // already visible in every section instead of only entering at top.
         this.x = rand(0, width);
         this.y = rand(0, height);
         angle = rand(0, Math.PI * 2);
         this.vx = Math.cos(angle) * this.speed;
         this.vy = Math.sin(angle) * this.speed;
-        return;
+      } else {
+        const edge = Math.floor(rand(0, 4));
+        switch (edge) {
+          case 0:
+            this.x = rand(0, width);
+            this.y = -margin;
+            angle = rand(Math.PI * 0.25, Math.PI * 0.75);
+            break;
+          case 1:
+            this.x = rand(0, width);
+            this.y = height + margin;
+            angle = rand(Math.PI * 1.25, Math.PI * 1.75);
+            break;
+          case 2:
+            this.x = -margin;
+            this.y = rand(0, height);
+            angle = rand(-Math.PI * 0.25, Math.PI * 0.25);
+            break;
+          default:
+            this.x = width + margin;
+            this.y = rand(0, height);
+            angle = rand(Math.PI * 0.75, Math.PI * 1.25);
+            break;
+        }
+        this.vx = Math.cos(angle) * this.speed;
+        this.vy = Math.sin(angle) * this.speed;
       }
 
-      const edge = Math.floor(rand(0, 4));
-      switch (edge) {
-        case 0: // top edge
-          this.x = rand(0, width);
-          this.y = -margin;
-          angle = rand(Math.PI * 0.25, Math.PI * 0.75);
-          break;
-        case 1: // bottom edge
-          this.x = rand(0, width);
-          this.y = height + margin;
-          angle = rand(Math.PI * 1.25, Math.PI * 1.75);
-          break;
-        case 2: // left edge
-          this.x = -margin;
-          this.y = rand(0, height);
-          angle = rand(-Math.PI * 0.25, Math.PI * 0.25);
-          break;
-        default: // right edge
-          this.x = width + margin;
-          this.y = rand(0, height);
-          angle = rand(Math.PI * 0.75, Math.PI * 1.25);
-          break;
-      }
-
-      this.vx = Math.cos(angle) * this.speed;
-      this.vy = Math.sin(angle) * this.speed;
+      this.trail = [];
     }
 
     update() {
+      this.trail.push({ x: this.x, y: this.y });
+      if (this.trail.length > TRAIL_LENGTH) this.trail.shift();
+
       this.x += this.vx;
       this.y += this.vy;
 
@@ -130,21 +141,36 @@
     }
 
     draw() {
+      for (let i = 1; i < this.trail.length; i++) {
+        const prev = this.trail[i - 1];
+        const point = this.trail[i];
+        const t = i / this.trail.length;
+        const segAlpha = this.alpha * t * t * 0.6;
+        if (segAlpha < 0.01) continue;
+
+        ctx.beginPath();
+        ctx.moveTo(prev.x, prev.y);
+        ctx.lineTo(point.x, point.y);
+        ctx.strokeStyle = `rgba(${this.color}, ${segAlpha})`;
+        ctx.lineWidth = RING_WIDTH;
+        ctx.stroke();
+      }
+
+      ctx.save();
+      ctx.shadowColor = `rgba(${this.color}, ${GLOW_ALPHA})`;
+      ctx.shadowBlur = GLOW_BLUR;
       ctx.beginPath();
       ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
       ctx.strokeStyle = `rgba(${this.color}, ${this.alpha})`;
       ctx.lineWidth = RING_WIDTH;
       ctx.stroke();
+      ctx.restore();
     }
   }
 
   let comets = [];
   function initComets() {
-    // Clear to fully transparent (not opaque black) — the canvas sits on
-    // top of the purple blob gradients (.grid-backdrop::before/::after),
-    // so it must stay see-through or it will blot those out completely.
     ctx.clearRect(0, 0, width, height);
-
     const count = Math.max(1, Math.floor((width * height) / AREA_PER_COMET));
     comets = Array.from({ length: count }, () => new Comet());
   }
@@ -163,9 +189,6 @@
 
   window.addEventListener('resize', handleResize);
 
-  // The document can grow after load (fonts, images, dropdown toggles,
-  // reveal animations) which changes scrollHeight — keep the canvas in
-  // sync so comets always cover the full page, not just the first paint.
   let lastHeight = getDocHeight();
   const heightWatcher = new ResizeObserver(() => {
     const h = getDocHeight();
@@ -177,21 +200,15 @@
   heightWatcher.observe(document.body);
 
   function animate() {
-    // Trails work by using "destination-out" to gradually erase old comet
-    // strokes toward full transparency (rather than painting solid black
-    // over them), which is what lets the purple blob gradients behind the
-    // canvas keep showing through as comets fade — a flat black fade rect
-    // would otherwise dim/hide the backdrop a little more on every frame.
-    ctx.globalCompositeOperation = 'destination-out';
-    ctx.fillStyle = `rgba(0, 0, 0, ${TRAIL_FADE})`;
-    ctx.fillRect(0, 0, width, height);
-    ctx.globalCompositeOperation = 'source-over';
+    ctx.clearRect(0, 0, width, height);
+    ctx.filter = `blur(${BLUR}px)`;
 
     for (const comet of comets) {
       comet.update();
       comet.draw();
     }
 
+    ctx.filter = 'none';
     requestAnimationFrame(animate);
   }
 
