@@ -84,11 +84,11 @@ if (cadViewer) {
   const IDLE_TIMEOUT = 5000; // 5000ms = 5 seconds
 
   // The original target position and zoom you set in HTML
-  const defaultOrbit = "45deg 75deg 100%";
+  const defaultOrbit = "45deg 75deg 80%";
 
   function resetCADPosition() {
     // 1. Reset Orbit Angles & Distance Zoom
-    cadViewer.cameraOrbit = "45deg 75deg 100%";
+    cadViewer.cameraOrbit = "45deg 75deg 80%";
     
     // 2. Reset Field of View (Camera Lens Zoom)
     cadViewer.fieldOfView = "auto";
