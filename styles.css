@@ -346,6 +346,9 @@ model-viewer {
   padding: 26px;
   box-sizing: border-box;
   transition: border-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
+  box-shadow: 
+    0 0 18px rgba(255, 0, 0, 1.0),   /* Line 1: Solid bright RED, very tight */
+    0 0 24px rgba(0, 0, 255, 0.5);   /* Line 2: Wide, blurry BLUE spreading out */ 
 }
 
 /* Symmetric Glow */
