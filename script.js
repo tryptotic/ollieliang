@@ -274,7 +274,7 @@ document.addEventListener('DOMContentLoaded', () => {
       track.style.transform = `translateX(${targetX}px)`;
       currentPage = newPage;
       isAnimating = false;
-    }, 350); // Matches faster 0.35s CSS animation
+    }, 415); // Matches faster 0.35s CSS animation
   }
 
   // Infinite Arrow Listeners

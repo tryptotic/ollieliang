@@ -302,27 +302,32 @@ model-viewer {
 
 .carousel-track-container {
   width: 100%;
-  overflow: hidden; /* Clips cards sliding outside the viewport */
-  padding: 12px 0;   /* Space for hover box shadows */
+  overflow: hidden;
+  /* FIX 1 & 4: Padding prevents card glow clipping; min-height stops height jump on filter */
+  padding: 24px 12px;
+  margin: -12px; /* Offsets padding so alignment stays crisp */
+  min-height: 280px; /* Keeps container rock solid during card re-renders */
 }
 
-/* Continuous Horizontal Track (Preloads all cards in DOM) */
+/* Continuous Horizontal Track */
 .project-track {
   display: flex;
   gap: 24px;
   width: 100%;
   will-change: transform;
-  transition: transform 0.35s cubic-bezier(0.25, 1, 0.5, 1); /* Faster 0.35s slide */
+  /* FIX 3: Slowed down by 10% (0.35s -> 0.39s) */
+  transition: transform 0.39s cubic-bezier(0.25, 1, 0.5, 1);
 }
 
 /* Fixed 3-Slot Card Frames */
 .project-card {
-  /* Flex basis calculates exactly 3 equal slots per frame accounting for 24px gaps */
   flex: 0 0 calc((100% - 48px) / 3);
   min-width: calc((100% - 48px) / 3);
+  /* Ensures glow is fully contained and symmetric */
+  box-sizing: border-border-box;
 }
 
-/* Minimalist Clean Text Arrows (No Circle Background) */
+/* Custom Soft SVG Floating Arrows */
 .carousel-arrow {
   position: absolute;
   top: 50%;
@@ -331,59 +336,60 @@ model-viewer {
   background: none;
   border: none;
   color: var(--text-dim);
-  font-family: var(--font-mono);
-  font-size: 1.2rem;
-  font-weight: 700;
-  letter-spacing: -0.1em;
   cursor: pointer;
   padding: 8px;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: color 0.2s ease, transform 0.2s ease, text-shadow 0.2s ease;
+  transition: color 0.25s ease, transform 0.25s ease, filter 0.25s ease;
 }
 
-/* Floating outside card edge in margin space */
-.carousel-arrow.prev { left: -36px; }
-.carousel-arrow.next { right: -36px; }
+.carousel-arrow svg {
+  display: block;
+  transition: stroke 0.25s ease;
+}
+
+/* Floating in space outside card edges */
+.carousel-arrow.prev { left: -42px; }
+.carousel-arrow.next { right: -42px; }
 
 .carousel-arrow:hover {
   color: var(--accent);
-  text-shadow: 0 0 12px var(--glow);
+  filter: drop-shadow(0 0 8px var(--glow));
   transform: translateY(-50%) scale(1.15);
 }
 
-/* ===== Fast Jump-Wobble-Slide (Spring/Overshoot) ===== */
+/* ===== Wobble Animations (Slowed to 0.39s) ===== */
 @keyframes wobbleNext {
   0% { transform: translateX(var(--current-x)); }
-  60% { transform: translateX(calc(var(--target-x) - 3%)); }  /* Overshoots */
-  80% { transform: translateX(calc(var(--target-x) + 1%)); }  /* Wobbles back */
-  100% { transform: translateX(var(--target-x)); }            /* Settles */
+  60% { transform: translateX(calc(var(--target-x) - 3%)); }
+  80% { transform: translateX(calc(var(--target-x) + 1%)); }
+  100% { transform: translateX(var(--target-x)); }
 }
 
 @keyframes wobblePrev {
   0% { transform: translateX(var(--current-x)); }
-  60% { transform: translateX(calc(var(--target-x) + 3%)); }  /* Overshoots */
-  80% { transform: translateX(calc(var(--target-x) - 1%)); }  /* Wobbles back */
-  100% { transform: translateX(var(--target-x)); }            /* Settles */
+  60% { transform: translateX(calc(var(--target-x) + 3%)); }
+  80% { transform: translateX(calc(var(--target-x) - 1%)); }
+  100% { transform: translateX(var(--target-x)); }
 }
 
 .anim-wobble-next {
-  animation: wobbleNext 0.35s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+  animation: wobbleNext 0.39s cubic-bezier(0.25, 1, 0.5, 1) forwards;
 }
 
 .anim-wobble-prev {
-  animation: wobblePrev 0.35s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+  animation: wobblePrev 0.39s cubic-bezier(0.25, 1, 0.5, 1) forwards;
 }
 
-/* Responsive slot sizing */
+/* Responsive Slot Sizing */
 @media (max-width: 900px) {
   .project-card {
     flex: 0 0 calc((100% - 24px) / 2);
     min-width: calc((100% - 24px) / 2);
   }
-  .carousel-arrow.prev { left: -24px; }
-  .carousel-arrow.next { right: -24px; }
+  .carousel-arrow.prev { left: -28px; }
+  .carousel-arrow.next { right: -28px; }
 }
 
 @media (max-width: 600px) {
