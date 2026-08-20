@@ -28,21 +28,6 @@ if (projectsTrigger && projectsDropdown) {
   });
 }
 
-// ===== Project grid category filter =====
-const filterPills = document.querySelectorAll('.filter-pill');
-const projectCards = document.querySelectorAll('.project-card');
-filterPills.forEach((pill) => {
-  pill.addEventListener('click', () => {
-    filterPills.forEach((p) => p.classList.remove('active'));
-    pill.classList.add('active');
-    const filter = pill.dataset.filter;
-    projectCards.forEach((card) => {
-      const match = filter === 'all' || card.dataset.category === filter;
-      card.classList.toggle('hidden', !match);
-    });
-  });
-});
-
 // ===== Lightbox for project-page image galleries =====
 const lightbox = document.getElementById('lightbox');
 if (lightbox) {
@@ -143,190 +128,167 @@ if (cadViewer) {
 
 
 // =========================================================
-// EASY PROJECT REORDERING & DATA LIST
-// To change order: just move any block higher or lower in this array!
+// PROJECT DATA — edit dates, tags, and thumbnails here.
+// Display order is newest-first (sorted by `date`).
 // =========================================================
 const PROJECTS_DATA = [
   {
-    index: 'A',
-    title: 'VEX Robotics',
-    summary: 'Competition robot build — design notebook, photos, and match footage.',
-    link: 'projects/vex-robotics.html',
-    category: 'robotics',
-    tags: ['Robotics', 'CAD']
-  },
-  {
-    index: 'B',
-    title: 'Railside Robotics',
-    summary: 'Team build and mentoring work outside of school competition.',
-    link: 'projects/railside-robotics.html',
-    category: 'robotics',
-    tags: ['Robotics']
-  },
-  {
-    index: 'C',
-    title: 'ES&P — BB8',
-    summary: 'Ball-drive spherical robot build — mechanical and control design.',
-    link: 'projects/esap-bb8.html',
-    category: 'robotics',
-    tags: ['Robotics', 'Mechanisms']
-  },
-  {
-    index: 'D',
-    title: 'NVHS EDD',
-    summary: 'Engineering Design & Development coursework — reports and process docs.',
-    link: 'projects/nvhs-edd.html',
-    category: 'coursework',
-    tags: ['Research', 'Design']
-  },
-  {
-    index: 'E',
-    title: 'ENGR 133 Coding Project',
-    summary: 'Intro engineering coding coursework project.',
-    link: 'projects/engr133.html',
-    category: 'code',
-    tags: ['Code']
-  },
-  {
-    index: 'F',
-    title: 'ECE 2K7 — 555 Timer',
-    summary: '555 timer circuit and final project — schematics and results.',
-    link: 'projects/ece-555timer.html',
-    category: 'coursework',
-    tags: ['Electronics']
-  },
-  {
-    index: 'G',
     title: 'ME 164 — NX CAD',
     summary: 'Siemens NX CAD coursework — drag-to-rotate 3D model viewer.',
     link: 'projects/me164-cad.html',
     category: 'coursework',
-    tags: ['CAD', '3D']
+    tags: ['CAD', '3D'],
+    date: '2025-05',
+    dateLabel: 'May 2025',
+    thumbnail: null
   },
   {
-    index: 'H',
+    title: 'ECE 2K7 — 555 Timer',
+    summary: '555 timer circuit and final project — schematics and results.',
+    link: 'projects/ece-555timer.html',
+    category: 'coursework',
+    tags: ['Electronics'],
+    date: '2025-04',
+    dateLabel: 'Apr 2025',
+    thumbnail: null
+  },
+  {
     title: 'StarkHacks — Passenger Princess',
     summary: 'Hackathon build — demo video and tech stack.',
     link: 'projects/starkhacks.html',
     category: 'hackathon',
-    tags: ['Hackathon', 'Code']
+    tags: ['Hackathon', 'Code'],
+    date: '2025-02',
+    dateLabel: 'Feb 2025',
+    thumbnail: null
+  },
+  {
+    title: 'ENGR 133 Coding Project',
+    summary: 'Intro engineering coding coursework project.',
+    link: 'projects/engr133.html',
+    category: 'code',
+    tags: ['Code'],
+    date: '2024-12',
+    dateLabel: 'Dec 2024',
+    thumbnail: null
+  },
+  {
+    title: 'ES&P — BB8',
+    summary: 'Ball-drive spherical robot build — mechanical and control design.',
+    link: 'projects/esap-bb8.html',
+    category: 'robotics',
+    tags: ['Robotics', 'Mechanisms'],
+    date: '2024-08',
+    dateLabel: 'Aug 2024',
+    thumbnail: null
+  },
+  {
+    title: 'Railside Robotics',
+    summary: 'Team build and mentoring work outside of school competition.',
+    link: 'projects/railside-robotics.html',
+    category: 'robotics',
+    tags: ['Robotics'],
+    date: '2024-06',
+    dateLabel: 'Jun 2024',
+    thumbnail: null
+  },
+  {
+    title: 'VEX Robotics',
+    summary: 'Competition robot build — design notebook, photos, and match footage.',
+    link: 'projects/vex-robotics.html',
+    category: 'robotics',
+    tags: ['Robotics', 'CAD'],
+    date: '2024-03',
+    dateLabel: '2023–24',
+    thumbnail: null
+  },
+  {
+    title: 'NVHS EDD',
+    summary: 'Engineering Design & Development coursework — reports and process docs.',
+    link: 'projects/nvhs-edd.html',
+    category: 'coursework',
+    tags: ['Research', 'Design'],
+    date: '2023-05',
+    dateLabel: '2022–23',
+    thumbnail: null
   }
 ];
 
 // =========================================================
-// CAROUSEL & INFINITE LOOP SYSTEM
+// PROJECT TIMELINE
 // =========================================================
 document.addEventListener('DOMContentLoaded', () => {
-  const track = document.getElementById('projectTrack');
-  const prevBtn = document.getElementById('prevBtn');
-  const nextBtn = document.getElementById('nextBtn');
+  const timeline = document.getElementById('projectTimeline');
+  const timelineList = document.getElementById('timelineList');
   const filterPills = document.querySelectorAll('.filter-pill');
 
-  if (!track) return;
+  if (!timeline || !timelineList) return;
 
   let activeCategory = 'all';
-  let currentPage = 0;
-  let isAnimating = false;
-
-  function getItemsPerPage() {
-    if (window.innerWidth <= 600) return 1;
-    if (window.innerWidth <= 900) return 2;
-    return 3; // 3 slots on desktop
-  }
 
   function getFilteredProjects() {
-    if (activeCategory === 'all') return PROJECTS_DATA;
-    return PROJECTS_DATA.filter(p => p.category === activeCategory);
+    const sorted = [...PROJECTS_DATA].sort((a, b) => b.date.localeCompare(a.date));
+    if (activeCategory === 'all') return sorted;
+    return sorted.filter((p) => p.category === activeCategory);
   }
 
-  function createCardHTML(project) {
-    const tagsHTML = project.tags.map(t => `<span>${t}</span>`).join('');
+  function createThumbHTML(project) {
+    if (project.thumbnail) {
+      return `<img src="${project.thumbnail}" alt="" class="card-thumb-img">`;
+    }
+    const initial = project.title.charAt(0);
+    return `<div class="card-thumb-placeholder" data-category="${project.category}"><span>${initial}</span></div>`;
+  }
+
+  function createEntryHTML(project) {
+    const tagsHTML = project.tags.slice(0, 3).map((t) => `<span>${t}</span>`).join('');
     return `
-      <a href="${project.link}" class="project-card">
-        <div class="card-corner tl"></div><div class="card-corner tr"></div>
-        <div class="card-corner bl"></div><div class="card-corner br"></div>
-        <span class="card-index">${project.index}</span>
-        <div class="card-body">
-          <h3>${project.title}</h3>
-          <p class="card-summary">${project.summary}</p>
-          <div class="card-tags">${tagsHTML}</div>
+      <article class="timeline-item" data-category="${project.category}">
+        <div class="timeline-marker">
+          <time class="timeline-date" datetime="${project.date}">${project.dateLabel}</time>
+          <span class="timeline-dot" aria-hidden="true"></span>
         </div>
-        <span class="card-arrow">→</span>
-      </a>
+        <a href="${project.link}" class="project-card">
+          <div class="card-main">
+            <div class="card-top">
+              <h3>${project.title}</h3>
+              <div class="card-tags">${tagsHTML}</div>
+            </div>
+            <p class="card-summary">${project.summary}</p>
+          </div>
+          <div class="card-thumb">${createThumbHTML(project)}</div>
+          <span class="card-arrow" aria-hidden="true">→</span>
+        </a>
+      </article>
     `;
   }
 
-  // Groups cards into pages and renders them
-  function renderTrack() {
+  function renderTimeline() {
     const filtered = getFilteredProjects();
-    const itemsPerPage = getItemsPerPage();
-    const pages = [];
-    
-    // Group cards into page wrappers
-    for (let i = 0; i < filtered.length; i += itemsPerPage) {
-      const pageItems = filtered.slice(i, i + itemsPerPage);
-      const pageHTML = `<div class="project-page">${pageItems.map(createCardHTML).join('')}</div>`;
-      pages.push(pageHTML);
-    }
-    
-    track.innerHTML = pages.join('');
-    
-    // Reset to first frame position instantly on filter
-    currentPage = 0;
-    track.style.transition = 'none'; // Temporarily disable slide animation
-    track.style.transform = `translateX(0px)`;
-    
-    // Force a browser repaint so the transition applies to future slides
-    track.offsetHeight; 
-    track.style.transition = 'transform 0.5s cubic-bezier(0.1, 0.9, 0.2, 1)';
+    timelineList.innerHTML = filtered.map(createEntryHTML).join('');
   }
 
-  // Smooth sliding logic (No wobble classes needed)
-  function slideToPage(targetPage, direction) {
-    if (isAnimating) return;
-
-    const filtered = getFilteredProjects();
-    const itemsPerPage = getItemsPerPage();
-    const totalPages = Math.ceil(filtered.length / itemsPerPage) || 1;
-
-    // Infinite loop math
-    let newPage = targetPage;
-    if (newPage >= totalPages) newPage = 0;
-    if (newPage < 0) newPage = totalPages - 1;
-
-    const containerWidth = track.parentElement.getBoundingClientRect().width;
-    
-    // Calculate pixel translate using the new 80px gap between pages
-    const targetX = -(newPage * (containerWidth + 80));
-
-    isAnimating = true;
-    track.style.transform = `translateX(${targetX}px)`;
-
-    // Unlock interactions after 0.5s (matches CSS transition time)
-    setTimeout(() => {
-      currentPage = newPage;
-      isAnimating = false;
-    }, 500); 
-  }
-
-  // Infinite Arrow Listeners
-  nextBtn.addEventListener('click', () => slideToPage(currentPage + 1, 'next'));
-  prevBtn.addEventListener('click', () => slideToPage(currentPage - 1, 'prev'));
-
-  // Category Filter Handler
-  filterPills.forEach(pill => {
+  filterPills.forEach((pill) => {
     pill.addEventListener('click', () => {
-      filterPills.forEach(p => p.classList.remove('active'));
+      filterPills.forEach((p) => p.classList.remove('active'));
       pill.classList.add('active');
-
       activeCategory = pill.getAttribute('data-filter');
-      renderTrack();
+      renderTimeline();
     });
   });
 
-  // Handle Window Resize
-  window.addEventListener('resize', renderTrack);
+  const timelineObserver = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          timeline.classList.add('is-visible');
+          timelineObserver.unobserve(timeline);
+        }
+      });
+    },
+    { threshold: 0.12, rootMargin: '0px 0px -8% 0px' }
+  );
+  timelineObserver.observe(timeline);
 
-  // Initial Load
-  renderTrack();
+  renderTimeline();
 });
