@@ -1042,6 +1042,75 @@ section, footer { position: relative; z-index: 1; }
 /* Document / PDF embed */
 .doc-embed { width: 100%; height: 600px; border: 1px solid var(--line-dim); border-radius: var(--radius); }
 
+/* ===== Project sub-blocks (multi-project pages, e.g. ME 164) ===== */
+.project-block { max-width: 1100px; margin: 0 auto; padding: 56px 32px 0; }
+.project-block + .project-block { padding-top: 72px; border-top: 1px solid var(--line-dim); margin-top: 16px; }
+
+.project-number {
+  font-family: var(--font-mono); font-size: 0.72rem; letter-spacing: 0.2em;
+  color: var(--accent); margin-bottom: 8px; text-transform: uppercase;
+}
+.project-block h3.block-title {
+  font-family: var(--font-display); font-size: clamp(1.5rem, 2.6vw, 2.1rem);
+  font-weight: 700; letter-spacing: -0.01em; margin-bottom: 8px;
+}
+.project-block .block-objective {
+  color: var(--text-dim); font-size: 1.02rem; max-width: 760px; margin-bottom: 28px;
+}
+
+.project-block h4.block-sub {
+  font-family: var(--font-mono); font-size: 0.78rem; letter-spacing: 0.1em;
+  color: var(--accent); text-transform: uppercase; margin: 28px 0 10px;
+}
+.project-block h4.block-sub:first-of-type { margin-top: 0; }
+.project-block p.block-text { color: var(--text-dim); max-width: 720px; margin-bottom: 12px; line-height: 1.65; }
+.project-block ul.block-list { max-width: 720px; margin-bottom: 12px; }
+.project-block ul.block-list li {
+  color: var(--text-dim); line-height: 1.6; padding-left: 18px; position: relative; margin-bottom: 4px;
+}
+.project-block ul.block-list li::before {
+  content: "—"; position: absolute; left: 0; color: var(--accent);
+}
+
+/* two-up image gallery: CAD render + engineering drawing */
+.gallery-pair { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 18px 0 8px; }
+.gallery-pair figure { margin: 0; }
+.gallery-pair img {
+  width: 100%; aspect-ratio: 4 / 3; object-fit: cover; border-radius: var(--radius-sm);
+  border: 1px solid var(--line-dim); cursor: zoom-in; transition: border-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+}
+.gallery-pair img:hover { border-color: var(--accent); transform: scale(1.01); box-shadow: 0 0 24px var(--glow); }
+.gallery-pair figcaption {
+  font-family: var(--font-mono); font-size: 0.68rem; letter-spacing: 0.05em;
+  color: var(--text-dim); margin-top: 8px; text-align: center;
+}
+
+/* skills demonstrated chips, per project */
+.skills-demoed { display: flex; gap: 8px; flex-wrap: wrap; margin: 18px 0 4px; }
+.skills-demoed span {
+  font-family: var(--font-mono); font-size: 0.7rem; letter-spacing: 0.04em;
+  padding: 5px 12px; border: 1px solid var(--line-dim); border-radius: var(--radius-pill);
+  color: var(--text-dim); background: var(--bg-panel);
+}
+
+/* full skills grid section (Engineering Skills) */
+.skills-grid { display: flex; gap: 10px; flex-wrap: wrap; }
+.skills-grid span {
+  font-family: var(--font-mono); font-size: 0.78rem; letter-spacing: 0.04em;
+  padding: 8px 16px; border: 1px solid var(--line-dim); border-radius: var(--radius-pill);
+  color: var(--text); background: var(--bg-panel); transition: border-color 0.2s ease, color 0.2s ease;
+}
+.skills-grid span:hover { border-color: var(--accent); color: var(--accent); }
+
+/* key takeaways */
+.takeaways-list { max-width: 760px; }
+.takeaways-list li {
+  color: var(--text-dim); line-height: 1.7; padding-left: 22px; position: relative; margin-bottom: 10px;
+}
+.takeaways-list li::before {
+  content: "▸"; position: absolute; left: 0; color: var(--accent);
+}
+
 /* ===== Responsive ===== */
 @media (max-width: 720px) {
   .main-nav { gap: 18px; }
@@ -1050,6 +1119,8 @@ section, footer { position: relative; z-index: 1; }
   .titleblock-grid { grid-template-columns: 1fr; margin: 24px auto; }
   .tb-cell { border-right: none; }
   .nav-dropdown { left: auto; right: -16px; }
+  .gallery-pair { grid-template-columns: 1fr; }
+  .project-block { padding-left: 20px; padding-right: 20px; }
 }
 
 a:focus-visible, button:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 4px; }

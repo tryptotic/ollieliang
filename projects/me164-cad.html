@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ME 164 — NX CAD — Ollie Liang</title>
+<title>ME 164 — NX CAD &amp; Mechanical Design — Ollie Liang</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -49,26 +49,22 @@
 
 <div class="project-hero">
   <a href="../home.html#projects" class="back-link reveal">← All Projects</a>
-  <h1 class="reveal">ME 164 — NX CAD</h1>
+  <h1 class="reveal">ME 164 — NX CAD &amp; Mechanical Design</h1>
   <div class="project-meta reveal">
     <div>Category<span>CAD / Coursework</span></div>
     <div>Software<span>Siemens NX</span></div>
-    <div>Timeframe<span>Jan - May 2026</span></div>
+    <div>Timeframe<span>Jan – May 2026</span></div>
   </div>
   <p class="project-lede reveal">
-    Skills: 3D CAD Modeling · Mechanical Assemblies · Engineering Drawings · GD&T · Fit & Tolerance Analysis · Manufacturing Documentation
+    Skills: 3D CAD Modeling · Mechanical Assemblies · Engineering Drawings · GD&amp;T · Fit &amp; Tolerance Analysis · Manufacturing Documentation
   </p>
 </div>
 
 <div class="hazard-strip" aria-hidden="true"></div>
 
+<!-- 3D model viewer — feature your best assembly render/model here -->
 <section class="project-section">
-  <h2 class="reveal">3D Model — Drag to Rotate</h2>
-  <p class="reveal">
-    Export your NX model as .glb or .gltf (via a converter like Blender if NX doesn't export
-    directly) and swap the src below. This placeholder model is a public sample so you can see
-    the viewer working right now.
-  </p>
+  <div class="drawing-label reveal">FEATURED MODEL</div>
   <model-viewer
     class="cad-viewer reveal"
     src="https://modelviewer.dev/shared-assets/models/Astronaut.glb"
@@ -79,19 +75,155 @@
     exposure="1"
     style="--poster-color: transparent;">
   </model-viewer>
-  <p class="cad-hint reveal">Click and drag to rotate · scroll to zoom · replace the src attribute in the HTML with your own model file path</p>
+  <p class="cad-hint reveal">Click and drag to rotate · scroll to zoom · replace the src attribute with your own exported .glb (e.g. the gerotor assembly)</p>
 </section>
 
+<!-- Overview -->
 <section class="project-section">
-  <h2 class="reveal">Design Notes</h2>
+  <h2 class="reveal">Overview</h2>
   <p class="reveal">
-    Write about your modeling approach, constraints, tolerances, and any assembly/mate
-    challenges here. This is a good place for a couple of render screenshots too.
+    Through ME 164, I developed experience designing mechanical components and assemblies using
+    Siemens NX, with an emphasis on engineering drawings, geometric dimensioning and tolerancing
+    (GD&amp;T), and manufacturability. I applied ANSI/ASME and ISO standards to communicate part
+    dimensions, fits, and functional requirements through industry-style manufacturing
+    documentation. Throughout the course, I designed and documented several mechanical
+    components, including a custom wheel rim and a gerotor-based elbow air engine.
   </p>
-  <div class="gallery reveal">
-    <img src="https://placehold.co/600x450/1e1e1e/979797?text=NX+Render+1" alt="NX CAD render 1">
-    <img src="https://placehold.co/600x450/1e1e1e/979797?text=NX+Render+2" alt="NX CAD render 2">
+</section>
+
+<div class="hazard-strip" aria-hidden="true"></div>
+
+<!-- Project 01: Wheel Rim -->
+<div class="project-block reveal">
+  <div class="project-number">Project 01</div>
+  <h3 class="block-title">Wheel Rim</h3>
+  <p class="block-objective">
+    Objective: Recreate and modify a physical wheel rim as a fully parametric 3D CAD model and
+    produce an engineering drawing for manufacturing.
+  </p>
+
+  <div class="gallery-pair">
+    <figure>
+      <img src="https://placehold.co/700x525/1e1e1e/979797?text=Wheel+Rim+CAD+Render" alt="Wheel rim CAD render">
+      <figcaption>CAD RENDER</figcaption>
+    </figure>
+    <figure>
+      <img src="https://placehold.co/700x525/1e1e1e/979797?text=Wheel+Rim+Engineering+Drawing" alt="Wheel rim engineering drawing">
+      <figcaption>ENGINEERING DRAWING</figcaption>
+    </figure>
   </div>
+
+  <h4 class="block-sub">Design Process</h4>
+  <p class="block-text">
+    I began with a basic cylindrical sketch and used measurements from an existing physical wheel
+    rim as the basis for the model. I built the geometry in Siemens NX using sketches, extrusions,
+    revolves, and other parametric features to reproduce the rim's overall shape and thickness.
+  </p>
+
+  <h4 class="block-sub">Engineering Considerations</h4>
+  <p class="block-text">
+    After completing the 3D model, I created an engineering drawing containing the necessary
+    dimensions and tolerances to communicate the design for manufacturing. This process gave me
+    experience translating a physical object into a constrained CAD model while considering how
+    dimensions and tolerances affect the final manufactured part.
+  </p>
+
+  <h4 class="block-sub">Skills Demonstrated</h4>
+  <div class="skills-demoed">
+    <span>Parametric 3D CAD Modeling</span>
+    <span>Design from Physical Reference</span>
+    <span>Engineering Drawings</span>
+    <span>ANSI/ASME Drafting Standards</span>
+    <span>Dimensional Tolerancing</span>
+    <span>Design for Manufacturing</span>
+  </div>
+</div>
+
+<!-- Project 02: Gerotor Elbow Air Engine -->
+<div class="project-block reveal">
+  <div class="project-number">Project 02</div>
+  <h3 class="block-title">Gerotor Elbow Air Engine</h3>
+  <p class="block-objective">
+    Objective: Modify an existing elbow air engine design by developing a custom rotary mechanism
+    and complete mechanical assembly.
+  </p>
+
+  <div class="gallery reveal">
+    <img src="https://placehold.co/900x600/1e1e1e/979797?text=Gerotor+Assembly+Render" alt="Gerotor elbow air engine assembly render">
+  </div>
+
+  <h4 class="block-sub">Gerotor Design</h4>
+  <p class="block-text">
+    For the final project, my partner and I were tasked with modifying an existing flywheel-style
+    elbow air engine into our own design. We chose to replace the original mechanism with a
+    gerotor, a compact positive-displacement rotary mechanism that uses an inner and outer rotor
+    to convert fluid flow into rotary motion. I designed the mechanical components and assembly in
+    Siemens NX, paying particular attention to the interfaces between moving and stationary
+    components.
+  </p>
+
+  <h4 class="block-sub">Component Selection</h4>
+  <p class="block-text">
+    Because the engine was intended to function as a physical assembly, we also had to consider
+    component clearances, fits, fasteners, and the compatibility of commercially available
+    components. To make the design physically realizable, I selected and integrated commercially
+    available components from McMaster-Carr, including O-rings, ball bearings, machine keys, and
+    wedge-lock washers. I incorporated the manufacturer's dimensions into the CAD assembly to
+    ensure that the custom-designed components properly interfaced with the purchased hardware.
+  </p>
+
+  <h4 class="block-sub">Tolerance &amp; Assembly</h4>
+  <p class="block-text">
+    The project required applying both CAD modeling and mechanical design principles, rather than
+    simply creating visually accurate geometry. Component fits, tolerances, clearances, and
+    assembly constraints all had to work together for the mechanism to function as intended.
+  </p>
+
+  <div class="gallery reveal">
+    <img src="https://placehold.co/600x450/1e1e1e/979797?text=Exploded+Assembly+View" alt="Gerotor exploded assembly view">
+    <img src="https://placehold.co/600x450/1e1e1e/979797?text=Section+View" alt="Gerotor section view">
+    <img src="https://placehold.co/600x450/1e1e1e/979797?text=Engineering+Drawing" alt="Gerotor engineering drawing">
+  </div>
+
+  <h4 class="block-sub">Skills Demonstrated</h4>
+  <div class="skills-demoed">
+    <span>Siemens NX 3D CAD</span>
+    <span>Mechanical Assembly Design</span>
+    <span>Gerotor Mechanism Design</span>
+    <span>Commercial Component Selection</span>
+    <span>McMaster-Carr Component Integration</span>
+    <span>Fit &amp; Tolerance Selection</span>
+    <span>GD&amp;T</span>
+    <span>Design for Manufacturability</span>
+  </div>
+</div>
+
+<div class="hazard-strip" aria-hidden="true"></div>
+
+<!-- Engineering Skills -->
+<section class="project-section">
+  <h2 class="reveal">Engineering Skills</h2>
+  <div class="skills-grid reveal">
+    <span>Siemens NX</span>
+    <span>3D CAD Modeling</span>
+    <span>Mechanical Assemblies</span>
+    <span>GD&amp;T</span>
+    <span>Engineering Drawings</span>
+    <span>Fit &amp; Tolerance Analysis</span>
+    <span>McMaster-Carr Integration</span>
+    <span>Manufacturing Documentation</span>
+    <span>Design for Manufacturing</span>
+  </div>
+</section>
+
+<!-- Key Takeaways -->
+<section class="project-section">
+  <h2 class="reveal">Key Takeaways</h2>
+  <ul class="takeaways-list reveal">
+    <li>Fill in your biggest takeaway — e.g. how thinking in tolerances and fits changes the way you model, not just how you draft.</li>
+    <li>Fill in a second takeaway — e.g. working with real, purchasable hardware forces design decisions that pure geometry doesn't.</li>
+    <li>Fill in a third takeaway — e.g. what you'd do differently in the gerotor's clearances or fastening scheme next time.</li>
+  </ul>
 </section>
 
 <div class="lightbox" id="lightbox">
