@@ -84,14 +84,23 @@
   .pdf-modal.is-open {
     display: block;
   }
-  .pdf-modal iframe {
-    width: 90%;
-    height: 90%;
-    margin: 5% auto;
-    display: block;
-    border: none;
-    background: #fff;
-  }
+ .pdf-modal .drawing-scroll {
+  width: 90%;
+  height: 90%;
+  margin: 5% auto;
+  overflow-y: auto;
+  background: #fff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem;
+}
+.drawing-scroll img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
   .pdf-modal-close {
     position: absolute;
     top: 1rem;
@@ -108,7 +117,7 @@
 
 <div class="pdf-modal" id="pdfModal">
   <button class="pdf-modal-close" id="pdfModalClose" aria-label="Close">&times;</button>
-  <iframe id="pdfModalFrame" src=""></iframe>
+  <div class="drawing-scroll" id="drawingScroll"></div>
 </div>
 
 <div class="grid-backdrop" aria-hidden="true">
@@ -258,17 +267,16 @@
 
   <div class="gallery-pair">
     <figure>
-      <div class="cad-viewer cad-placeholder reveal" id="goldWheelPlaceholder">
-        <span>Render coming soon</span>
-      </div>
-      <p class="cad-hint reveal">Final render in progress</p>
+      <img class="cad-viewer reveal" src="../assets/wheel_rim_molten_golden.png" alt="Wheel rim CAD render">
       <figcaption>CAD RENDER</figcaption>
     </figure>
 
     <figure>
-      <button type="button" class="cad-viewer pdf-trigger reveal" data-pdf="../assets/wheel_rim_molten golden_FINAL.pdf" aria-label="Open engineering drawing PDF">
-        <img src="../assets/thumhnail-1.png" alt="Wheel rim engineering drawing preview">
-        <span class="pdf-open-label">Click to view PDF</span>
+      <button type="button" class="cad-viewer pdf-trigger reveal"
+        data-pages="../assets/wheel rim drawings/wheel1.png,../assets/wheel rim drawings/wheel2.png,../assets/wheel rim drawings/wheel3.png,../assets/wheel rim drawings/wheel4.png"
+        aria-label="Open engineering drawing">
+        <img src="../assets/wheel rim drawings/wheel1.png" alt="Wheel rim engineering drawing preview">
+        <span class="pdf-open-label">Click to view drawing</span>
       </button>
       <p class="cad-hint reveal">Click to open full drawing</p>
       <figcaption>ENGINEERING DRAWING</figcaption>
@@ -311,7 +319,7 @@
     </figure>
 
     <figure>
-      <button type="button" class="cad-viewer pdf-trigger reveal" data-pdf="../assets/gerotor_drawing.pdf" aria-label="Open engineering drawing PDF">
+      <button type="button" class="cad-viewer pdf-trigger reveal" data-pages="../assets/gerotor_drawing.pdf" aria-label="Open engineering drawing PDF">
         <img src="../assets/gerotor_drawing_thumb.png" alt="Gerotor engineering drawing preview">
         <span class="pdf-open-label">Click to view PDF</span>
       </button>
@@ -383,19 +391,26 @@
 <script>
   document.addEventListener('DOMContentLoaded', () => {
     const modal = document.getElementById('pdfModal');
-    const frame = document.getElementById('pdfModalFrame');
+    const scrollArea = document.getElementById('drawingScroll');
     const closeBtn = document.getElementById('pdfModalClose');
 
     document.querySelectorAll('.pdf-trigger').forEach((trigger) => {
       trigger.addEventListener('click', () => {
-        frame.src = trigger.dataset.pdf;
+        const pages = trigger.dataset.pages.split(',').map(p => p.trim()).filter(Boolean);
+        scrollArea.innerHTML = '';
+        pages.forEach((src) => {
+          const img = document.createElement('img');
+          img.src = src;
+          img.alt = 'Engineering drawing page';
+          scrollArea.appendChild(img);
+        });
         modal.classList.add('is-open');
       });
     });
 
     function closeModal() {
       modal.classList.remove('is-open');
-      frame.src = '';
+      scrollArea.innerHTML = ''; // fully unloads the images, nothing lingers behind
     }
 
     closeBtn.addEventListener('click', closeModal);
