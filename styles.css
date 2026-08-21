@@ -730,53 +730,9 @@ model-viewer {
    9. PROJECTS SECTION (cards, filters, grid)
    ========================================================= */
 .projects {
-  max-width: 1100px;
+  max-width: 1280px;
   margin: 0 auto;
   padding: 100px 32px;
-}
-
-.card-corner {
-  display: none;
-}
-
-.card-summary {
-  color: var(--text-dim);
-  font-size: 0.9rem;
-  line-height: 1.55;
-}
-
-.card-tags {
-  display: flex;
-  gap: 8px;
-  flex-wrap: wrap;
-  flex-shrink: 0;
-  justify-content: flex-end;
-}
-
-.card-tags span {
-  font-family: var(--font-mono);
-  font-size: 0.68rem;
-  letter-spacing: 0.05em;
-  padding: 4px 10px;
-  border: 1px solid var(--line-dim);
-  border-radius: var(--radius-pill);
-  color: var(--text-dim);
-}
-
-.card-arrow {
-  position: absolute;
-  bottom: 20px;
-  right: 188px;
-  font-family: var(--font-mono);
-  color: var(--accent);
-  opacity: 0;
-  transform: translateX(-6px);
-  transition: opacity 0.25s ease, transform 0.25s ease;
-}
-
-.project-card:hover .card-arrow {
-  opacity: 1;
-  transform: translateX(0);
 }
 
 /* Category filter pills */
@@ -812,93 +768,59 @@ model-viewer {
   font-weight: 600;
 }
 
-.project-card.hidden {
-  display: none;
-}
-
 /* =========================================================
-   10. PROJECT TIMELINE
+   10. PROJECT TIMELINE — centered rail, alternating milestones
    ========================================================= */
 .project-timeline {
-  --timeline-col: 108px;
-  --timeline-gap: 36px;
+  --rail-color: var(--accent);
+  --node-gap: 28px;      /* space between the rail and each card edge */
+  --half-width: 46%;     /* how wide each side column runs from center */
   position: relative;
   margin-top: 8px;
+  padding: 40px 0;
 }
 
 .timeline-list {
   position: relative;
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 56px;
 }
 
-/* Vertical rail — fades in on first scroll, then stays visible */
+/* Central vertical rail — fades out before it reaches the section's
+   top/bottom edges, and uses the exact same color as the nodes. */
 .timeline-list::before {
   content: "";
   position: absolute;
-  left: calc(var(--timeline-col) - 1px);
-  top: 28px;
-  bottom: 28px;
+  left: 50%;
+  top: 0;
+  bottom: 0;
   width: 2px;
+  transform: scaleY(0.4) translateX(-50%);
+  transform-origin: top center;
   background: linear-gradient(
     180deg,
     transparent 0%,
-    var(--line-dim) 8%,
-    var(--accent) 50%,
-    var(--line-dim) 92%,
+    var(--rail-color) 10%,
+    var(--rail-color) 90%,
     transparent 100%
   );
   opacity: 0;
-  transform: scaleY(0.4);
-  transform-origin: top center;
+  z-index: 0;
   transition: opacity 0.9s ease, transform 1s cubic-bezier(0.16, 1, 0.3, 1);
   pointer-events: none;
 }
 
 .project-timeline.is-visible .timeline-list::before {
   opacity: 1;
-  transform: scaleY(1);
-}
-
-/* Viewport-height rail — fades in once, then sticks while scrolling projects */
-.timeline-sticky-rail {
-  display: none;
-}
-
-@media (min-width: 769px) {
-  .timeline-sticky-rail {
-    display: block;
-    position: sticky;
-    top: 96px;
-    width: 2px;
-    height: calc(100vh - 160px);
-    margin-left: calc(var(--timeline-col) - 1px);
-    margin-bottom: calc(-100vh + 160px);
-    background: linear-gradient(
-      180deg,
-      transparent 0%,
-      var(--accent) 20%,
-      var(--accent-2) 50%,
-      var(--accent) 80%,
-      transparent 100%
-    );
-    opacity: 0;
-    transition: opacity 0.9s ease;
-    pointer-events: none;
-    z-index: 1;
-  }
-
-  .project-timeline.is-visible .timeline-sticky-rail {
-    opacity: 0.85;
-  }
+  transform: scaleY(1) translateX(-50%);
 }
 
 .timeline-item {
-  display: grid;
-  grid-template-columns: var(--timeline-col) 1fr;
-  gap: var(--timeline-gap);
-  align-items: stretch;
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  min-height: 40px;
   opacity: 0;
   transform: translateY(24px);
   transition: opacity 0.55s ease, transform 0.55s cubic-bezier(0.16, 1, 0.3, 1);
@@ -918,64 +840,113 @@ model-viewer {
 .project-timeline.is-visible .timeline-item:nth-child(7) { transition-delay: 0.35s; }
 .project-timeline.is-visible .timeline-item:nth-child(8) { transition-delay: 0.4s; }
 
-.timeline-marker {
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  padding-right: 22px;
-  min-height: 100%;
-}
-
-.timeline-date {
-  font-family: var(--font-mono);
-  font-size: 0.72rem;
-  letter-spacing: 0.04em;
-  color: var(--text-dim);
-  text-align: right;
-  line-height: 1.3;
-  white-space: nowrap;
+/* Node — sits centered exactly on top of the rail line, so the line
+   never visually passes through it. */
+.timeline-node {
+  position: absolute;
+  left: 50%;
+  top: 6px;
+  transform: translate(-50%, -50%);
+  z-index: 2;
+  display: grid;
+  place-items: center;
+  background: var(--bg-black);
+  border-radius: 50%;
 }
 
 .timeline-dot {
-  position: absolute;
-  right: -6px;
-  top: 50%;
-  transform: translateY(-50%) scale(0.5);
-  width: 13px;
-  height: 13px;
   border-radius: 50%;
-  border: 2px solid var(--accent);
-  background: var(--bg-black);
-  box-shadow: 0 0 0 4px rgba(147, 51, 234, 0.12);
+  background: var(--rail-color);
+  transform: scale(0.5);
   transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s ease;
 }
 
 .project-timeline.is-visible .timeline-dot {
-  transform: translateY(-50%) scale(1);
+  transform: scale(1);
 }
 
-.timeline-item:hover .timeline-dot {
-  background: var(--accent);
+/* Tier 1 — large glowing filled dot */
+.dot-large {
+  width: 18px;
+  height: 18px;
+  box-shadow: 0 0 0 5px rgba(147, 51, 234, 0.16), 0 0 16px var(--glow);
+}
+
+/* Tier 2 — smaller hollow dot */
+.dot-small {
+  width: 11px;
+  height: 11px;
+  background: var(--bg-black);
+  border: 2px solid var(--rail-color);
+}
+
+.timeline-item:hover .dot-large {
+  box-shadow: 0 0 0 6px rgba(147, 51, 234, 0.22), 0 0 22px var(--glow);
+}
+
+.timeline-item:hover .dot-small {
+  background: var(--rail-color);
   box-shadow: 0 0 12px var(--glow);
 }
 
-/* Horizontal project card */
-.project-card {
+/* Short horizontal stub connecting the node to its card */
+.timeline-connector {
+  position: absolute;
+  top: 6px;
+  height: 2px;
+  background: var(--rail-color);
+  opacity: 0.7;
+  z-index: 1;
+  transform: translateY(-1px);
+}
+
+/* Side placement — alternate left/right of the center rail */
+.timeline-item[data-side="left"] {
+  justify-content: flex-start;
+}
+
+.timeline-item[data-side="right"] {
+  justify-content: flex-end;
+}
+
+.timeline-item[data-side="left"] .timeline-connector {
+  right: 50%;
+  width: var(--node-gap);
+}
+
+.timeline-item[data-side="right"] .timeline-connector {
+  left: 50%;
+  width: var(--node-gap);
+}
+
+.milestone-card {
   position: relative;
-  display: flex;
-  flex-direction: row;
-  align-items: stretch;
-  min-height: 128px;
+  width: var(--half-width);
+  z-index: 1;
+}
+
+.timeline-item[data-side="left"] .milestone-card {
+  margin-right: calc(50% - var(--half-width) + var(--node-gap));
+}
+
+.timeline-item[data-side="right"] .milestone-card {
+  margin-left: calc(50% - var(--half-width) + var(--node-gap));
+}
+
+/* Shared card chrome */
+.milestone-card {
+  display: block;
   background: var(--bg-panel);
   border: 1px solid var(--line-dim);
   border-radius: var(--radius);
   overflow: hidden;
   isolation: isolate;
+  text-decoration: none;
+  color: inherit;
   transition: border-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
 }
 
-.project-card::before {
+.milestone-card::before {
   content: "";
   position: absolute;
   inset: 0;
@@ -986,54 +957,68 @@ model-viewer {
   pointer-events: none;
 }
 
-.project-card:hover {
+.milestone-card:hover {
   border-color: rgba(146, 51, 234, 0.771);
   background: var(--bg-panel-2);
-  transform: translateX(6px);
   box-shadow:
     0 0 30px rgba(147, 51, 234, 0.25),
     0 0 50px rgba(181, 123, 245, 0.15);
 }
 
-.card-main {
-  flex: 1;
-  min-width: 0;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  padding: 22px 24px;
-  gap: 8px;
+.timeline-item[data-side="left"] .milestone-card:hover {
+  transform: translateX(-6px);
 }
 
-.card-top {
+.timeline-item[data-side="right"] .milestone-card:hover {
+  transform: translateX(6px);
+}
+
+.card-date {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.04em;
+  color: var(--text-dim);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+/* ---------- Tier 1 — large featured card ---------- */
+/* header on top, picture below it, description/skills below that */
+.card-tier-1 {
+  padding: 0;
+}
+
+.card-tier-1 .card-header {
   display: flex;
-  align-items: flex-start;
+  align-items: baseline;
   justify-content: space-between;
   gap: 16px;
+  padding: 20px 24px 16px;
+  border-bottom: 1px solid var(--line-dim);
 }
 
-.card-top h3 {
+.card-tier-1 .card-header h3 {
   font-family: var(--font-display);
-  font-size: 1.15rem;
+  font-size: 1.25rem;
   letter-spacing: -0.01em;
   line-height: 1.25;
 }
 
-.card-thumb {
-  flex: 0 0 168px;
-  align-self: stretch;
-  border-left: 1px solid var(--line-dim);
+.card-media {
+  width: 100%;
+  height: 220px;
   overflow: hidden;
   background: var(--bg-panel-2);
 }
 
-.card-thumb-img {
+.card-media-img {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  display: block;
 }
 
-.card-thumb-placeholder {
+.card-media-placeholder {
   width: 100%;
   height: 100%;
   display: grid;
@@ -1041,23 +1026,142 @@ model-viewer {
   background: linear-gradient(145deg, rgba(147, 51, 234, 0.18), rgba(46, 16, 101, 0.55));
 }
 
-.card-thumb-placeholder[data-category="robotics"] {
+.card-tier-1 .card-body {
+  padding: 18px 24px 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.card-tier-1 .card-summary {
+  color: var(--text-dim);
+  font-size: 0.92rem;
+  line-height: 1.6;
+}
+
+.card-tier-1 .card-arrow {
+  position: absolute;
+  top: 22px;
+  right: 24px;
+  font-family: var(--font-mono);
+  color: var(--accent);
+  opacity: 0;
+  transform: translateX(-6px);
+  transition: opacity 0.25s ease, transform 0.25s ease;
+}
+
+.card-tier-1:hover .card-arrow {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* ---------- Tier 2 — slim secondary card ---------- */
+.card-tier-2 {
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+  min-height: 76px;
+}
+
+.card-tier-2-thumb {
+  flex: 0 0 76px;
+  align-self: stretch;
+  border-right: 1px solid var(--line-dim);
+  overflow: hidden;
+  background: var(--bg-panel-2);
+}
+
+.card-tier-2-thumb-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.card-tier-2-thumb-placeholder {
+  width: 100%;
+  height: 100%;
+  display: grid;
+  place-items: center;
+  background: linear-gradient(145deg, rgba(147, 51, 234, 0.18), rgba(46, 16, 101, 0.55));
+}
+
+.card-tier-2-thumb-placeholder span {
+  font-family: var(--font-display);
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: rgba(237, 233, 247, 0.35);
+}
+
+.card-tier-2-main {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 6px;
+  padding: 12px 18px;
+}
+
+.card-tier-2-top {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.card-tier-2-top h3 {
+  font-family: var(--font-display);
+  font-size: 0.95rem;
+  letter-spacing: -0.01em;
+  line-height: 1.25;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Shared tags, used by both tiers */
+.card-tags {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.card-tier-1 .card-tags {
+  justify-content: flex-start;
+}
+
+.card-tags span {
+  font-family: var(--font-mono);
+  font-size: 0.66rem;
+  letter-spacing: 0.05em;
+  padding: 3px 9px;
+  border: 1px solid var(--line-dim);
+  border-radius: var(--radius-pill);
+  color: var(--text-dim);
+}
+
+[data-category="robotics"].card-media-placeholder,
+[data-category="robotics"].card-tier-2-thumb-placeholder {
   background: linear-gradient(145deg, rgba(147, 51, 234, 0.22), rgba(46, 16, 101, 0.6));
 }
 
-.card-thumb-placeholder[data-category="code"] {
+[data-category="code"].card-media-placeholder,
+[data-category="code"].card-tier-2-thumb-placeholder {
   background: linear-gradient(145deg, rgba(59, 130, 246, 0.18), rgba(46, 16, 101, 0.55));
 }
 
-.card-thumb-placeholder[data-category="coursework"] {
+[data-category="coursework"].card-media-placeholder,
+[data-category="coursework"].card-tier-2-thumb-placeholder {
   background: linear-gradient(145deg, rgba(16, 185, 129, 0.16), rgba(46, 16, 101, 0.55));
 }
 
-.card-thumb-placeholder[data-category="hackathon"] {
+[data-category="hackathon"].card-media-placeholder,
+[data-category="hackathon"].card-tier-2-thumb-placeholder {
   background: linear-gradient(145deg, rgba(244, 114, 182, 0.18), rgba(46, 16, 101, 0.55));
 }
 
-.card-thumb-placeholder span {
+.card-media-placeholder span {
   font-family: var(--font-display);
   font-size: 2rem;
   font-weight: 700;
@@ -1540,63 +1644,74 @@ model-viewer {
   }
 
   .project-timeline {
-    --timeline-col: 1fr;
-    --timeline-gap: 12px;
+    --rail-left: 14px;
   }
 
+  .timeline-list {
+    gap: 28px;
+  }
+
+  /* Rail moves to the left edge on mobile, still fades top/bottom */
   .timeline-list::before {
-    display: none;
+    left: var(--rail-left);
   }
 
-  .timeline-item {
-    grid-template-columns: 1fr;
-    gap: var(--timeline-gap);
+  .project-timeline.is-visible .timeline-list::before {
+    transform: scaleY(1) translateX(-50%);
   }
 
-  .timeline-marker {
+  .timeline-item,
+  .timeline-item[data-side="left"],
+  .timeline-item[data-side="right"] {
     justify-content: flex-start;
-    padding-right: 0;
-    padding-left: 0;
-    min-height: auto;
-    gap: 10px;
   }
 
-  .timeline-date {
-    text-align: left;
-    order: 2;
+  .timeline-node {
+    left: var(--rail-left);
   }
 
-  .timeline-dot {
-    position: static;
-    transform: none;
-    order: 1;
-    flex-shrink: 0;
+  .timeline-connector,
+  .timeline-item[data-side="left"] .timeline-connector,
+  .timeline-item[data-side="right"] .timeline-connector {
+    left: var(--rail-left);
+    right: auto;
+    width: 18px;
   }
 
-  .project-timeline.is-visible .timeline-dot {
-    transform: none;
+  .milestone-card,
+  .timeline-item[data-side="left"] .milestone-card,
+  .timeline-item[data-side="right"] .milestone-card {
+    width: 100%;
+    margin-left: calc(var(--rail-left) + 18px);
+    margin-right: 0;
   }
 
-  .project-card {
+  .timeline-item[data-side="left"] .milestone-card:hover,
+  .timeline-item[data-side="right"] .milestone-card:hover {
+    transform: translateX(4px);
+  }
+
+  .card-media {
+    height: 160px;
+  }
+
+  .card-tier-1 .card-header {
     flex-direction: column;
-    min-height: auto;
+    align-items: flex-start;
+    gap: 6px;
   }
 
-  .card-thumb {
-    flex: none;
-    height: 120px;
-    border-left: none;
-    border-top: 1px solid var(--line-dim);
+  .card-tier-2 {
+    min-height: 68px;
   }
 
-  .card-top {
+  .card-tier-2-thumb {
+    flex-basis: 64px;
+  }
+
+  .card-tier-2-top {
     flex-direction: column;
-    gap: 10px;
-  }
-
-  .card-arrow {
-    right: 20px;
-    bottom: 136px;
+    gap: 4px;
   }
 
   .card-tags {
@@ -1676,12 +1791,20 @@ model-viewer {
     scroll-behavior: auto !important;
   }
 
-  .timeline-list::before,
-  .timeline-sticky-rail,
-  .timeline-item,
-  .timeline-dot {
+  .timeline-list::before {
+    transition: none !important;
+    opacity: 1 !important;
+    transform: scaleY(1) translateX(-50%) !important;
+  }
+
+  .timeline-item {
     transition: none !important;
     transform: none !important;
     opacity: 1 !important;
+  }
+
+  .timeline-dot {
+    transition: none !important;
+    transform: scale(1) !important;
   }
 }

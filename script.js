@@ -185,6 +185,9 @@ document.addEventListener('DOMContentLoaded', () => {
 // PROJECT DATA — edit dates, tags, and thumbnails here.
 // Display order is newest-first (sorted by `date`).
 // =========================================================
+// Set `featured: true` to render a project as a Tier 1 (large) milestone
+// card. Leave it `false`/omitted for a Tier 2 (slim) card. Everything else
+// about ordering (chronological, newest first) is handled automatically.
 const PROJECTS_DATA = [
   {
     title: 'ME 164 — NX CAD',
@@ -194,7 +197,8 @@ const PROJECTS_DATA = [
     tags: ['CAD', '3D'],
     date: '2025-05',
     dateLabel: 'May 2025',
-    thumbnail: null
+    thumbnail: null,
+    featured: true
   },
   {
     title: 'ECE 2K7 — 555 Timer',
@@ -254,7 +258,8 @@ const PROJECTS_DATA = [
     tags: ['Robotics', 'CAD'],
     date: '2024-03',
     dateLabel: '2023–24',
-    thumbnail: null
+    thumbnail: null,
+    featured: true
   },
   {
     title: 'NVHS EDD',
@@ -286,32 +291,56 @@ document.addEventListener('DOMContentLoaded', () => {
     return sorted.filter((p) => p.category === activeCategory);
   }
 
-  function createThumbHTML(project) {
+  function createThumbHTML(project, placeholderClass) {
     if (project.thumbnail) {
-      return `<img src="${project.thumbnail}" alt="" class="card-thumb-img">`;
+      return `<img src="${project.thumbnail}" alt="" class="${placeholderClass}-img">`;
     }
     const initial = project.title.charAt(0);
-    return `<div class="card-thumb-placeholder" data-category="${project.category}"><span>${initial}</span></div>`;
+    return `<div class="${placeholderClass}-placeholder" data-category="${project.category}"><span>${initial}</span></div>`;
   }
 
-  function createEntryHTML(project) {
+  function createEntryHTML(project, index) {
+    const side = index % 2 === 0 ? 'left' : 'right';
     const tagsHTML = project.tags.slice(0, 3).map((t) => `<span>${t}</span>`).join('');
-    return `
-      <article class="timeline-item" data-category="${project.category}">
-        <div class="timeline-marker">
-          <time class="timeline-date" datetime="${project.date}">${project.dateLabel}</time>
-          <span class="timeline-dot" aria-hidden="true"></span>
-        </div>
-        <a href="${project.link}" class="project-card">
-          <div class="card-main">
-            <div class="card-top">
+
+    if (project.featured) {
+      return `
+        <article class="timeline-item tier-1" data-category="${project.category}" data-side="${side}">
+          <div class="timeline-node">
+            <span class="timeline-dot dot-large" aria-hidden="true"></span>
+          </div>
+          <span class="timeline-connector" aria-hidden="true"></span>
+          <a href="${project.link}" class="milestone-card card-tier-1">
+            <div class="card-header">
               <h3>${project.title}</h3>
+              <time class="card-date" datetime="${project.date}">${project.dateLabel}</time>
+            </div>
+            <div class="card-media">${createThumbHTML(project, 'card-media')}</div>
+            <div class="card-body">
+              <p class="card-summary">${project.summary}</p>
               <div class="card-tags">${tagsHTML}</div>
             </div>
-            <p class="card-summary">${project.summary}</p>
+            <span class="card-arrow" aria-hidden="true">→</span>
+          </a>
+        </article>
+      `;
+    }
+
+    return `
+      <article class="timeline-item tier-2" data-category="${project.category}" data-side="${side}">
+        <div class="timeline-node">
+          <span class="timeline-dot dot-small" aria-hidden="true"></span>
+        </div>
+        <span class="timeline-connector" aria-hidden="true"></span>
+        <a href="${project.link}" class="milestone-card card-tier-2">
+          <div class="card-tier-2-thumb">${createThumbHTML(project, 'card-tier-2-thumb')}</div>
+          <div class="card-tier-2-main">
+            <div class="card-tier-2-top">
+              <h3>${project.title}</h3>
+              <time class="card-date" datetime="${project.date}">${project.dateLabel}</time>
+            </div>
+            <div class="card-tags">${tagsHTML}</div>
           </div>
-          <div class="card-thumb">${createThumbHTML(project)}</div>
-          <span class="card-arrow" aria-hidden="true">→</span>
         </a>
       </article>
     `;
