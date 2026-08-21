@@ -697,16 +697,16 @@ model-viewer {
 }
 
 .pdf-modal .drawing-scroll {
-  width: 75%;
-  height: 80%;
+  width: 85%;
+  height: 90%;
   margin: 5% auto;
   overflow-y: auto;
-  background: #5d5d5d;
+  background: #21212100;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 1rem;
-  padding: 1rem;
+  gap: 0.5rem;
+  padding: 0.5rem;
   box-sizing: border-box;
 }
 
@@ -719,7 +719,8 @@ model-viewer {
 .pdf-modal-close {
   position: absolute;
   top: 1rem;
-  right: 1.5rem;
+  bottom: 0.25rem;
+  right: 1rem;
   font-size: 2rem;
   background: none;
   border: none;
