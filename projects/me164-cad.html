@@ -198,16 +198,182 @@
       <img class="cad-viewer reveal" 
            src="../assets/ME 164/gerotor air engine/AssembledOllie.png" 
            alt="Wheel rim CAD render"
-           style="transform: scale(0.75); transform-origin: center;">
+           style="object-fit: contain;">
       <figcaption>CAD RENDER</figcaption>
     </figure>
 
-    <figure>
+    <!-- <figure>
       <object data="../assets/ME 164/gerotor air engine/Final Air Engine Project.pdf" type="application/pdf" class="cad-viewer reveal" width="100%" height="500px">
         <p>Your browser doesn't support embedded PDFs. <a href="../assets/ME 164/gerotor air engine/Final Air Engine Project.pdf">Download it here</a>.</p>
       </object>
       <figcaption>ENGINEERING DRAWING</figcaption>
+    </figure> -->
+
+    <!-- 1. The Thumbnail Card (replaces your current PDF figure) -->
+    <figure>
+      <div class="pdf-card-preview" onclick="openPdfModal()">
+        <div class="pdf-card-inner">
+          <span class="pdf-badge">PDF DOCUMENT</span>
+          <p class="pdf-card-title">Exploded Gerotor Pump Assembly</p>
+          <span class="pdf-click-action">Click to view full drawing →</span>
+        </div>
+      </div>
+      <figcaption>ENGINEERING DRAWING</figcaption>
     </figure>
+
+    <!-- 2. The Full-Screen Popup Overlay (Hidden by default) -->
+    <div id="pdfModal" class="pdf-modal-backdrop" onclick="closePdfModal(event)">
+      <div class="pdf-modal-container">
+        <div class="pdf-modal-header">
+          <span>Final Air Engine Project.pdf</span>
+          <button type="button" class="pdf-close-btn" onclick="closePdfModal(event)">&times;</button>
+        </div>
+        <div class="pdf-modal-body">
+          <!-- #toolbar=0 hides the browser's top bar and toolbar controls -->
+          <iframe 
+            src="../assets/ME%20164/gerotor%20air%20engine/Final%20Air%20Engine%20Project.pdf#toolbar=0&navpanes=0" 
+            width="100%" 
+            height="100%">
+          </iframe>
+        </div>
+      </div>
+    </div>
+
+    <!-- 3. Styles (Self-contained, won't mess with your external CSS) -->
+    <style>
+      .pdf-card-preview {
+        width: 100%;
+        height: 320px;
+        background: rgba(255, 255, 255, 0.04);
+        border: 1px dashed rgba(255, 255, 255, 0.25);
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: all 0.2s ease;
+      }
+      .pdf-card-preview:hover {
+        background: rgba(255, 255, 255, 0.08);
+        border-color: rgba(255, 255, 255, 0.5);
+        transform: translateY(-2px);
+      }
+      .pdf-card-inner {
+        text-align: center;
+        padding: 20px;
+      }
+      .pdf-badge {
+        font-size: 0.75rem;
+        letter-spacing: 0.1em;
+        padding: 4px 8px;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 4px;
+        color: #a5b4fc;
+      }
+      .pdf-card-title {
+        margin: 14px 0 8px;
+        font-size: 1.05rem;
+        font-weight: 500;
+        color: #fff;
+      }
+      .pdf-click-action {
+        font-size: 0.85rem;
+        color: #94a3b8;
+      }
+
+      /* Modal Styles */
+      .pdf-modal-backdrop {
+        display: none;
+        position: fixed;
+        inset: 0;
+        width: 100vw;
+        height: 100vh;
+        background: rgba(0, 0, 0, 0.85);
+        backdrop-filter: blur(8px);
+        z-index: 99999;
+        align-items: center;
+        justify-content: center;
+        padding: 24px;
+        box-sizing: border-box;
+      }
+      .pdf-modal-container {
+        width: 100%;
+        max-width: 1100px;
+        height: 90vh;
+        background: #111;
+        border: 1px solid rgba(255, 255, 255, 0.15);
+        border-radius: 12px;
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
+      }
+      .pdf-modal-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 12px 18px;
+        background: #18181b;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        color: #e2e8f0;
+        font-size: 0.9rem;
+      }
+      .pdf-close-btn {
+        background: none;
+        border: none;
+        color: #94a3b8;
+        font-size: 1.6rem;
+        line-height: 1;
+        cursor: pointer;
+      }
+      .pdf-close-btn:hover {
+        color: #fff;
+      }
+      .pdf-modal-body {
+        flex: 1;
+        width: 100%;
+        height: 100%;
+        background: #000;
+      }
+      .pdf-modal-body iframe {
+        border: none;
+        display: block;
+      }
+    </style>
+
+    <!-- 4. Script to Open & Close -->
+    <script>
+      function openPdfModal() {
+        const modal = document.getElementById('pdfModal');
+        modal.style.display = 'flex';
+        document.body.style.overflow = 'hidden'; // Prevents background page scrolling
+      }
+
+      function closePdfModal(event) {
+        // Closes if clicked outside the container or on the close button
+        if (event.target.id === 'pdfModal' || event.target.classList.contains('pdf-close-btn')) {
+          const modal = document.getElementById('pdfModal');
+          modal.style.display = 'none';
+          document.body.style.overflow = '';
+        }
+      }
+
+      // Close on 'Escape' key
+      window.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+          const modal = document.getElementById('pdfModal');
+          if (modal && modal.style.display === 'flex') {
+            modal.style.display = 'none';
+            document.body.style.overflow = '';
+          }
+        }
+      });
+    </script>
+
+
+
+
+
   </div>
 
   <h4 class="block-sub">Gerotor Design</h4>
