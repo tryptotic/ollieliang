@@ -145,7 +145,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
   document.querySelectorAll('.pdf-trigger').forEach((trigger) => {
     trigger.addEventListener('click', () => {
-      const pages = trigger.dataset.pages.split(',').map(p => p.trim()).filter(Boolean);
+      const basePath = trigger.dataset.basePath || '';
+      const pages = trigger.dataset.pages
+        .split(',')
+        .map(p => p.trim())
+        .filter(Boolean)
+        .map(p => basePath + p);
       scrollArea.innerHTML = '';
       pages.forEach((src) => {
         const img = document.createElement('img');
