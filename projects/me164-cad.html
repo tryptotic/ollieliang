@@ -105,6 +105,7 @@
         camera-controls
         auto-rotate
         shadow-intensity="1.5"
+        interaction-prompt="none"
         shadow-softness="0.3"
         exposure="0.6"
         style="--poster-color: transparent;">
@@ -121,6 +122,7 @@
         alt="Exploded assembly view"
         camera-controls
         auto-rotate
+        interaction-prompt="none"
         shadow-intensity="1.5"
         shadow-softness="0.3"
         exposure="0.6"
@@ -202,9 +204,21 @@
     </figure>
 
     <figure>
-      <object data="../assets/ME 164/gerotor air engine/Final Air Engine Project.pdf#toolbar=0&navpanes=0" type="application/pdf" class="cad-viewer reveal" width="100%" height="500px">
-        <p>Your browser doesn't support embedded PDFs. <a href="../assets/ME 164/gerotor air engine/Final Air Engine Project.pdf#toolbar=0&navpanes=0">Download it here</a>.</p>
-      </object>
+      <button type="button" class="cad-viewer pdf-trigger reveal"
+        data-base-path="../assets/ME 164/gerotor air engine/Final Air Engine Project/"
+        data-pages="Final Air Engine Project-01.png, Final Air Engine Project-02.png, Final Air Engine Project-03.png, 
+                    Final Air Engine Project-04.png, Final Air Engine Project-05.png, Final Air Engine Project-06.png, 
+                    Final Air Engine Project-07.png, Final Air Engine Project-08.png, Final Air Engine Project-09.png, 
+                    Final Air Engine Project-10.png, Final Air Engine Project-11.png, Final Air Engine Project-12.png, 
+                    Final Air Engine Project-13.png, Final Air Engine Project-14.png, Final Air Engine Project-15.png, 
+                    Final Air Engine Project-16.png, Final Air Engine Project-17.png, Final Air Engine Project-18.png, 
+                    Final Air Engine Project-19.png, Final Air Engine Project-20.png, Final Air Engine Project-21.png"
+        aria-label="Open engineering drawing">
+        
+        <div class="pdf-thumb" role="img" aria-label="Gerotor Air Engine engineering drawing preview"
+          style="background-image: url('../assets/ME 164/gerotor air engine/Final Air Engine Project/Final Air Engine Project-04.png');"></div>
+        <span class="pdf-open-label">Click to view drawing</span>
+      </button>
       <figcaption>ENGINEERING DRAWING</figcaption>
     </figure>
   </div>
@@ -237,24 +251,13 @@
   </p>
 
   <div class="gallery reveal">
-    <img src="../assets/ME 164/gerotor air engine/CustomFlywheelOllie.png" alt="Gerotor Additional Assembly View">
+    <figure style="margin-bottom: 40px;">
+      <img src="../assets/ME 164/gerotor air engine/CustomFlywheelOllie.png" alt="Gerotor Additional Assembly View">
+    </figure>
   </div>
 </div>
 
 <div class="hazard-strip" aria-hidden="true"></div>
-
-
-<!-------------------------------------------- Key Takeaways ------------------------------------------------->
-
-
-<section class="project-section">
-  <h2 class="reveal">Key Takeaways</h2>
-  <ul class="takeaways-list reveal">
-    <li>Fill in your biggest takeaway — e.g. how thinking in tolerances and fits changes the way you model, not just how you draft.</li>
-    <li>Fill in a second takeaway — e.g. working with real, purchasable hardware forces design decisions that pure geometry doesn't.</li>
-    <li>Fill in a third takeaway — e.g. what you'd do differently in the gerotor's clearances or fastening scheme next time.</li>
-  </ul>
-</section>
 
 
 <!-------------------------------------------- Footer and Details ------------------------------------------------->
