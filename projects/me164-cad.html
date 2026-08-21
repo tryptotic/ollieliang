@@ -203,12 +203,20 @@
     </figure>
 
     <figure>
-      <!-- swap this placeholder for a real <model-viewer src="../assets/YOUR_SECOND_MODEL.glb"> once you have the file -->
-      <div class="cad-viewer cad-placeholder reveal" id="secondFeaturedPlaceholder">
-        <span>Second model coming soon</span>
-      </div>
-      <p class="cad-hint reveal">Swap in your second model once ready</p>
-      <figcaption>SECOND FEATURED MODEL</figcaption>
+      <model-viewer
+        id="explodedView"
+        class="cad-viewer reveal"
+        src="../assets/wheel_rim_molten golden_FINAL.glb"
+        alt="Exploded assembly view"
+        camera-controls
+        auto-rotate
+        shadow-intensity="1.5"
+        shadow-softness="0.3"
+        exposure="0.6"
+        style="--poster-color: transparent;">
+      </model-viewer>
+      <p class="cad-hint reveal">Click and drag to rotate · scroll to zoom</p>
+      <figcaption>WHEEL RIM MODEL</figcaption>
     </figure>
   </div>
 </section>
@@ -235,6 +243,10 @@
 
 <div class="hazard-strip" aria-hidden="true"></div>
 
+
+
+
+
 <!-- Project 01: Wheel Rim -->
 <div class="project-block reveal">
   <div class="project-number">Project A</div>
@@ -254,8 +266,8 @@
     </figure>
 
     <figure>
-      <button type="button" class="cad-viewer pdf-trigger reveal" data-pdf="../assets/wheel_rim_drawing.pdf" aria-label="Open engineering drawing PDF">
-        <img src="../assets/wheel_rim_drawing_thumb.png" alt="Wheel rim engineering drawing preview">
+      <button type="button" class="cad-viewer pdf-trigger reveal" data-pdf="../assets/wheel_rim_molten golden_FINAL.pdf" aria-label="Open engineering drawing PDF">
+        <img src="../assets/thumhnail-1.png" alt="Wheel rim engineering drawing preview">
         <span class="pdf-open-label">Click to view PDF</span>
       </button>
       <p class="cad-hint reveal">Click to open full drawing</p>
