@@ -685,38 +685,11 @@ model-viewer {
 
 /* PDF modal */
 .pdf-modal {
+  display: none;
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  background: rgba(0, 0, 0, 0.85); /* Dimmed backdrop */
+  inset: 0;
+  background: rgba(0, 0, 0, 0.85);
   z-index: 1000;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-/* Close Button Styling */
-.pdf-close {
-  position: absolute;
-  top: 1.5rem;
-  right: 2rem;
-  z-index: 1010;
-  background: transparent;
-  color: #ffffff;
-  border: 1px solid rgba(255, 255, 255, 0.4);
-  padding: 0.5rem 1rem;
-  font-size: 1rem;
-  font-family: inherit;
-  cursor: pointer;
-  border-radius: 4px;
-  transition: all 0.2s ease;
-}
-
-.pdf-close:hover {
-  background: rgba(255, 255, 255, 0.2);
-  border-color: #ffffff;
 }
 
 .pdf-modal.is-open {
