@@ -699,7 +699,7 @@ model-viewer {
 .pdf-modal .drawing-scroll {
   width: 85%;
   height: 85%;
-  margin: 1.5% auto 5% auto; /* Top | Right | Bottom | Left */
+  margin: 2.5% auto 5% auto; /* Top | Right | Bottom | Left */
   overflow-y: auto;
   background: #21212100;
   display: flex;
@@ -711,7 +711,7 @@ model-viewer {
 }
 
 .drawing-scroll img {
-  width: 100%;
+  width: 95%;
   height: auto;
   display: block;
 }
