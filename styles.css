@@ -701,18 +701,23 @@ model-viewer {
   height: 90%;
   margin: 5% auto;
   overflow-y: auto;
-  background: #fff;
+  background: #2a2a2a;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 1rem;
-  padding: 1rem 1rem 3.5rem 1rem;
+  gap: 2rem;
+  padding: 2rem 1rem; /* Creates immediate top and bottom margins */
+  box-sizing: border-box;
 }
 
 .drawing-scroll img {
-  width: 100%;
+  /* Prevent the image from ever overflowing the visible screen on load */
+  max-width: 90%;
+  max-height: calc(90vh - 6rem); /* Fits the whole sheet in the initial view */
+  width: auto;
   height: auto;
   display: block;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4); /* Optional: clean drop shadow */
 }
 
 .pdf-modal-close {
