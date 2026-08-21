@@ -698,7 +698,7 @@ model-viewer {
 
 .pdf-modal .drawing-scroll {
   width: 75%;
-  height: 90%;
+  height: 80%;
   margin: 5% auto;
   overflow-y: auto;
   background: #5d5d5d;
@@ -706,7 +706,7 @@ model-viewer {
   flex-direction: column;
   align-items: center;
   gap: 1rem;
-  padding: 2rem 1rem; /* Creates immediate top and bottom margins */
+  padding: 1rem;
   box-sizing: border-box;
 }
 
