@@ -14,8 +14,102 @@
 <link rel="stylesheet" href="../styles.css">
 <!-- model-viewer: free Google web component for drag-to-rotate 3D models (.glb / .gltf) -->
 <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.5.0/model-viewer.min.js"></script>
+
+<!--
+  TEMP inline styles for the pieces this page needs that may not be in styles.css yet
+  (gallery-pair sizing, placeholder boxes, pdf-trigger button, modal open state).
+  Move these into styles.css whenever convenient — nothing here should conflict with
+  your existing rules, but styles.css will win if a class is already defined there.
+-->
+<style>
+  .gallery-pair {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+  }
+  .gallery-pair .cad-viewer {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    height: auto;
+  }
+  @media (max-width: 700px) {
+    .gallery-pair {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .cad-placeholder {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    aspect-ratio: 1 / 1;
+    background: repeating-linear-gradient(
+      45deg, #1a1a1a, #1a1a1a 10px, #222 10px, #222 20px
+    );
+    color: #888;
+    font-family: inherit;
+    text-align: center;
+  }
+
+  .pdf-trigger {
+    display: block;
+    width: 100%;
+    padding: 0;
+    border: none;
+    background: none;
+    cursor: pointer;
+    position: relative;
+  }
+  .pdf-trigger img {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    object-fit: contain;
+    display: block;
+  }
+  .pdf-open-label {
+    display: block;
+    text-align: center;
+    font-size: 0.85rem;
+    margin-top: 0.5rem;
+    opacity: 0.7;
+  }
+
+  .pdf-modal {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.85);
+    z-index: 1000;
+  }
+  .pdf-modal.is-open {
+    display: block;
+  }
+  .pdf-modal iframe {
+    width: 90%;
+    height: 90%;
+    margin: 5% auto;
+    display: block;
+    border: none;
+    background: #fff;
+  }
+  .pdf-modal-close {
+    position: absolute;
+    top: 1rem;
+    right: 1.5rem;
+    font-size: 2rem;
+    background: none;
+    border: none;
+    color: #fff;
+    cursor: pointer;
+  }
+</style>
 </head>
 <body>
+
+<div class="pdf-modal" id="pdfModal">
+  <button class="pdf-modal-close" id="pdfModalClose" aria-label="Close">&times;</button>
+  <iframe id="pdfModalFrame" src=""></iframe>
+</div>
 
 <div class="grid-backdrop" aria-hidden="true">
   <div class="shard shard-1"></div>
@@ -84,40 +178,60 @@
     documentation. Throughout the course, I designed and documented several mechanical
     components, including a custom wheel rim and a gerotor-based elbow air engine.
   </p>
-<!-- </section> -->
+</section>
 
 <!-- 3D model viewer — feature your best assembly render/model here -->
-<!-- <section class="project-section"> -->
-  <div class="drawing-label reveal">FEATURED MODEL</div>
-  <model-viewer
-    id="explodedView"
-    class="cad-viewer reveal"
-    src="../assets/exploded view (1).glb"
-    alt="description"
-    camera-controls
-    auto-rotate
-    shadow-intensity="1"
-    exposure="0.6"
-    shadow-intensity="1.5"
-    shadow-softness="0.3"
-    style="--poster-color: transparent;">
-  </model-viewer>
+<section class="project-section">
+  <div class="drawing-label reveal">FEATURED MODELS</div>
 
-  <script>
-    const viewer = document.getElementById('explodedView');
-    viewer.addEventListener('load', () => {
-      const materials = viewer.model.materials;
-      materials.forEach((mat) => {
-        // RGBA 0–1 range. 0.55 ≈ medium gray. Tweak to taste.
-        mat.pbrMetallicRoughness.setBaseColorFactor([0.55, 0.55, 0.58, 1.0]);
-        mat.pbrMetallicRoughness.setRoughnessFactor(0.6);
-        mat.pbrMetallicRoughness.setMetallicFactor(0.3);
+  <div class="gallery-pair">
+    <figure>
+      <model-viewer
+        id="explodedView"
+        class="cad-viewer reveal"
+        src="../assets/exploded view (1).glb"
+        alt="Exploded assembly view"
+        camera-controls
+        auto-rotate
+        shadow-intensity="1.5"
+        shadow-softness="0.3"
+        exposure="0.6"
+        style="--poster-color: transparent;">
+      </model-viewer>
+      <p class="cad-hint reveal">Click and drag to rotate · scroll to zoom</p>
+      <figcaption>EXPLODED ASSEMBLY</figcaption>
+    </figure>
+
+    <figure>
+      <!-- swap this placeholder for a real <model-viewer src="../assets/YOUR_SECOND_MODEL.glb"> once you have the file -->
+      <div class="cad-viewer cad-placeholder reveal" id="secondFeaturedPlaceholder">
+        <span>Second model coming soon</span>
+      </div>
+      <p class="cad-hint reveal">Swap in your second model once ready</p>
+      <figcaption>SECOND FEATURED MODEL</figcaption>
+    </figure>
+  </div>
+</section>
+
+<script>
+  function tuneMaterials(viewerEl, { baseColor, metallic, roughness }) {
+    if (!viewerEl) return;
+    viewerEl.addEventListener('load', () => {
+      viewerEl.model.materials.forEach((mat) => {
+        mat.pbrMetallicRoughness.setBaseColorFactor(baseColor);
+        mat.pbrMetallicRoughness.setMetallicFactor(metallic);
+        mat.pbrMetallicRoughness.setRoughnessFactor(roughness);
       });
     });
-  </script>
+  }
 
-<p class="cad-hint reveal">Click and drag to rotate · scroll to zoom</p>
-</section>
+  // exploded view — medium gray
+  tuneMaterials(document.getElementById('explodedView'), {
+    baseColor: [0.55, 0.55, 0.58, 1.0],
+    metallic: 0.3,
+    roughness: 0.6
+  });
+</script>
 
 <div class="hazard-strip" aria-hidden="true"></div>
 
@@ -132,51 +246,22 @@
 
   <div class="gallery-pair">
     <figure>
-      <model-viewer
-        id="goldWheelViewer"
-        class="cad-viewer reveal"
-        src="../assets/wheel_rim_molten golden_FINAL.glb"
-        alt="Gold Wheel Rim"
-        camera-controls
-        auto-rotate
-        shadow-intensity="1"
-        exposure="0.7"
-        environment-image="neutral"
-        style="--poster-color: transparent;">
-      </model-viewer>
-      <p class="cad-hint reveal">Click and drag to rotate · scroll to zoom</p>
-
-      <script type="module">
-        const viewer = document.querySelector("#goldWheelViewer");
-
-        viewer.addEventListener("load", () => {
-          // Loop through all materials in the model
-          viewer.model.materials.forEach((material) => {
-            // 1. Classic metallic gold color (RGB: 212, 175, 55)
-            material.pbrMetallicRoughness.setBaseColorFactor([0.83, 0.69, 0.22, 1.0]);
-
-            // 2. Full metalness (1.0 = 100% metal)
-            material.pbrMetallicRoughness.setMetallicFactor(1.0);
-
-            // 3. Low roughness (0.15 = polished, reflective shine)
-            material.pbrMetallicRoughness.setRoughnessFactor(0.15);
-          });
-        });
-      </script>
+      <div class="cad-viewer cad-placeholder reveal" id="goldWheelPlaceholder">
+        <span>Render coming soon</span>
+      </div>
+      <p class="cad-hint reveal">Final render in progress</p>
       <figcaption>CAD RENDER</figcaption>
     </figure>
+
     <figure>
-    <img src="..assets/wheel_rim_molten golden_FINAL.pdf" alt="Wheel rim engineering drawing" class="pdf-trigger" data-pdf="../assets/drawing.pdf">
-    <figcaption>ENGINEERING DRAWING</figcaption>
-  </figure>
-</div>
-
-<!-- Modal, place once near end of body -->
-<div class="pdf-modal" id="pdfModal">
-  <button class="pdf-modal-close" id="pdfModalClose" aria-label="Close">&times;</button>
-  <iframe id="pdfModalFrame" src=""></iframe>
-
-
+      <button type="button" class="cad-viewer pdf-trigger reveal" data-pdf="../assets/wheel_rim_drawing.pdf" aria-label="Open engineering drawing PDF">
+        <img src="../assets/wheel_rim_drawing_thumb.png" alt="Wheel rim engineering drawing preview">
+        <span class="pdf-open-label">Click to view PDF</span>
+      </button>
+      <p class="cad-hint reveal">Click to open full drawing</p>
+      <figcaption>ENGINEERING DRAWING</figcaption>
+    </figure>
+  </div>
 
   <h4 class="block-sub">Design Process</h4>
   <p class="block-text">
@@ -194,10 +279,6 @@
   </p>
 </div>
 
-
-
-
-
 <!-- Project 02: Gerotor Elbow Air Engine -->
 <div class="project-block reveal">
   <div class="project-number">Project B</div>
@@ -209,20 +290,20 @@
 
   <div class="gallery-pair">
     <figure>
-      <model-viewer
-        class="cad-viewer reveal"
-        src="../assets/.glb"
-        alt="Render"
-        camera-controls
-        auto-rotate
-        shadow-intensity="1"
-        exposure="1"
-        style="--poster-color: transparent;">
-      </model-viewer>
+      <!-- swap this placeholder for a real <model-viewer src="../assets/YOUR_GEROTOR_MODEL.glb"> once you have the file -->
+      <div class="cad-viewer cad-placeholder reveal" id="gerotorPlaceholder">
+        <span>Render coming soon</span>
+      </div>
+      <p class="cad-hint reveal">Final render in progress</p>
       <figcaption>CAD RENDER</figcaption>
     </figure>
+
     <figure>
-      <img src="https://placehold.co/700x525/1e1e1e/979797?text=Wheel+Rim+Engineering+Drawing" alt="Wheel rim engineering drawing">
+      <button type="button" class="cad-viewer pdf-trigger reveal" data-pdf="../assets/gerotor_drawing.pdf" aria-label="Open engineering drawing PDF">
+        <img src="../assets/gerotor_drawing_thumb.png" alt="Gerotor engineering drawing preview">
+        <span class="pdf-open-label">Click to view PDF</span>
+      </button>
+      <p class="cad-hint reveal">Click to open full drawing</p>
       <figcaption>ENGINEERING DRAWING</figcaption>
     </figure>
   </div>
@@ -257,7 +338,7 @@
   <div class="gallery reveal">
     <img src="https://placehold.co/600x450/1e1e1e/979797?text=Exploded+Assembly+View" alt="Gerotor exploded assembly view">
     <img src="https://placehold.co/600x450/1e1e1e/979797?text=Section+View" alt="Gerotor section view">
-    <img src="https://placehold.co/600x450/1e1e1e/979797?text=Engineering+Drawing" alt="Gerotor engineering drawing">
+    <img src="https://placehold.co/600x450/1e1e1e/979797?text=Additional+Detail" alt="Gerotor additional detail view">
   </div>
 </div>
 
@@ -285,6 +366,35 @@
     <div class="tb-cell"><span class="tb-label">GitHub</span><a class="tb-value tb-link" href="#">github.com/yourusername</a></div>
   </div>
 </footer>
+
+<!-- Wires up the PDF modal: click any .pdf-trigger to open, close via the × button, clicking outside, or Escape -->
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const modal = document.getElementById('pdfModal');
+    const frame = document.getElementById('pdfModalFrame');
+    const closeBtn = document.getElementById('pdfModalClose');
+
+    document.querySelectorAll('.pdf-trigger').forEach((trigger) => {
+      trigger.addEventListener('click', () => {
+        frame.src = trigger.dataset.pdf;
+        modal.classList.add('is-open');
+      });
+    });
+
+    function closeModal() {
+      modal.classList.remove('is-open');
+      frame.src = '';
+    }
+
+    closeBtn.addEventListener('click', closeModal);
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal) closeModal();
+    });
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') closeModal();
+    });
+  });
+</script>
 
 <script src="../script.js"></script>
 </body>
