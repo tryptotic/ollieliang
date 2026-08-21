@@ -697,27 +697,23 @@ model-viewer {
 }
 
 .pdf-modal .drawing-scroll {
-  width: 65%;
+  width: 75%;
   height: 90%;
   margin: 5% auto;
   overflow-y: auto;
-  background: #2a2a2a;
+  background: #5d5d5d;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 2rem;
+  gap: 1rem;
   padding: 2rem 1rem; /* Creates immediate top and bottom margins */
   box-sizing: border-box;
 }
 
 .drawing-scroll img {
-  /* Prevent the image from ever overflowing the visible screen on load */
-  max-width: 90%;
-  max-height: calc(90vh - 6rem); /* Fits the whole sheet in the initial view */
-  width: auto;
+  width: 100%;
   height: auto;
   display: block;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4); /* Optional: clean drop shadow */
 }
 
 .pdf-modal-close {
