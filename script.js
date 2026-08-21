@@ -118,9 +118,58 @@ if (cadViewer) {
   });
 }
 
+//metallic color for cads
+function tuneMaterials(viewerEl, { baseColor, metallic, roughness }) {
+  if (!viewerEl) return;
+  viewerEl.addEventListener('load', () => {
+    viewerEl.model.materials.forEach((mat) => {
+      mat.pbrMetallicRoughness.setBaseColorFactor(baseColor);
+      mat.pbrMetallicRoughness.setMetallicFactor(metallic);
+      mat.pbrMetallicRoughness.setRoughnessFactor(roughness);
+    });
+  });
+}
 
+// exploded view — medium gray
+tuneMaterials(document.getElementById('metallic'), {
+  baseColor: [0.55, 0.55, 0.58, 1.0],
+  metallic: 0.3,
+  roughness: 0.6
+});
 
+// <!-- Wires up the PDF modal: click any .pdf-trigger to open, close via the × button, clicking outside, or Escape -->
+document.addEventListener('DOMContentLoaded', () => {
+  const modal = document.getElementById('pdfModal');
+  const scrollArea = document.getElementById('drawingScroll');
+  const closeBtn = document.getElementById('pdfModalClose');
 
+  document.querySelectorAll('.pdf-trigger').forEach((trigger) => {
+    trigger.addEventListener('click', () => {
+      const pages = trigger.dataset.pages.split(',').map(p => p.trim()).filter(Boolean);
+      scrollArea.innerHTML = '';
+      pages.forEach((src) => {
+        const img = document.createElement('img');
+        img.src = src;
+        img.alt = 'Engineering drawing page';
+        scrollArea.appendChild(img);
+      });
+      modal.classList.add('is-open');
+    });
+  });
+
+  function closeModal() {
+    modal.classList.remove('is-open');
+    scrollArea.innerHTML = ''; // fully unloads the images, nothing lingers behind
+  }
+
+  closeBtn.addEventListener('click', closeModal);
+  modal.addEventListener('click', (e) => {
+    if (e.target === modal) closeModal();
+  });
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') closeModal();
+  });
+});
 
 
 
