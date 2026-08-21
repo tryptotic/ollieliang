@@ -697,7 +697,7 @@ model-viewer {
 }
 
 .pdf-modal .drawing-scroll {
-  width: 90%;
+  width: 70%;
   height: 90%;
   margin: 5% auto;
   overflow-y: auto;
@@ -707,28 +707,6 @@ model-viewer {
   align-items: center;
   gap: 1rem;
   padding: 1rem;
-}
-
-/* Modal PDF / Image Zoom Controls */
-.pdf-viewer-modal img,
-.pdf-modal-body img,
-.lightbox-img {
-  max-width: 85% !important;
-  max-height: 85vh !important;
-  width: auto !important;
-  height: auto !important;
-  object-fit: contain !important;
-  margin: auto !important;
-  display: block !important;
-}
-
-.pdf-viewer-modal .modal-content,
-.pdf-modal-body {
-  padding: 30px !important;
-  display: flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-  box-sizing: border-box !important;
 }
 
 .drawing-scroll img {
