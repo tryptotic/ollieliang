@@ -1075,11 +1075,20 @@ section, footer { position: relative; z-index: 1; }
 /* two-up image gallery: CAD render + engineering drawing */
 .gallery-pair { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 18px 0 8px; }
 .gallery-pair figure { margin: 0; }
-.gallery-pair img {
+
+.gallery-pair img,
+.gallery-pair model-viewer {
   width: 100%; aspect-ratio: 4 / 3; object-fit: cover; border-radius: var(--radius-sm);
-  border: 1px solid var(--line-dim); cursor: zoom-in; transition: border-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+  border: 1px solid var(--line-dim); transition: border-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
 }
-.gallery-pair img:hover { border-color: var(--accent); transform: scale(1.01); box-shadow: 0 0 24px var(--glow); }
+
+.gallery-pair img { cursor: zoom-in; }
+
+.gallery-pair img:hover,
+.gallery-pair model-viewer:hover {
+  border-color: var(--accent); transform: scale(1.01); box-shadow: 0 0 24px var(--glow);
+}
+
 .gallery-pair figcaption {
   font-family: var(--font-mono); font-size: 0.68rem; letter-spacing: 0.05em;
   color: var(--text-dim); margin-top: 8px; text-align: center;
