@@ -709,6 +709,28 @@ model-viewer {
   padding: 1rem;
 }
 
+/* Modal PDF / Image Zoom Controls */
+.pdf-viewer-modal img,
+.pdf-modal-body img,
+.lightbox-img {
+  max-width: 85% !important;
+  max-height: 85vh !important;
+  width: auto !important;
+  height: auto !important;
+  object-fit: contain !important;
+  margin: auto !important;
+  display: block !important;
+}
+
+.pdf-viewer-modal .modal-content,
+.pdf-modal-body {
+  padding: 30px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  box-sizing: border-box !important;
+}
+
 .drawing-scroll img {
   width: 100%;
   height: auto;
