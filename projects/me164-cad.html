@@ -140,7 +140,7 @@
         camera-controls
         auto-rotate
         shadow-intensity="1"
-        exposure="1.2"
+        exposure="0.7"
         environment-image="neutral"
         style="--poster-color: transparent;">
       </model-viewer>
@@ -166,14 +166,17 @@
       <figcaption>CAD RENDER</figcaption>
     </figure>
     <figure>
-      <iframe 
-        src="..assets/wheel_rim_molten golden_FINAL.pdf#toolbar=1&navpanes=0" 
-        class="pdf-frame" 
-        title="Engineering Drawing Sheets">
-      </iframe>
-      <figcaption>ENGINEERING DRAWING</figcaption>
-    </figure>
-  </div>
+    <img src="../assets/drawing-thumb.png" alt="Wheel rim engineering drawing" class="pdf-trigger" data-pdf="../assets/drawing.pdf">
+    <figcaption>ENGINEERING DRAWING</figcaption>
+  </figure>
+</div>
+
+<!-- Modal, place once near end of body -->
+<div class="pdf-modal" id="pdfModal">
+  <button class="pdf-modal-close" id="pdfModalClose" aria-label="Close">&times;</button>
+  <iframe id="pdfModalFrame" src=""></iframe>
+
+  
 
   <h4 class="block-sub">Design Process</h4>
   <p class="block-text">
