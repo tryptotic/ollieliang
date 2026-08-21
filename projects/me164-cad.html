@@ -133,15 +133,36 @@
   <div class="gallery-pair">
     <figure>
       <model-viewer
+        id="goldWheelViewer"
         class="cad-viewer reveal"
-        src="../assets/wheel_rim_molten golden_FINAL.glb"
-        alt="Render"
+        src="../assets/your-model.glb"
+        alt="Gold Wheel Rim"
         camera-controls
         auto-rotate
         shadow-intensity="1"
-        exposure="1"
+        exposure="1.2"
+        environment-image="neutral"
         style="--poster-color: transparent;">
       </model-viewer>
+      <p class="cad-hint reveal">Click and drag to rotate · scroll to zoom</p>
+
+      <script type="module">
+        const viewer = document.querySelector("#goldWheelViewer");
+
+        viewer.addEventListener("load", () => {
+          // Loop through all materials in the model
+          viewer.model.materials.forEach((material) => {
+            // 1. Classic metallic gold color (RGB: 212, 175, 55)
+            material.pbrMetallicRoughness.setBaseColorFactor([0.83, 0.69, 0.22, 1.0]);
+
+            // 2. Full metalness (1.0 = 100% metal)
+            material.pbrMetallicRoughness.setMetallicFactor(1.0);
+
+            // 3. Low roughness (0.15 = polished, reflective shine)
+            material.pbrMetallicRoughness.setRoughnessFactor(0.15);
+          });
+        });
+      </script>
       <figcaption>CAD RENDER</figcaption>
     </figure>
     <figure>
@@ -179,8 +200,24 @@
     and complete mechanical assembly.
   </p>
 
-  <div class="gallery reveal">
-    <img src="https://placehold.co/900x600/1e1e1e/979797?text=Gerotor+Assembly+Render" alt="Gerotor elbow air engine assembly render">
+  <div class="gallery-pair">
+    <figure>
+      <model-viewer
+        class="cad-viewer reveal"
+        src="../assets/.glb"
+        alt="Render"
+        camera-controls
+        auto-rotate
+        shadow-intensity="1"
+        exposure="1"
+        style="--poster-color: transparent;">
+      </model-viewer>
+      <figcaption>CAD RENDER</figcaption>
+    </figure>
+    <figure>
+      <img src="https://placehold.co/700x525/1e1e1e/979797?text=Wheel+Rim+Engineering+Drawing" alt="Wheel rim engineering drawing">
+      <figcaption>ENGINEERING DRAWING</figcaption>
+    </figure>
   </div>
 
   <h4 class="block-sub">Gerotor Design</h4>
