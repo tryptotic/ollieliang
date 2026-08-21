@@ -79,6 +79,7 @@
 <section class="project-section">
   <div class="drawing-label reveal">FEATURED MODEL</div>
   <model-viewer
+    id="explodedView"
     class="cad-viewer reveal"
     src="../assets/exploded view (1).glb"
     alt="description"
@@ -88,6 +89,20 @@
     exposure="0.6"
     style="--poster-color: transparent;">
   </model-viewer>
+
+  <script>
+    const viewer = document.getElementById('explodedView');
+    viewer.addEventListener('load', () => {
+      const materials = viewer.model.materials;
+      materials.forEach((mat) => {
+        // RGBA 0–1 range. 0.55 ≈ medium gray. Tweak to taste.
+        mat.pbrMetallicRoughness.setBaseColorFactor([0.55, 0.55, 0.58, 1.0]);
+        mat.pbrMetallicRoughness.setRoughnessFactor(0.6);
+        mat.pbrMetallicRoughness.setMetallicFactor(0.3);
+      });
+    });
+  </script>
+
 <p class="cad-hint reveal">Click and drag to rotate · scroll to zoom</p>
 </section>
 
