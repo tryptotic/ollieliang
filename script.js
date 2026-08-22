@@ -177,105 +177,12 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 
-
-
-
-
-// =========================================================
-// PROJECT DATA — edit dates, tags, and thumbnails here.
-// Display order is newest-first (sorted by `date`).
-// =========================================================
-// Set `featured: true` to render a project as a Tier 1 (large) milestone
-// card. Leave it `false`/omitted for a Tier 2 (slim) card. Everything else
-// about ordering (chronological, newest first) is handled automatically.
-const PROJECTS_DATA = [
-  {
-    title: 'ME 164 — NX CAD',
-    summary: 'Siemens NX CAD coursework — drag-to-rotate 3D model viewer.',
-    link: 'projects/me164-cad.html',
-    category: 'coursework',
-    tags: ['CAD', '3D'],
-    date: '2025-05',
-    dateLabel: 'May 2025',
-    thumbnail: null,
-    featured: true
-  },
-  {
-    title: 'ECE 2K7 — 555 Timer',
-    summary: '555 timer circuit and final project — schematics and results.',
-    link: 'projects/ece-555timer.html',
-    category: 'coursework',
-    tags: ['Electronics'],
-    date: '2025-04',
-    dateLabel: 'Apr 2025',
-    thumbnail: null
-  },
-  {
-    title: 'StarkHacks — Passenger Princess',
-    summary: 'Hackathon build — demo video and tech stack.',
-    link: 'projects/starkhacks.html',
-    category: 'hackathon',
-    tags: ['Hackathon', 'Code'],
-    date: '2025-02',
-    dateLabel: 'Feb 2025',
-    thumbnail: null
-  },
-  {
-    title: 'ENGR 133 Coding Project',
-    summary: 'Intro engineering coding coursework project.',
-    link: 'projects/engr133.html',
-    category: 'code',
-    tags: ['Code'],
-    date: '2024-12',
-    dateLabel: 'Dec 2024',
-    thumbnail: null
-  },
-  {
-    title: 'ES&P — BB8',
-    summary: 'Ball-drive spherical robot build — mechanical and control design.',
-    link: 'projects/esap-bb8.html',
-    category: 'robotics',
-    tags: ['Robotics', 'Mechanisms'],
-    date: '2024-08',
-    dateLabel: 'Aug 2024',
-    thumbnail: null
-  },
-  {
-    title: 'Railside Robotics',
-    summary: 'Team build and mentoring work outside of school competition.',
-    link: 'projects/railside-robotics.html',
-    category: 'robotics',
-    tags: ['Robotics'],
-    date: '2024-06',
-    dateLabel: 'Jun 2024',
-    thumbnail: null
-  },
-  {
-    title: 'VEX Robotics',
-    summary: 'Competition robot build — design notebook, photos, and match footage.',
-    link: 'projects/vex-robotics.html',
-    category: 'robotics',
-    tags: ['Robotics', 'CAD'],
-    date: '2024-03',
-    dateLabel: '2023–24',
-    thumbnail: null,
-    featured: true
-  },
-  {
-    title: 'NVHS EDD',
-    summary: 'Engineering Design & Development coursework — reports and process docs.',
-    link: 'projects/nvhs-edd.html',
-    category: 'coursework',
-    tags: ['Research', 'Design'],
-    date: '2023-05',
-    dateLabel: '2022–23',
-    thumbnail: null
-  }
-];
-
 // =========================================================
 // PROJECT TIMELINE
 // =========================================================
+// NOTE: PROJECTS_DATA now lives in home.html (in a <script> block right
+// before the <script src="script.js"> tag), since it's page content rather
+// than page behavior. This file just reads the global PROJECTS_DATA array.
 document.addEventListener('DOMContentLoaded', () => {
   const timeline = document.getElementById('projectTimeline');
   const timelineList = document.getElementById('timelineList');
@@ -299,8 +206,10 @@ document.addEventListener('DOMContentLoaded', () => {
     return `<div class="${placeholderClass}-placeholder" data-category="${project.category}"><span>${initial}</span></div>`;
   }
 
-  function createEntryHTML(project, index) {
-    const side = index % 2 === 0 ? 'left' : 'right';
+  function createEntryHTML(project) {
+    // Featured (Tier 1) projects always render on the left, non-featured
+    // (Tier 2) projects always render on the right.
+    const side = project.featured ? 'left' : 'right';
     const tagsHTML = project.tags.slice(0, 3).map((t) => `<span>${t}</span>`).join('');
 
     if (project.featured) {
