@@ -855,6 +855,10 @@ model-viewer {
   border-radius: 50%;
 }
 
+.timeline-item:first-child {
+  margin-top: 40px; /* Adjust number as needed */
+}
+
 .timeline-dot {
   border-radius: 50%;
   background: var(--rail-color);
@@ -1040,7 +1044,7 @@ model-viewer {
   line-height: 1.6;
 }
 
-.card-tier-1 .card-arrow {
+/* .card-tier-1 .card-arrow {
   position: absolute;
   top: 22px;
   right: 24px;
@@ -1054,7 +1058,7 @@ model-viewer {
 .card-tier-1:hover .card-arrow {
   opacity: 1;
   transform: translateX(0);
-}
+} */
 
 /* ---------- Tier 2 — slim secondary card ---------- */
 .card-tier-2 {
