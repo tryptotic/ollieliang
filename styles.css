@@ -1044,7 +1044,7 @@ model-viewer {
   line-height: 1.6;
 }
 
-/* .card-tier-1 .card-arrow {
+.card-tier-1 .card-arrow {
   position: absolute;
   top: 22px;
   right: 24px;
@@ -1056,9 +1056,9 @@ model-viewer {
 }
 
 .card-tier-1:hover .card-arrow {
-  opacity: 1;
+  opacity: 0;
   transform: translateX(0);
-} */
+}
 
 /* ---------- Tier 2 — slim secondary card ---------- */
 .card-tier-2 {
