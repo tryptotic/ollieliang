@@ -777,7 +777,7 @@ model-viewer {
   --node-gap: 28px;      /* space between the rail and each card edge */
   --half-width: 46%;     /* how wide each side column runs from center */
   position: relative;
-  margin-top: 8px;
+  margin-top: 2px;
   padding: 40px 0;
 }
 
@@ -856,7 +856,7 @@ model-viewer {
 }
 
 .timeline-item:first-child {
-  margin-top: 40px; /* Adjust number as needed */
+  margin-top: 70px; /* Adjust number as needed */
 }
 
 .timeline-dot {
