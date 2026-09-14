@@ -20,23 +20,32 @@ structure as before — every project keeps its own page.
   lighter than the page behind it.
 
 ## Structure
-```
+```text
 index.html
 styles.css               → all styling / theme tokens live at the top under :root
-script.js                 → scroll reveal, nav dropdown, filter pills, lightbox (unchanged)
-projects/
-  vex-robotics.html
-  me164-cad.html
-  railside-robotics.html
-  esap-bb8.html
-  nvhs-edd.html
-  engr133.html
+script.js                → scroll reveal, nav dropdown, filter pills, lightbox
+projects/                → project HTML pages
   ece-555timer.html
+  engr133.html
+  esap-bb8.html
+  me164-cad.html
+  nvhs-edd.html
+  railside-robotics.html
   starkhacks.html
+  vex-robotics.html
+assets/                  → images, 3D models, and site icon
+  favicon.ico
+  exploded view (1).glb
+  wheel_rim_molten golden_FINAL.glb
+  wheel_rim_molten_golden.png
+  worlds-bot.glb
+  ME 164/
+    gerotor air engine/
+      AssembledOllie.png
+      CustomFlywheelOllie.png
+      Final Air Engine Project/ (21 drawing images)
+  wheel rim drawings/ (4 drawing images)
 ```
-All 8 project pages are included this time, already updated with the Space Grotesk font
-link and the shard markup — just upload the whole zip contents to your repo root
-(overwriting existing files) and everything matches.
 
 ## About the shards — easy to re-color or adjust
 Everything about the shards lives in two places in `styles.css`:

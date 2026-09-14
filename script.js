@@ -284,3 +284,22 @@ document.addEventListener('DOMContentLoaded', () => {
 
   renderTimeline();
 });
+
+// =========================================================
+// PROJECT CONTENT HYDRATION
+// =========================================================
+// Injects text from content.js into elements with the data-content attribute
+document.addEventListener('DOMContentLoaded', () => {
+  if (typeof PROJECT_CONTENT !== 'undefined') {
+    document.querySelectorAll('[data-content]').forEach(el => {
+      const path = el.getAttribute('data-content').split('.');
+      let text = PROJECT_CONTENT;
+      for (const key of path) {
+        if (text) text = text[key];
+      }
+      if (text) {
+        el.innerHTML = text; // Uses innerHTML so you can include <br> or <strong> tags in content.js
+      }
+    });
+  }
+});
