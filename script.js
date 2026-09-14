@@ -180,7 +180,7 @@ document.addEventListener('DOMContentLoaded', () => {
 // =========================================================
 // PROJECT TIMELINE
 // =========================================================
-// NOTE: PROJECTS_DATA now lives in home.html (in a <script> block right
+// NOTE: PROJECTS_DATA now lives in index.html (in a <script> block right
 // before the <script src="script.js"> tag), since it's page content rather
 // than page behavior. This file just reads the global PROJECTS_DATA array.
 document.addEventListener('DOMContentLoaded', () => {
