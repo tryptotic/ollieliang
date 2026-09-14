@@ -1813,3 +1813,28 @@ model-viewer {
     transform: scale(1) !important;
   }
 }
+
+/* =========================================================
+   17. REPORT LIST
+   ========================================================= */
+.report-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 16px;
+  margin-top: 24px;
+}
+
+.report-list li {
+  display: flex;
+}
+
+.report-list .btn {
+  width: 100%;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px 20px;
+  line-height: 1.4;
+  white-space: normal; /* Allow long report names to wrap */
+}
