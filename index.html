@@ -45,6 +45,7 @@
           <a href="projects/railside-robotics.html">Railside Robotics <span class="tag">ROBOTICS</span></a>
           <a href="projects/esap-bb8.html">ES&amp;P — BB8 <span class="tag">ROBOTICS</span></a>
           <a href="projects/nvhs-edd.html">NVHS EDD <span class="tag">RESEARCH</span></a>
+          <a href="projects/uiuc-wyse.html">UIUC WYSE Research <span class="tag">RESEARCH</span></a>
           <a href="projects/engr133.html">ENGR 133 Coding Project <span class="tag">CODE</span></a>
           <a href="projects/ece-555timer.html">ECE 2K7 — 555 Timer <span class="tag">ELECTRONICS</span></a>
           <a href="projects/me164-cad.html">ME 164 — NX CAD <span class="tag">CAD</span></a>
@@ -144,6 +145,7 @@
     <button class="filter-pill" data-filter="code">Code</button>
     <button class="filter-pill" data-filter="coursework">Coursework</button>
     <button class="filter-pill" data-filter="hackathon">Hackathon</button>
+    <button class="filter-pill" data-filter="research">Research</button>
   </div>
 
   <!-- Centered vertical timeline + alternating milestone cards -->
@@ -170,10 +172,9 @@
   <h2 class="section-title reveal">Skills</h2>
   <div class="spec-sheet reveal">
     <div class="spec-row spec-header"><span>Category</span><span>Tools &amp; Languages</span><span>Proficiency</span></div>
-    <div class="spec-row"><span>Design</span><span>SolidWorks, NX, Fusion 360</span><span class="bar"><i style="--w:88%"></i></span></div>
-    <div class="spec-row"><span>Firmware</span><span>C, C++, embedded systems</span><span class="bar"><i style="--w:75%"></i></span></div>
-    <div class="spec-row"><span>Software</span><span>Python, JavaScript</span><span class="bar"><i style="--w:80%"></i></span></div>
-    <div class="spec-row"><span>Fabrication</span><span>CNC, 3D printing, robotics build</span><span class="bar"><i style="--w:90%"></i></span></div>
+    <div class="spec-row"><span>Design</span><span>Siemens NX, SolidWorks, Fusion 360, Onshape, GD&T</span><span class="bar"><i style="--w:88%"></i></span></div>
+    <div class="spec-row"><span>Manufacturing</span><span>CNC, 3D printing, DfAM, Soldering</span><span class="bar"><i style="--w:90%"></i></span></div>
+    <div class="spec-row"><span>Software</span><span>C++, Python, Java, VS Code, Github, Microsoft Office, Google Workspace</span><span class="bar"><i style="--w:80%"></i></span></div>
   </div>
 </section>
 
@@ -246,7 +247,7 @@ const PROJECTS_DATA = [
     category: 'coursework',
     tags: ['CAD', '3D'],
     date: '2026-05',
-    dateLabel: 'Jan - May 2026',
+    dateLabel: 'Jan 2026 — May 2026',
     thumbnail: "assets/wheel_rim_molten_golden.png",
     featured: true
   },
@@ -266,8 +267,8 @@ const PROJECTS_DATA = [
     link: 'projects/starkhacks.html',
     category: 'hackathon',
     tags: ['Hackathon', 'Code'],
-    date: '2025-02',
-    dateLabel: 'Feb 2025',
+    date: '2025-04',
+    dateLabel: 'April 2025',
     thumbnail: null
   },
   {
@@ -276,8 +277,8 @@ const PROJECTS_DATA = [
     link: 'projects/engr133.html',
     category: 'code',
     tags: ['Code'],
-    date: '2024-12',
-    dateLabel: 'Dec 2024',
+    date: '2025-12',
+    dateLabel: 'Dec 2025',
     thumbnail: null
   },
   {
@@ -286,9 +287,10 @@ const PROJECTS_DATA = [
     link: 'projects/esap-bb8.html',
     category: 'robotics',
     tags: ['Robotics', 'Mechanisms'],
-    date: '2024-08',
-    dateLabel: 'Aug 2024',
-    thumbnail: null
+    date: '2026-09',
+    dateLabel: 'Jan 2026 — Present',
+    thumbnail: null,
+    featured: true
   },
   {
     title: 'Railside Robotics',
@@ -296,8 +298,18 @@ const PROJECTS_DATA = [
     link: 'projects/railside-robotics.html',
     category: 'robotics',
     tags: ['Robotics'],
-    date: '2024-06',
-    dateLabel: 'Jun 2024',
+    date: '2025-12',
+    dateLabel: 'Aug 2025 - Dec 2025',
+    thumbnail: null
+  },
+  {
+    title: 'UIUC WYSE Research Program',
+    summary: 'Power optimization research internship — drone prototyping and PID tuning.',
+    link: 'projects/uiuc-wyse.html',
+    category: 'research',
+    tags: ['Research', 'Robotics'],
+    date: '2024-08',
+    dateLabel: 'Jun 2024 — Aug 2024',
     thumbnail: null
   },
   {
@@ -306,8 +318,8 @@ const PROJECTS_DATA = [
     link: 'projects/vex-robotics.html',
     category: 'robotics',
     tags: ['Robotics', 'CAD'],
-    date: '2024-03',
-    dateLabel: '2023–24',
+    date: '2025-05',
+    dateLabel: 'Aug 2022 — May 2025',
     thumbnail: null,
     featured: true
   },
@@ -317,9 +329,10 @@ const PROJECTS_DATA = [
     link: 'projects/nvhs-edd.html',
     category: 'coursework',
     tags: ['Research', 'Design'],
-    date: '2023-05',
-    dateLabel: '2022–23',
-    thumbnail: null
+    date: '2025-05',
+    dateLabel: 'Nov 2024 — May 2025',
+    thumbnail: null,
+    featured: true
   }
 ];
 </script>

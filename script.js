@@ -178,6 +178,62 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 // =========================================================
+// WIP / "BROKEN PAGE" TOGGLE
+// =========================================================
+// Lets you flip an individual project page into a placeholder
+// "page under construction" state — so unfinished pages never
+// show their draft/AI-placeholder content to site visitors.
+// State is stored per-page in localStorage and defaults to
+// whatever `data-wip-default` is set to on <body>.
+//
+// Usage on a project page:
+//   <body data-wip-default="true">   <!-- unfinished pages -->
+//   <body data-wip-default="false">  <!-- finished pages -->
+// Wrap the real content that should be hidden while WIP with
+// class="wip-hideable", and include a `.wip-screen` block with
+// the placeholder message (see projects/*.html for the pattern).
+document.addEventListener('DOMContentLoaded', () => {
+  const body = document.body;
+  const pageKey = 'wip:' + location.pathname;
+  const defaultWip = body.getAttribute('data-wip-default') === 'true';
+
+  function getWipState() {
+    const stored = localStorage.getItem(pageKey);
+    if (stored === null) return defaultWip;
+    return stored === 'true';
+  }
+
+  function applyWipState(isWip) {
+    body.classList.toggle('wip-active', isWip);
+    const btn = document.getElementById('wipToggleBtn');
+    if (btn) {
+      btn.querySelector('.wip-label').textContent = isWip ? 'Marked WIP' : 'Live';
+    }
+  }
+
+  // Only show/wire the toggle on pages that opted in (project pages).
+  if (body.hasAttribute('data-wip-default')) {
+    let isWip = getWipState();
+    applyWipState(isWip);
+
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.id = 'wipToggleBtn';
+    btn.className = 'wip-toggle-btn';
+    btn.innerHTML = '<span class="wip-dot" aria-hidden="true"></span><span class="wip-label"></span>';
+    btn.title = 'Toggle this page between "Live" and "Marked WIP" (placeholder) states — visible to you only as the site owner, but affects what visitors see.';
+    document.body.appendChild(btn);
+    applyWipState(isWip);
+
+    btn.addEventListener('click', () => {
+      isWip = !isWip;
+      localStorage.setItem(pageKey, String(isWip));
+      applyWipState(isWip);
+    });
+  }
+});
+
+// =========================================================
 // PROJECT TIMELINE
 // =========================================================
 // NOTE: PROJECTS_DATA now lives in index.html (in a <script> block right

@@ -14,8 +14,18 @@
 <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.5.0/model-viewer.min.js"></script>
 </head>
 
-<body>
+<body data-wip-default="false">
 
+<!-- Placeholder shown while this page is toggled to "WIP" via the button in the corner -->
+<div class="wip-screen">
+  <p class="drawing-label reveal">FIG. 00 — IN PROGRESS</p>
+  <h1 class="reveal">Page Under Construction</h1>
+  <p class="reveal">
+    This project page is still being put together. Check back soon, or take a look
+    at one of the finished write-ups in the meantime.
+  </p>
+  <a href="../index.html#projects" class="btn btn-primary reveal">← Back to Projects</a>
+</div>
 
 <!----------------------------------------------- Title and Header --------------------------------------------------->
 
@@ -31,6 +41,8 @@
   <div class="shard shard-3"></div>
 </div>
 
+<div class="wip-hideable">
+
 <header class="site-header">
   <div class="header-inner">
     <a href="../index.html" class="logo"><span class="logo-dot">[ O. L. ]</span> Portfolio</a>
@@ -43,6 +55,7 @@
           <a href="railside-robotics.html">Railside Robotics <span class="tag">ROBOTICS</span></a>
           <a href="esap-bb8.html">ES&amp;P — BB8 <span class="tag">ROBOTICS</span></a>
           <a href="nvhs-edd.html">NVHS EDD <span class="tag">RESEARCH</span></a>
+          <a href="uiuc-wyse.html">UIUC WYSE Research <span class="tag">RESEARCH</span></a>
           <a href="engr133.html">ENGR 133 Coding Project <span class="tag">CODE</span></a>
           <a href="ece-555timer.html">ECE 2K7 — 555 Timer <span class="tag">ELECTRONICS</span></a>
           <a href="me164-cad.html">ME 164 — NX CAD <span class="tag">CAD</span></a>
@@ -305,6 +318,8 @@
     </div>
   </div>
 </footer>
+
+</div>
 
 <script src="../script.js"></script>
 </body>
