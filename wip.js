@@ -13,8 +13,13 @@
   const renderWipPage = () => {
     const style = document.createElement('style');
     style.textContent = `
-      .wip-page {
-        min-height: 100vh;
+      body.wip-active {
+        overflow: hidden;
+      }
+      .wip-overlay {
+        position: fixed;
+        inset: 0;
+        z-index: 9999;
         display: grid;
         place-items: center;
         padding: 32px;
@@ -64,14 +69,18 @@
       }
       .wip-back:hover { color: #b57bf5; }
       @media (max-width: 520px) {
-        .wip-page { padding: 18px; }
+        .wip-overlay { padding: 18px; }
         .wip-shell { padding: 48px 22px; }
       }
     `;
     document.head.appendChild(style);
     document.title = `${pageTitle} — In Progress`;
-    document.body.className = 'wip-page';
-    document.body.innerHTML = `
+    document.body.classList.add('wip-active');
+
+    const overlay = document.createElement('main');
+    overlay.className = 'wip-overlay';
+    overlay.setAttribute('aria-label', 'Project in progress');
+    overlay.innerHTML = `
       <main class="wip-shell">
         <div class="wip-mark" aria-hidden="true">[ O. L. ]</div>
         <p class="wip-kicker">PROJECT FILE // IN PROGRESS</p>
@@ -80,6 +89,7 @@
         <a class="wip-back" href="${homeLink}">← Back to portfolio</a>
       </main>
     `;
+    document.body.appendChild(overlay);
   };
 
   if (document.body) {
