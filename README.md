@@ -24,6 +24,7 @@ structure as before — every project keeps its own page.
 index.html
 styles.css               → all styling / theme tokens live at the top under :root
 script.js                → scroll reveal, nav dropdown, filter pills, lightbox
+wip.js                   → optional one-line placeholder for unfinished project pages
 projects/                → project HTML pages
   ece-555timer.html
   engr133.html
@@ -46,6 +47,15 @@ assets/                  → images, 3D models, and site icon
       Final Air Engine Project/ (21 drawing images)
   wheel rim drawings/ (4 drawing images)
 ```
+
+## Marking a project as in progress
+For an unfinished project page, add this as the first line inside its `<body>`:
+
+```html
+<script src="../wip.js"></script>
+```
+
+The page will show a simple placeholder with the project title and a link back to the portfolio. Remove that one line when the project page is ready.
 
 ## About the shards — easy to re-color or adjust
 Everything about the shards lives in two places in `styles.css`:
