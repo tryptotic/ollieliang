@@ -1390,6 +1390,35 @@ model-viewer {
   margin-bottom: 16px;
 }
 
+.overview-figure {
+  float: right;
+  width: min(38%, 380px);
+  margin: 0 0 20px 32px;
+}
+
+.overview-figure img {
+  width: 100%;
+  display: block;
+  border: 1px solid var(--line-dim);
+  border-radius: var(--radius-sm);
+}
+
+.overview-figure figcaption {
+  margin-top: 8px;
+  color: var(--text-dim);
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.04em;
+  line-height: 1.4;
+  text-align: center;
+}
+
+.project-section::after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
 /* Media gallery + lightbox */
 .gallery {
   display: grid;
@@ -1820,6 +1849,13 @@ model-viewer {
 
   .gallery-pair {
     grid-template-columns: 1fr;
+  }
+
+  .overview-figure {
+    float: none;
+    width: 100%;
+    max-width: 380px;
+    margin: 0 auto 24px;
   }
   
   .report-list {
